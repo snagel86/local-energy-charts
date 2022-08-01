@@ -126,7 +126,7 @@
       <p class="paragraph">Zuerst verpachten Gebäudebesitzer*innen / Vermieter*innen ihr Dach an eine Energiegenossenschaft, und bekommen dafür eine Pachtgebühr. Die Energiegenossenschaft finanziert die Solaranlage über Crowdfunding. Daran können sich alle Frankfurter*innen (ab 100 €) - auch ohne eigenes Dach - beteiligen. Mieter*innen zahlen dann weiterhin Strom, und die Crowd bekommt ihr Geld zurück. Aus Tausenden Solaranlagen wird ein lokales, erneuerbares Energiesystem, das uns gehört. Und wir profitieren von unabhängigerem, günstigerem Strom!</p>
       <div class="crowdfundingimagewrapper"><img src="images/KE_Energiegenossenschaft.jpg" loading="lazy" srcset="images/KE_Energiegenossenschaft-p-500.jpeg 500w, images/KE_Energiegenossenschaft-p-800.jpeg 800w, images/KE_Energiegenossenschaft.jpg 1016w" sizes="(max-width: 479px) 96vw, (max-width: 767px) 72vw, (max-width: 991px) 436.796875px, 470px" alt="Das Bild zeigt das Konzept von Crowdfunding. Du investierst in eine Energiegenossenschaft, die mehrere (kleine) Beträge zu einem großen macht. Die Energiegenossenschaft installiert dann davon eine Solaranlage, von welcher wiederum Du Strom günstigen, lokalen und erneuerbaren Strom beziehen könntest. Deswegen stellt das Bild einen Kreislauf dar." class="crowdfundingimage"></div>
       <p class="paragraph">Die Stadtregierung in Frankfurt will eine <a href="https://www.gruene-frankfurt.de/fraktion/parlament/antraege-und-anfragen/antrag/2022/solaroffensive-fuer-frankfurt-ii-beschleunigung-des-ausbaus-von-photovoltaik-undoder-solarthermie-anlagen-auf-privaten-dachflaechen/" target="_blank">Solaroffensive</a> starten, um lokal Startimpulse zu geben.<br><br><span class="bold">Jetzt müssen Dächer her!</span></p>
-      <a href="writeyourlandlord.html" id="write-your-landloard-button" class="writeyourlandlordbutton w-button">Schreib jetzt Deinem/r Vermieter*in</a>
+      <a href="writeyourlandlord.html" id="write-your-landlord-button" class="writeyourlandlordbutton w-button">Schreib jetzt Deinem/r Vermieter*in</a>
       <div>
         <p class="paragraph">Oder rege bei <a href="https://frankfurt.de/service-und-rathaus/stadtpolitik/ortsbeiraete" target="_blank" class="link">Deinem Ortsbeirat</a> an, weitere Projekte zu verwirklichen, wie z. B. auf dem <a href="https://www.sonneninitiative.org/kontakt-vereinsinfos/alle-sonnenkraftwerke/alle-sonnenkraftwerke-alphabetisch/news/frankfurt-messe-parkhaus-rebstock/?tx_news_pi1%5Baction%5D=detail&amp;tx_news_pi1%5Bcontroller%5D=News&amp;cHash=363ce17c87d3e16a579581ab28d6b64d#:~:text=Der%20weltweit%20erste%20Solar%2DCarport,vor%20der%20Skyline%20von%20Frankfurt." target="_blank">Messe-Parkhaus am Rebstock.</a>
         </p>
@@ -179,6 +179,9 @@
   $("#previous-solar-installations-only").on('click', function () {
     let previousSolarInstallationsOnly = $('#previous-solar-installations-only').prop('checked');
     LocalEnergyCharts.getAnnualRateOfSolarInstallationsChart(city, previousSolarInstallationsOnly);
+  });
+  $("#write-your-landlord-button").on('click', function () {
+    LocalEnergyCharts.writeYourLandlordPageOpened();
   });
 </script>
   </div>
