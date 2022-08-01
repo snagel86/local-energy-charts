@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':business-logic:core')
+    implementation project(':business-logic:mastr-client')
+    implementation project(':business-logic:mailing')
+
+    implementation 'org.springframework:spring-web'
+    implementation 'org.springframework.security:spring-security-config'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.springframework:spring-tx'
+    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.9'
+}

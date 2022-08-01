@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  mongo:
+    image: mongo:4.1.2
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - ./data/db:/data/db
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+
+  web:
+    image: tomcat:10.0.7
+    ports:
+      - "80:8080"
+    volumes:
+      - ./web:/usr/local/tomcat/webapps/ROOT/
+
+  wiremock:
+    image: wiremock/wiremock:2.33.1
+    ports:
+      - "8082:8080"
+
+  mailserver-dev:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "1025:1025" # smtp
+      - "8025:8025" # http

@@ -1,0 +1,9 @@
+rootProject.name = 'local-energy-charts'
+
+include 'main'
+include 'api'
+include 'business-logic:core'
+include 'business-logic:mastr-client'
+include 'business-logic:mailing'
+include 'infrastructure'
+include 'testing'
