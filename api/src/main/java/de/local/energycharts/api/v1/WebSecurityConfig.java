@@ -32,7 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers("/v1/create/solar-city").hasRole("ADMIN")
-        .antMatchers("/v1/write-your-landlord/statistic").hasRole("ADMIN")
         .antMatchers("/v1/write-your-landlord/reset").hasRole("ADMIN")
         .antMatchers("/**").permitAll()
         .anyRequest().authenticated()
