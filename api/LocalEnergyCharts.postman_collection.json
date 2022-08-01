@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "1dcebc0e-c117-4e8d-8492-577249e6c969",
+		"name": "Local Energy Charts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13326994"
+	},
+	"item": [
+		{
+			"name": "create solar city",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "secret",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"totalSolarPotentialMWp\": 1006.0,\n    \"totalSolarPotentialTargetYear\": 2035,\n    \"postcodes\": [\n        60306, 60308, 60310, 60311, 60312, 60313, 60314, \n        60315, 60316, 60318, 60320, 60322, 60323, 60325, \n        60326, 60327, 60329, 60385, 60386, 60388, 60389, \n        60431, 60433, 60435, 60437, 60438, 60439, 60486, \n        60487, 60488, 60489, 60528, 60529, 60549, 60594, \n        60596, 60598, 60599, 65929, 65931, \n        65933, 65934, 65936\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/create/solar-city",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"create",
+						"solar-city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get annual addition of solar installations (highcharts format)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/highcharts/city/{{city}}/annual-addition-of-solar-installations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"highcharts",
+						"city",
+						"{{city}}",
+						"annual-addition-of-solar-installations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get annual addition of solar installations (default)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/city/{{city}}/annual-addition-of-solar-installations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"city",
+						"{{city}}",
+						"annual-addition-of-solar-installations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get solar overview",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/city/{{city}}/solar-overview",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"city",
+						"{{city}}",
+						"solar-overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get operator overview",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/city/{{city}}/operator-overview",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"city",
+						"{{city}}",
+						"operator-overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "write your landlord opened",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/write-your-landlord/opened",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"write-your-landlord",
+						"opened"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "write your landlord",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fromTenant\": \"me@tenant.de\",\n    \"toLandlord\": \"my@landlord.de\",\n    \"message\": \"Please lease your roof to an energy cooperative!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/write-your-landlord/send",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"write-your-landlord",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "write your landlord statistic",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/write-your-landlord/statistic",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"write-your-landlord",
+						"statistic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "write your landlord reset",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "secret",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/write-your-landlord/reset",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"write-your-landlord",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "city",
+			"value": "Frankfurt am Main"
+		},
+		{
+			"key": "host",
+			"value": "http://localhost:8080"
+		}
+	]
+}
