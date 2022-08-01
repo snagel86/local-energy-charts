@@ -17,7 +17,7 @@ You can find the open API documentation [here](https://pv-frankfurt.de/swagger-u
 
 ### Living example ###
 The website in this project was realized with [Webflow](https://webflow.com/) and [Highcharts](https://www.highcharts.com/).
-So to put the Open API into operation, a living example can be found in [localenergycharts-1.4.0.js](web/js/localenergycharts-1.4.0.js).
+So to put the Open API into operation, a living example can be found in [localenergycharts.js](web/js/localenergycharts-1.4.0.js).
 
 ### Postman ###
 
