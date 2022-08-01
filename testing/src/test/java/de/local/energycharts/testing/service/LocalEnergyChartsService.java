@@ -98,18 +98,18 @@ public class LocalEnergyChartsService {
   }
 
   public ValidatableResponse getWriteYourLandlordStatistic() {
-    var response = given()
+    return given()
         .auth().basic("user", "secret")
     .when()
         .get("/v1/write-your-landlord/statistic").then();
+  }
 
+  public void resetWriteYourLandlord() {
     given()
         .auth().basic("user", "secret")
     .when()
         .delete("/v1/write-your-landlord/reset")
     .then()
         .statusCode(200);
-
-    return response;
   }
 }

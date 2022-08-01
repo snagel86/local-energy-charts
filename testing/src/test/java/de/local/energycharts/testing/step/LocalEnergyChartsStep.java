@@ -22,6 +22,7 @@ public class LocalEnergyChartsStep {
   private Integer targetYear;
   private String cityName;
   private ValidatableResponse temporaryAnnualRateOfSolarInstallations;
+  private boolean writeYourLandlordReset = false;
 
   @And("the total solar potential of the city is {double} MWp")
   public void setTotalSolarPotential(Double totalSolarPotentialMWp) {
@@ -94,11 +95,21 @@ public class LocalEnergyChartsStep {
 
   @When("the write-your-landlord page has been (re)opened( again)")
   public void writeYourLandlordPageWasOpened() {
+    if (!writeYourLandlordReset) {
+      localEnergyChartsService.resetWriteYourLandlord();
+      writeYourLandlordReset = true;
+    }
+
     localEnergyChartsService.writeYourLandlordPageWasOpened();
   }
 
   @And("the tenant writes the following from {string} to the landlord to {string}")
   public void writeYourLandlord(String fromTenant, String toLandlord, String message) {
+    if (!writeYourLandlordReset) {
+      localEnergyChartsService.resetWriteYourLandlord();
+      writeYourLandlordReset = true;
+    }
+
     localEnergyChartsService.writeYourLandlord(message, fromTenant, toLandlord);
   }
 
