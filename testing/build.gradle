@@ -1,0 +1,39 @@
+dependencies {
+    // https://cucumber.io/
+    testImplementation 'io.cucumber:cucumber-java:7.8.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.8.1'
+
+    // https://wiremock.org/
+    testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
+
+    // https://rest-assured.io/
+    testImplementation('io.rest-assured:rest-assured:5.2.0') {
+        exclude group: 'org.codehaus.groovy'
+    }
+    testImplementation 'io.rest-assured:rest-assured-all:5.2.0'
+
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.4'
+    testImplementation 'org.json:json:20220924'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumberCli() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = [
+                    '--plugin', 'pretty',
+                    '--plugin', 'html:target/cucumber-report.html',
+                    '--glue', 'de.local.energycharts.testing',
+                    'src/test/resources'
+            ]
+        }
+    }
+}

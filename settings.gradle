@@ -1,0 +1,8 @@
+rootProject.name = 'local-energy-charts'
+
+include 'main'
+include 'api'
+include 'domain:solarcity'
+include 'domain:mailing'
+include 'infrastructure'
+include 'testing'

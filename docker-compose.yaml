@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+
+  mongo:
+    image: mongo:4.1.13
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - ./data/db:/data/db
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+
+  #  As the Marktstammdatenregister (Mastr) is an external service, WireMock is used for testing.
+  #  WireMock is a open-source tool for API mock testing.
+  #  You can find the configuration of the API in the Testing section.
+  mastr-wiremock:
+    image: wiremock/wiremock:2.35.0
+    ports:
+      - "8082:8080"
+
+  #  Also Opendatasoft is an external service that is mocked for testing.
+  opendatasoft-wiremock:
+    image: wiremock/wiremock:2.35.0
+    ports:
+      - "8083:8080"
+
+  # Mailing by contact form or the campaign "Now we need roofs" can be tested with MailHog.
+  # See application.properties in main for configuration.
+  # website: http://localhost:8080/
+  # mailhog: http://localhost:8025/
+  mailserver-dev:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "1025:1025" # smtp
+      - "8025:8025" # http

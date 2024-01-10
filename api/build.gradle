@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':domain:solarcity')
+    implementation project(':domain:mailing')
+
+    implementation 'org.springframework:spring-web'
+    implementation 'org.springframework.security:spring-security-config'
+    implementation 'org.springframework.security:spring-security-web'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    implementation 'org.springframework:spring-tx'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion"
+}
