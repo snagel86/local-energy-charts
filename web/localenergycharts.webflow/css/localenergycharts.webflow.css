@@ -204,8 +204,8 @@ a {
 
 .section.main.textshadow {
   text-shadow: 1px 1px 1px #333;
-  background-image: url('../images/solar-background.jpeg');
-  background-position: 0%;
+  background-image: url('../images/background-solar.jpg');
+  background-position: 0 0;
   background-size: cover;
   margin-top: auto;
 }
@@ -657,11 +657,6 @@ a {
                        ". .";
 }
 
-.stickysection {
-  position: -webkit-sticky;
-  position: sticky;
-}
-
 @media screen and (min-width: 1440px) {
   .section.main.textshadow {
     background-position: 0%;
@@ -886,6 +881,7 @@ a {
   }
 
   .section.main.textshadow {
+    opacity: .95;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     background-position: 0 0;
     background-size: cover;
