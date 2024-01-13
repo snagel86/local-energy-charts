@@ -881,7 +881,7 @@ a {
   }
 
   .section.main.textshadow {
-    opacity: .95;
+    opacity: .96;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     background-position: 0 0;
     background-size: cover;
