@@ -882,7 +882,6 @@ a {
   }
 
   .section.main.textshadow {
-    opacity: .96;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     background-position: 50% 0;
     display: block;
