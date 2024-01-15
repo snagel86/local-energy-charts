@@ -203,8 +203,9 @@ a {
 }
 
 .section.main.textshadow {
+  color: #fff;
   text-shadow: 1px 1px 1px #333;
-  background-image: url('../images/background-solar.jpg');
+  background-image: url('../images/solar-background.jpg');
   background-position: 0 0;
   background-size: cover;
   margin-top: auto;
@@ -883,8 +884,7 @@ a {
   .section.main.textshadow {
     opacity: .96;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-    background-position: 0 0;
-    background-size: cover;
+    background-position: 50% 0;
     display: block;
   }
 
