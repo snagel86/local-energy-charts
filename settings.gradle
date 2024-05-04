@@ -1,5 +1,16 @@
 rootProject.name = 'local-energy-charts'
 
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        // plugin dependencies
+        classpath 'de.snagel:web-minify:1.0-SNAPSHOT'
+    }
+}
+
 include 'main'
 include 'api'
 include 'domain:solarcity'
