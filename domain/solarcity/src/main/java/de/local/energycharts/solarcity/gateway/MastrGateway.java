@@ -8,5 +8,6 @@ import reactor.core.publisher.Flux;
  */
 public interface MastrGateway {
 
-  Flux<SolarSystem> getSolarSystems(Integer postcode);
+  Flux<SolarSystem> getSolarSystemsByPostcode(Integer postcode);
+  Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey);
 }

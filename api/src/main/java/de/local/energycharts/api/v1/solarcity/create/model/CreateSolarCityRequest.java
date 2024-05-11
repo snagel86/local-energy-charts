@@ -9,6 +9,7 @@ public class CreateSolarCityRequest {
 
   @NotBlank
   private String cityName;
+  private String municipalityKey;
   private Double entireSolarPotentialOnRooftopsMWp;
   private Integer targetYear;
 }

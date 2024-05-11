@@ -29,6 +29,7 @@ public class SolarSystem implements Serializable {
   private Status status;
   private String operatorName;
   private String name;
+  private Integer postcode;
 
   public enum Status {
     IN_OPERATION,

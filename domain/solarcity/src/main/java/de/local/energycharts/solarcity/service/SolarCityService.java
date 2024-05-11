@@ -1,18 +1,16 @@
 package de.local.energycharts.solarcity.service;
 
-import de.local.energycharts.solarcity.model.District;
-import de.local.energycharts.solarcity.model.SolarCity;
-import de.local.energycharts.solarcity.repository.SolarCityRepository;
 import de.local.energycharts.solarcity.gateway.MastrGateway;
 import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
+import de.local.energycharts.solarcity.model.SolarCity;
+import de.local.energycharts.solarcity.repository.SolarCityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.stream.Collectors;
-
 import static java.time.Instant.now;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @RequiredArgsConstructor
@@ -34,21 +32,43 @@ public class SolarCityService {
             .setTargetYear(targetYear)
         )
         .flatMap(solarCity -> opendatasoftGateway.getPostcodes(cityName)
-            .flatMap(postcode ->
-                mastrGateway.getSolarSystems(postcode)
-                    .collect(Collectors.toSet())
-                    .map(solarSystems ->
-                        District.builder()
-                            .postcode(postcode)
-                            .solarSystems(solarSystems).build())
-            ).collect(Collectors.toSet())
-            .map(solarCity::setDistricts)
-            .filter(SolarCity::thereIsADistrictWithAtLeastOneSolarInstallation)
+            .flatMap(mastrGateway::getSolarSystemsByPostcode)
+            .collect(toSet())
+            .map(solarCity::setSolarSystems)
+            .flatMap(solarCityRepository::save)
+        );
+  }
+
+  public Mono<SolarCity> createOrUpdateSolarCity(
+      String cityName,
+      String municipalityKey,
+      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
+  ) {
+    return solarCityRepository.findByMunicipalityKey(municipalityKey)
+        .defaultIfEmpty(SolarCity.createNewSolarCity(cityName, municipalityKey))
+        .map(solarCity -> solarCity
+            .setUpdated(now())
+            .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
+            .setTargetYear(targetYear)
+        )
+        .flatMap(solarCity -> mastrGateway.getSolarSystemsByMunicipalityKey(municipalityKey)
+            .collect(toSet())
+            .map(solarCity::setSolarSystems)
             .flatMap(solarCityRepository::save)
         );
   }
 
   public Mono<SolarCity> updateSolarCity(SolarCity solarCity) {
+    if (solarCity.getMunicipalityKey() != null) {
+
+      return createOrUpdateSolarCity(
+          solarCity.getName(),
+          solarCity.getMunicipalityKey(),
+          solarCity.getEntireSolarPotentialOnRooftopsMWp(),
+          solarCity.getTargetYear()
+      );
+    }
+
     return createOrUpdateSolarCity(
         solarCity.getName(),
         solarCity.getEntireSolarPotentialOnRooftopsMWp(),
@@ -66,15 +86,9 @@ public class SolarCityService {
                 .setTargetYear(targetYear)
         )
         .flatMap(solarCity -> opendatasoftGateway.getPostcodes(cityName)
-            .flatMap(postcode ->
-                mastrGateway.getSolarSystems(postcode)
-                    .collect(Collectors.toSet())
-                    .map(solarSystems ->
-                        District.builder()
-                            .postcode(postcode)
-                            .solarSystems(solarSystems).build())
-            ).collect(Collectors.toSet())
-            .map(solarCity::setDistricts)
+            .flatMap(mastrGateway::getSolarSystemsByPostcode)
+            .collect(toSet())
+            .map(solarCity::setSolarSystems)
         );
   }
 

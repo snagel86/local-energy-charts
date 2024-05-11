@@ -25,6 +25,7 @@ public interface SolarSystemMapper {
   @Mapping(target = "lastChange", source = "datumLetzteAktualisierung", qualifiedByName = "convertDateTime")
   @Mapping(target = "status", source = "betriebsStatusName", qualifiedByName = "convertStatus")
   @Mapping(target = "name", source = "einheitName")
+  @Mapping(target = "postcode", source = "plz")
   @Mapping(target = "operatorName", source = "anlagenbetreiberName")
   SolarSystem map(EinheitJson einheitJson);
 

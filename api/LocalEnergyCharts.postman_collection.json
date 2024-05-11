@@ -37,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"entireSolarPotentialOnRooftopsMWp\": 1006.0,\n    \"targetYear\": 2035\n}"
+					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 1006.0,\n    \"targetYear\": 2035\n}"
 				},
 				"url": {
 					"raw": "{{host}}/v1/solar-city/create",

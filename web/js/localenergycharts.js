@@ -15,7 +15,7 @@ const translations = {
         annualAdditionChart: {
             title: 'Ausbau von Photovoltaik-Anlagen in',
             name: 'Übersicht',
-            yAxis: 'Ausbau in Megawatt [MWp]'
+            yAxis: 'Ausbau in Megawatt pro Jahr [MWp]'
         },
         buildingPieChart: {
             title: 'Gebäude, Verteilung & installierte PV-Anlagen'
@@ -42,7 +42,7 @@ const translations = {
         annualAdditionChart: {
             title: 'Renewable state of play in',
             name: 'Overview',
-            yAxis: 'Installation in megawatts [MWp]'
+            yAxis: 'Installation in megawatts per year [MWp]'
         },
         pvSystems: 'pv-systems:',
         installation: 'installation:',

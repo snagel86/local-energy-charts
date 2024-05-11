@@ -1,6 +1,5 @@
 package de.local.energycharts.solarcity.service;
 
-import de.local.energycharts.solarcity.model.District;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.repository.SolarCityRepository;
@@ -38,12 +37,12 @@ class SolarCityServiceTest {
   void create_a_solar_city() {
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.empty());
-    when(mastrGateway.getSolarSystems(60314))
+    when(mastrGateway.getSolarSystemsByPostcode(60314))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("1").status(IN_OPERATION).build(),
             SolarSystem.builder().id("2").status(IN_OPERATION).build()
         )));
-    when(mastrGateway.getSolarSystems(60528))
+    when(mastrGateway.getSolarSystemsByPostcode(60528))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("3").status(IN_OPERATION).build()
         )));
@@ -58,7 +57,6 @@ class SolarCityServiceTest {
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
-    assertThat(solarCity.getDistricts()).hasSize(2);
     assertThat(solarCity.calculateTotalNumberOfSolarInstallations()).isEqualTo(3);
   }
 
@@ -68,12 +66,12 @@ class SolarCityServiceTest {
 
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
-    when(mastrGateway.getSolarSystems(60314))
+    when(mastrGateway.getSolarSystemsByPostcode(60314))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("1").status(IN_OPERATION).build(),
             SolarSystem.builder().id("2").status(IN_OPERATION).build()
         )));
-    when(mastrGateway.getSolarSystems(60528))
+    when(mastrGateway.getSolarSystemsByPostcode(60528))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("3").status(IN_OPERATION).build()
         )));
@@ -88,18 +86,17 @@ class SolarCityServiceTest {
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
-    assertThat(solarCity.getDistricts()).hasSize(2);
     assertThat(solarCity.calculateTotalNumberOfSolarInstallations()).isEqualTo(3);
   }
 
   @Test
   void create_a_solar_city_temporary() {
-    when(mastrGateway.getSolarSystems(60314))
+    when(mastrGateway.getSolarSystemsByPostcode(60314))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("1").status(IN_OPERATION).build(),
             SolarSystem.builder().id("2").status(IN_OPERATION).build()
         )));
-    when(mastrGateway.getSolarSystems(60528))
+    when(mastrGateway.getSolarSystemsByPostcode(60528))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("3").status(IN_OPERATION).build()
         )));
@@ -112,7 +109,6 @@ class SolarCityServiceTest {
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
-    assertThat(solarCity.getDistricts()).hasSize(2);
     assertThat(solarCity.calculateTotalNumberOfSolarInstallations()).isEqualTo(3);
   }
 
@@ -120,9 +116,10 @@ class SolarCityServiceTest {
   void get_all_postcodes() {
     var frankfurt = SolarCity
         .createNewSolarCity("Frankfurt")
-        .setDistricts(Set.of(
-            District.builder().postcode(60314).build(),
-            District.builder().postcode(60528).build()
+        .setSolarSystems(Set.of(
+            SolarSystem.builder().id("1").postcode(60314).status(IN_OPERATION).build(),
+            SolarSystem.builder().id("2").postcode(60314).status(IN_OPERATION).build(),
+            SolarSystem.builder().id("3").postcode(60528).status(IN_OPERATION).build()
         ));
 
     when(solarCityRepository.findByIdOrName("Frankfurt", "Frankfurt"))

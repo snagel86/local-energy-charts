@@ -18,7 +18,7 @@ public class MastrRestApiGateway implements MastrGateway {
   private final SolarSystemMapper solarSystemMapper;
   private final WebClient webClient;
 
-  public Flux<SolarSystem> getSolarSystems(Integer postcode) {
+  public Flux<SolarSystem> getSolarSystemsByPostcode(Integer postcode) {
     return webClient
         .mutate().codecs(configurer -> configurer
             .defaultCodecs()
@@ -30,6 +30,29 @@ public class MastrRestApiGateway implements MastrGateway {
             .queryParam("page", "1")
             .queryParam("pageSize", "1000000")
             .queryParam("filter", "Postleitzahl~eq~'" + postcode + "'~and~Energieträger~eq~'2495'")
+            .build()
+        )
+        .retrieve()
+        .bodyToMono(Data.class)
+        .timeout(Duration.ofSeconds(30))
+        .retryWhen(backoff(3, Duration.ofSeconds(2)))
+        .flatMapIterable(Data::getData)
+        .filter(EinheitJson::isSolareStrahlungsenergie)
+        .map(solarSystemMapper::map);
+  }
+
+  public Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey) {
+    return webClient
+        .mutate().codecs(configurer -> configurer
+            .defaultCodecs()
+            .maxInMemorySize(128 * 1024 * 1024)
+        ).build()
+        .get()
+        .uri(builder -> builder
+            .path("/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/")
+            .queryParam("page", "1")
+            .queryParam("pageSize", "1000000")
+            .queryParam("filter", "Gemeindeschlüssel~eq~'" + municipalityKey + "'~and~Energieträger~eq~'2495'")
             .build()
         )
         .retrieve()

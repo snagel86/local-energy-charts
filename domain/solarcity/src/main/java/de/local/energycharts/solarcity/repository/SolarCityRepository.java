@@ -11,6 +11,7 @@ public interface SolarCityRepository {
   Mono<SolarCity> findByName(String name);
 
   Mono<SolarCity> findByIdOrName(String id, String name);
+  Mono<SolarCity> findByMunicipalityKey(String municipalityKey);
 
   Flux<SolarCity> findAll();
 }

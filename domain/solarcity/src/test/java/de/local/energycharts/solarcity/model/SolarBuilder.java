@@ -11,7 +11,7 @@ import static java.time.Month.JANUARY;
 
 public class SolarBuilder {
 
-  private Set<SolarSystem> solarSystems = new HashSet<>();
+  private final Set<SolarSystem> solarSystems = new HashSet<>();
   private Integer lastSolarSystemId = 1;
 
   private Integer year = 2022;
@@ -71,10 +71,6 @@ public class SolarBuilder {
 
   public Set<SolarSystem> build() {
     return solarSystems;
-  }
-
-  public District createDistrict(int postcode) {
-    return new District(postcode, solarSystems);
   }
 
   private SolarSystem createSolarSystem(double installedNetPowerkWp) {

@@ -67,7 +67,7 @@ class MastrRestApiClientGatewayTest {
   @Test
   void get_solar_systems() {
     stubForGetSolarSystemsOK200();
-    List<SolarSystem> result = mastrGateway.getSolarSystems(testPostcode)
+    List<SolarSystem> result = mastrGateway.getSolarSystemsByPostcode(testPostcode)
         .collectList().block();
 
     assertThat(result).containsExactly(testSolarSystem);
@@ -76,7 +76,7 @@ class MastrRestApiClientGatewayTest {
   @Test
   void get_solar_systems_failed_but_retry_successful() throws InterruptedException {
     stubForGetSolarSystemsInternalServerError500();
-    Flux<SolarSystem> result = mastrGateway.getSolarSystems(testPostcode);
+    Flux<SolarSystem> result = mastrGateway.getSolarSystemsByPostcode(testPostcode);
 
     sleep(2100L);
     wireMockServer.resetAll();
@@ -88,7 +88,7 @@ class MastrRestApiClientGatewayTest {
   @Test
   void get_solar_systems_finally_failed() {
     stubForGetSolarSystemsInternalServerError500();
-    Flux<SolarSystem> result = mastrGateway.getSolarSystems(testPostcode);
+    Flux<SolarSystem> result = mastrGateway.getSolarSystemsByPostcode(testPostcode);
 
     StepVerifier.create(result)
         .expectError()

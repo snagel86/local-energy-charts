@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Set;
 
+import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
+import static de.local.energycharts.solarcity.model.SolarSystem.Status.NONE;
 import static java.lang.Math.round;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,31 +16,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SolarCityTest {
 
   @Test
-  void is_there_a_district_with_at_least_one_solar_installation() {
+  void calculate_total_number_of_solar_installations() {
     var frankfurt = new SolarCity();
-    assertThat(frankfurt.thereIsADistrictWithAtLeastOneSolarInstallation()).isFalse();
+    frankfurt.setSolarSystems(Set.of(
+        SolarSystem.builder().id("1").status(IN_OPERATION).build(),
+        SolarSystem.builder().id("2").status(NONE).build())
+    );
 
-    var ostend = new SolarBuilder()
-        .addApartmentBuildingsWith25kWp(1)
-        .createDistrict(60314);
-    frankfurt.setDistricts(Collections.singleton(ostend));
-    assertThat(frankfurt.thereIsADistrictWithAtLeastOneSolarInstallation()).isTrue();
+    assertThat(frankfurt.calculateTotalNumberOfSolarInstallations()).isEqualTo(1);
   }
 
   @Test
   void calculate_annual_addition_of_solar_installations() {
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
-    var ostend = new SolarBuilder()
+    var solarSystems = new SolarBuilder()
         .withYear(2022)
         .addBalkonkraftwerksWith06kWp(833)   // =  0.5 MWp
         .addHomesWith5kWp(400)               // =  2.0 MWp
         .addPermanentlyShutDownHomes(200)    // =  1.0 MWp
         .addApartmentBuildingsWith25kWp(100) // =  2.5 MWp
         .addSchoolsWith250kWp(50)            // = 12.5 MWp
-        .createDistrict(60314);
+        .build();
 
     var frankfurt = new SolarCity()
-        .setDistricts(Collections.singleton(ostend))
+        .setSolarSystems(solarSystems)
         .setEntireSolarPotentialOnRooftopsMWp(1000.0)
         .setTargetYear(2030);
 

@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static de.local.energycharts.solarcity.model.Time.now;
+import static java.util.stream.Collectors.toSet;
 
 @Data
 @Accessors(chain = true)
@@ -31,11 +32,12 @@ public class SolarCity implements Serializable {
   private String id;
   @Indexed(unique = true)
   private String name;
+  private String municipalityKey;
   private Instant created;
   private Instant updated;
   private Double entireSolarPotentialOnRooftopsMWp;
   private Integer targetYear;
-  private Set<District> districts = new HashSet<>();
+  private Set<SolarSystem> solarSystems;
 
   public static SolarCity createNewSolarCity(String name) {
     return new SolarCity()
@@ -43,25 +45,35 @@ public class SolarCity implements Serializable {
         .setCreated(now());
   }
 
+  public static SolarCity createNewSolarCity(
+      String name,
+      String municipalityKey
+  ) {
+    return new SolarCity()
+        .setName(name)
+        .setMunicipalityKey(municipalityKey)
+        .setCreated(now());
+  }
+
   public int calculateTotalNumberOfSolarInstallations() {
-    return districts.stream().mapToInt(District::countAllSolarSystems).sum();
+    return solarSystems.stream().filter(SolarSystem::isInOperation).toList().size();
   }
 
   public SolarCityOverview calculateSolarCityOverview() {
     return new SolarCityOverviewCalculator(
         entireSolarPotentialOnRooftopsMWp,
         targetYear,
-        getAllSolarSystems(),
+        solarSystems,
         updated
     ).calculateSolarCityOverview();
   }
 
   public SolarBuildingPieChart calculateSolarBuildingPieChart() {
-    return new SolarBuildingPieChartCalculator(getAllSolarSystems()).calculatePieChart();
+    return new SolarBuildingPieChartCalculator(solarSystems).calculatePieChart();
   }
 
   public MonthlySolarInstallations calculateMonthlySolarInstallations() {
-    return new MonthlySolarInstallationsCalculator(getAllSolarSystems()).calculatorMonthlyInstallations();
+    return new MonthlySolarInstallationsCalculator(solarSystems).calculatorMonthlyInstallations();
   }
 
   public List<AdditionOfSolarInstallations> calculateAnnualAdditionOfSolarInstallations() {
@@ -79,7 +91,7 @@ public class SolarCity implements Serializable {
   }
 
   private List<AdditionOfSolarInstallations> calculateAnnualAdditionOfSolarSystems() {
-    return new AdditionOfSolarInstallationsCalculator(getAllSolarSystems()).calculateAnnualAdditions();
+    return new AdditionOfSolarInstallationsCalculator(solarSystems).calculateAnnualAdditions();
   }
 
   private boolean isTotalSolarPotentialAndTargetYearSpecified() {
@@ -92,20 +104,19 @@ public class SolarCity implements Serializable {
     return new FutureAdditionOfSolarInstallationsCalculator(
         entireSolarPotentialOnRooftopsMWp,
         targetYear,
-        getAllSolarSystems(),
+        solarSystems,
         additionsDoneYet
     ).calculateAnnualAdditions();
   }
 
   public Set<SolarSystem> getAllSolarSystems() {
-    return districts.stream()
-        .map(District::getSolarSystems)
-        .flatMap(Collection::stream).collect(Collectors.toSet());
+    return solarSystems;
   }
 
   public List<Integer> getAllPostcodes() {
-    return districts.stream()
-        .map(District::getPostcode)
+    return solarSystems.stream()
+        .map(SolarSystem::getPostcode)
+        .distinct()
         .sorted()
         .toList();
   }
@@ -116,9 +127,5 @@ public class SolarCity implements Serializable {
 
   public boolean wasNotUpdatedWithin(long amount, ChronoUnit unit) {
     return !wasUpdatedWithin(amount, unit);
-  }
-
-  public boolean thereIsADistrictWithAtLeastOneSolarInstallation() {
-    return districts != null && districts.stream().anyMatch(District::hasAtLeastOneSolarSystem);
   }
 }
