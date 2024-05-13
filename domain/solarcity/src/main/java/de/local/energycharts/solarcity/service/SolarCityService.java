@@ -44,7 +44,7 @@ public class SolarCityService {
       String municipalityKey,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   ) {
-    return solarCityRepository.findByMunicipalityKey(municipalityKey)
+    return solarCityRepository.findByName(cityName)
         .defaultIfEmpty(SolarCity.createNewSolarCity(cityName, municipalityKey))
         .map(solarCity -> solarCity
             .setUpdated(now())
