@@ -2,7 +2,6 @@ package de.local.energycharts.solarcity.model.calculator;
 
 import de.local.energycharts.solarcity.model.SolarBuilder;
 import de.local.energycharts.solarcity.model.Time;
-import de.local.energycharts.solarcity.model.calculator.SolarCityOverviewCalculator;
 import de.local.energycharts.solarcity.model.statistic.SolarCityOverview;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +22,15 @@ class SolarCityOverviewCalculatorTest {
     var calculator = new SolarCityOverviewCalculator(1000.0, 2030, solarSystems, updated);
 
     var overview = SolarCityOverview.builder()
-        .totalInstalledRoofMWp(20.0)
+        .installedRooftopMWpInOperation(20.0)
         .usedRoofSolarPotentialPercent(20.0 / 1000.0 * 100)
+        .balkonSolarSystemsInOperation(833L)
+        .installedBalkonMWpInOperation(0.5)
         .entireSolarPotentialOnRooftopsMWp(1000.0)
         .targetYear(2030)
-        .totalRoofSolarInstallations(1300L)
+        .rooftopSolarSystemsInOperation(1300L)
         .averageRoofSolarSystemMWp(0.02)
         .roofSolarSystemsToBeInstalledByTheTargetYear((int) (1300 / 0.02))
-        .totalBalkonSolarInstallations(833L)
-        .totalInstalledBalkonMWp(0.5)
         .updated(updated)
         .build();
 

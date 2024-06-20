@@ -56,7 +56,7 @@ public class SolarCity implements Serializable {
   }
 
   public int calculateTotalNumberOfSolarInstallations() {
-    return solarSystems.stream().filter(SolarSystem::isInOperation).toList().size();
+    return solarSystems.stream().toList().size();
   }
 
   public SolarCityOverview calculateSolarCityOverview() {

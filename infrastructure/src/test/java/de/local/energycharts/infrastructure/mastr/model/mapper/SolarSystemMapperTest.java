@@ -18,7 +18,7 @@ class SolarSystemMapperTest {
   @Test
   void test_mapping_from_solar_einheit() {
     EinheitJson mastrSolarEinheit = new EinheitJson();
-    mastrSolarEinheit.setId("1234");
+    //mastrSolarEinheit.setId("1234");
     mastrSolarEinheit.setInbetriebnahmeDatum("/Date(1628467200000)/");
     mastrSolarEinheit.setDatumLetzteAktualisierung("/Date(1629107527571)/");
     mastrSolarEinheit.setPlz("60314");

@@ -1,22 +1,9 @@
 package de.local.energycharts.infrastructure.mastr.gateway;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
-import static java.lang.Thread.sleep;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.stubbing.StubMapping;
-import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.infrastructure.mastr.model.mapper.SolarSystemMapper;
 import de.local.energycharts.solarcity.gateway.MastrGateway;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.List;
+import de.local.energycharts.solarcity.model.SolarSystem;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +12,15 @@ import org.mockito.Spy;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.List;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MastrRestApiClientGatewayTest {
 
@@ -49,13 +45,13 @@ class MastrRestApiClientGatewayTest {
   @BeforeEach
   void createTestSolarSystem() {
     testSolarSystem = SolarSystem.builder()
-        .id("1")
         .commissioning(LocalDate.of(2010, 8, 20))
         .lastChange(Instant.parse("2019-05-28T08:26:38.031Z"))
         .installedGrossPowerkWp(236.41)
         .installedNetPowerkWp(221.0)
         .operatorName("Energiegenossenschaft Frankfurt")
         .name("Solaranlage")
+        .postcode(testPostcode)
         .status(IN_OPERATION).build();
   }
 
@@ -96,11 +92,11 @@ class MastrRestApiClientGatewayTest {
   }
 
   private void stubForGetSolarSystemsOK200() {
-    StubMapping stubMapping = stubFor(get(urlPathMatching(
+    stubFor(get(urlPathMatching(
         "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
     ))
         .withQueryParam("page", equalTo("1"))
-        .withQueryParam("pageSize", equalTo("1000000"))
+        .withQueryParam("pageSize", equalTo("1000"))
         .withQueryParam("filter", equalTo("Postleitzahl~eq~'" + testPostcode + "'~and~Energieträger~eq~'2495'"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")
@@ -126,7 +122,8 @@ class MastrRestApiClientGatewayTest {
                     "Nettonennleistung": 221.000,
                     "EnergietraegerName": "Solare Strahlungsenergie"
                   }
-                 ]
+                 ],
+                 "Total":2
                 }
                 """)
         ));

@@ -11,19 +11,19 @@ import java.time.Instant;
 @Builder
 public class SolarCityOverview {
 
-  private Long totalRoofSolarInstallations;
-  private Double totalInstalledRoofMWp;
+  private Long rooftopSolarSystemsInOperation;
+  private Double installedRooftopMWpInOperation;
+  private Long balkonSolarSystemsInOperation;
+  private Double installedBalkonMWpInOperation;
   private Double entireSolarPotentialOnRooftopsMWp;
   private Integer targetYear;
   private Double averageRoofSolarSystemMWp;
   private Integer roofSolarSystemsToBeInstalledByTheTargetYear;
   private Double usedRoofSolarPotentialPercent;
-  private Long totalBalkonSolarInstallations;
-  private Double totalInstalledBalkonMWp;
   private Instant updated;
 
-  public Double getTotalInstalledRoofMWp() {
-    return BigDecimal.valueOf(totalInstalledRoofMWp)
+  public Double getInstalledRooftopMWpInOperation() {
+    return BigDecimal.valueOf(installedRooftopMWpInOperation)
         .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
   }
 
@@ -37,8 +37,8 @@ public class SolarCityOverview {
         .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
   }
 
-  public Double getTotalInstalledBalkonMWp() {
-    return BigDecimal.valueOf(totalInstalledBalkonMWp)
+  public Double getInstalledBalkonMWpInOperation() {
+    return BigDecimal.valueOf(installedBalkonMWpInOperation)
         .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
   }
 }

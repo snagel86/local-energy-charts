@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class EinheitJson {
 
-  @JsonProperty("Id")
-  private String id;
+//  @JsonProperty("Id")
+//  private String id;
   @JsonProperty("EnergietraegerName")
   private String energietraegerName;
   @JsonProperty("BetriebsStatusName")
@@ -28,9 +28,4 @@ public class EinheitJson {
   private String anlagenbetreiberName;
   @JsonProperty("EinheitName")
   private String einheitName;
-
-  public boolean isSolareStrahlungsenergie() {
-    return energietraegerName != null
-        && energietraegerName.equalsIgnoreCase("Solare Strahlungsenergie");
-  }
 }

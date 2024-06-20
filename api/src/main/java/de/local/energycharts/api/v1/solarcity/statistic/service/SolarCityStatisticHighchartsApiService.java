@@ -67,8 +67,8 @@ public class SolarCityStatisticHighchartsApiService {
     // overview
     var solarOverview = solarCity.calculateSolarCityOverview();
     response
-        .setTotalSolarInstallations(solarOverview.getTotalRoofSolarInstallations())
-        .setTotalInstalledMWp(solarOverview.getTotalInstalledRoofMWp());
+        .setTotalSolarInstallations(solarOverview.getRooftopSolarSystemsInOperation())
+        .setTotalInstalledMWp(solarOverview.getInstalledRooftopMWpInOperation());
 
     return response;
   }

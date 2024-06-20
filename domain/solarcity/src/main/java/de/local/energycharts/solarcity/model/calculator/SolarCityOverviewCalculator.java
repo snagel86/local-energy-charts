@@ -16,15 +16,17 @@ public class SolarCityOverviewCalculator {
   private final Instant updated;
 
   public SolarCityOverview calculateSolarCityOverview() {
-    var installedRoofMWp = calculateInstalledRoofMWpInOperation();
+    var installedRooftopMWpInOperation = calculateInstalledRooftopMWpInOperation();
     var averageRoofSolarMWp = calculateAverageRoofSolarMWp();
 
     return SolarCityOverview.builder()
-        .totalRoofSolarInstallations(calculateTotalRoofSolarInstallations())
-        .totalInstalledRoofMWp(installedRoofMWp)
+        .rooftopSolarSystemsInOperation(calculateRooftopSolarSystemsInOperation())
+        .installedRooftopMWpInOperation(installedRooftopMWpInOperation)
+        .balkonSolarSystemsInOperation(calculateBalkonSolarSystemsInOperation())
+        .installedBalkonMWpInOperation(calculateInstalledBalkonMWpInOperation())
         .usedRoofSolarPotentialPercent(
             entireSolarPotentialOnRooftopsMWp != null ?
-                installedRoofMWp / entireSolarPotentialOnRooftopsMWp * 100.0 : -1.0
+                installedRooftopMWpInOperation / entireSolarPotentialOnRooftopsMWp * 100.0 : -1.0
         )
         .entireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
         .targetYear(targetYear)
@@ -33,13 +35,11 @@ public class SolarCityOverviewCalculator {
             entireSolarPotentialOnRooftopsMWp != null ?
                 (int) (entireSolarPotentialOnRooftopsMWp / averageRoofSolarMWp) : 0
         )
-        .totalBalkonSolarInstallations(calculateTotalBalkonSolarInstallations())
-        .totalInstalledBalkonMWp(calculateInstalledBalkonMWpInOperation())
         .updated(updated)
         .build();
   }
 
-  private long calculateTotalRoofSolarInstallations() {
+  private long calculateRooftopSolarSystemsInOperation() {
     return solarSystems.stream()
         .filter(SolarSystem::isInOperation)
         // filter out Balkonkraftwerke
@@ -47,7 +47,7 @@ public class SolarCityOverviewCalculator {
         .count();
   }
 
-  private Double calculateInstalledRoofMWpInOperation() {
+  private Double calculateInstalledRooftopMWpInOperation() {
     return solarSystems.stream()
         .filter(SolarSystem::isInOperation)
         // filter out Balkonkraftwerke
@@ -56,16 +56,7 @@ public class SolarCityOverviewCalculator {
         .sum() / 1000.0; // kWp -> MWp
   }
 
-  Double calculateAverageRoofSolarMWp() {
-    return solarSystems.stream()
-        // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential
-        .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
-        .mapToDouble(SolarSystem::getInstalledNetPowerkWp)
-        .average()
-        .orElse(0.0) / 1000.0; // kWp -> MWp
-  }
-
-  private long calculateTotalBalkonSolarInstallations() {
+  private long calculateBalkonSolarSystemsInOperation() {
     return solarSystems.stream()
         .filter(SolarSystem::isInOperation)
         // Balkonkraftwerke only
@@ -80,5 +71,14 @@ public class SolarCityOverviewCalculator {
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= 1.0)
         .mapToDouble(SolarSystem::getInstalledNetPowerkWp)
         .sum() / 1000.0; // kWp -> MWp
+  }
+
+  Double calculateAverageRoofSolarMWp() {
+    return solarSystems.stream()
+        // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential
+        .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
+        .mapToDouble(SolarSystem::getInstalledNetPowerkWp)
+        .average()
+        .orElse(0.0) / 1000.0; // kWp -> MWp
   }
 }

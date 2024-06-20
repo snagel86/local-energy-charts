@@ -23,7 +23,7 @@ class SolarCityTest {
         SolarSystem.builder().id("2").status(NONE).build())
     );
 
-    assertThat(frankfurt.calculateTotalNumberOfSolarInstallations()).isEqualTo(1);
+    assertThat(frankfurt.calculateTotalNumberOfSolarInstallations()).isEqualTo(2);
   }
 
   @Test

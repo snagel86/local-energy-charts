@@ -17,13 +17,13 @@ public class MastrRestAPIService {
    * @param postcode The postcode to which the Marktstammdatenregister should respond with the following response.
    * @param response The response from the Marktstammdatenregister to simulate.
    */
-  public void stubGetSolarSystems(int postcode, String response) {
+  public void stubGetSolarSystems(int postcode, String response, Integer page) {
     configureFor("localhost", 8082);
     stubFor(get(urlPathMatching(
         "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
     ))
-        .withQueryParam("page", equalTo("1"))
-        .withQueryParam("pageSize", equalTo("1000000"))
+        .withQueryParam("page", equalTo(page.toString()))
+        .withQueryParam("pageSize", equalTo("1000"))
         .withQueryParam("filter", equalTo("Postleitzahl~eq~'" + postcode + "'~and~Energieträger~eq~'2495'"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")

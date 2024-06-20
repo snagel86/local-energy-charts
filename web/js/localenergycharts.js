@@ -113,7 +113,7 @@ LocalEnergyCharts.getSolarOverview = function (city) {
 
         success: function (response) {
             $('#used-solar-potential-percent').text(formatNumber(response.usedRoofSolarPotentialPercent, 1) + ' %')
-            $('#total-solar-installations').text(formatNumber(response.totalRoofSolarInstallations));
+            $('#total-solar-installations').text(formatNumber(response.rooftopSolarSystemsInOperation));
             $('#total-installed-mwp').text(formatNumber(response.totalInstalledRoofMWp));
             $('#entire-solar-potential-on-rooftops-mwp').text(formatNumber(response.entireSolarPotentialOnRooftopsMWp));
             $('#updated').text(new Date(response.updated).toLocaleDateString());

@@ -52,8 +52,8 @@ public class LocalEnergyChartsStep {
   public void getOverview(int totalSolarInstallations, float totalInstalledMWp) {
     localEnergyChartsService.getOverview(cityName)
         .body(
-            "totalRoofSolarInstallations", is(totalSolarInstallations),
-            "totalInstalledRoofMWp", is(totalInstalledMWp)
+            "rooftopSolarSystemsInOperation", is(totalSolarInstallations),
+            "installedRooftopMWpInOperation", is(totalInstalledMWp)
         );
   }
 
