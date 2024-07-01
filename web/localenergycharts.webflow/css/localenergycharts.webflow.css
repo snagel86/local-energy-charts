@@ -181,9 +181,9 @@ a {
   outline-offset: 0px;
   color: #fff;
   background-color: rgba(0, 0, 0, 0);
-  background-image: url('../images/solar-cells-4518970_1920.jpeg');
+  background-image: url('../images/solar-310031_1920.png');
   background-position: 0 0;
-  background-size: cover;
+  background-size: auto;
   outline: 3px #333;
   margin-top: 94px;
   margin-bottom: 0;
@@ -205,9 +205,6 @@ a {
 .section.main.textshadow {
   color: #fff;
   text-shadow: 1px 1px 1px #333;
-  background-image: url('../images/solar-background.jpg');
-  background-position: 0 0;
-  background-size: cover;
   margin-top: auto;
 }
 
@@ -401,12 +398,15 @@ a {
 }
 
 .paragraph.main {
+  color: #fff;
   background-color: rgba(0, 0, 0, 0);
+  font-weight: 500;
 }
 
 .paragraph.updated {
   font-size: 14px;
   font-style: italic;
+  font-weight: 500;
 }
 
 .paragraph.bold.italic {
@@ -427,6 +427,7 @@ a {
   text-align: left;
   flex: 0 auto;
   margin-left: 10px;
+  font-weight: 500;
 }
 
 .checkbox-label.koeln {
@@ -444,6 +445,8 @@ a {
   outline-offset: 0px;
   text-align: left;
   white-space: normal;
+  border-width: 2px;
+  border-color: #fff;
   border-radius: 20px;
   outline: 3px #fff;
   width: 16px;
@@ -480,6 +483,7 @@ a {
 
 .checkbox-field {
   align-items: center;
+  font-weight: 500;
   display: flex;
 }
 
@@ -664,10 +668,6 @@ a {
 }
 
 @media screen and (min-width: 1440px) {
-  .section.main.textshadow {
-    background-position: 0%;
-  }
-
   .koelnbody {
     max-width: 830px;
   }
@@ -706,7 +706,7 @@ a {
   }
 
   .section.main.textshadow {
-    background-position: 0 0;
+    background-position: 50% 100%;
   }
 
   .nav-menu {
@@ -886,8 +886,7 @@ a {
   }
 
   .section.main.textshadow {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-    background-position: 50% 0;
+    background-position: 35% 80%;
     display: block;
   }
 
@@ -929,7 +928,7 @@ a {
   }
 
   .checkbox {
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    overflow-wrap: normal;
   }
 
   .checkbox-field {

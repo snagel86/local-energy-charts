@@ -11,7 +11,7 @@ ext {
 
 subprojects {
     group = 'de.local.energy.charts'
-    version = '2.2.0'
+    version = '2.2.0-new-web-test'
 
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
