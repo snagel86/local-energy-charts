@@ -17,6 +17,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FutureAdditionOfSolarInstallationsCalculatorTest {
 
   @Test
+  void return_empty_list_when_target_year_less_than_3_years_in_future() {
+    Time.freezeNowAt(Instant.parse("2024-01-01T00:00:00.00Z"));
+    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder()
+        .targetYear(2026).build();
+
+    assertThat(calculator.calculateAnnualAdditions()).isEmpty();
+  }
+
+  @Test
   void get_annual_installed_MWp_from_previous_year() {
     var addition2019 = AdditionOfSolarInstallations.builder()
         .year(2019)

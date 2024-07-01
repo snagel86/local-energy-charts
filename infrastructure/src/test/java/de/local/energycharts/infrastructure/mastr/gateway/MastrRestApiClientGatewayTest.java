@@ -45,6 +45,7 @@ class MastrRestApiClientGatewayTest {
   @BeforeEach
   void createTestSolarSystem() {
     testSolarSystem = SolarSystem.builder()
+        .id("1")
         .commissioning(LocalDate.of(2010, 8, 20))
         .lastChange(Instant.parse("2019-05-28T08:26:38.031Z"))
         .installedGrossPowerkWp(236.41)
@@ -96,7 +97,7 @@ class MastrRestApiClientGatewayTest {
         "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
     ))
         .withQueryParam("page", equalTo("1"))
-        .withQueryParam("pageSize", equalTo("1000"))
+        .withQueryParam("pageSize", equalTo("5000"))
         .withQueryParam("filter", equalTo("Postleitzahl~eq~'" + testPostcode + "'~and~Energieträger~eq~'2495'"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")
@@ -134,7 +135,7 @@ class MastrRestApiClientGatewayTest {
         "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
     ))
         .withQueryParam("page", equalTo("1"))
-        .withQueryParam("pageSize", equalTo("1000000"))
+        .withQueryParam("pageSize", equalTo("5000"))
         .withQueryParam("filter", equalTo("Postleitzahl~eq~'" + testPostcode + "'~and~Energieträger~eq~'2495'"))
         .willReturn(aResponse().withStatus(500)));
   }

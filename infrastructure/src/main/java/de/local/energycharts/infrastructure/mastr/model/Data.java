@@ -10,7 +10,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class Data {
 
-  public static final Integer PAGE_SIZE = 1000;
+  public static final Integer PAGE_SIZE = 5000;
 
   @JsonProperty("Data")
   private List<EinheitJson> data;

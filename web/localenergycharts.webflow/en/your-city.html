@@ -1,5 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. https://www.webflow.com  -->
-<!--  Last Published: Fri Feb 02 2024 20:06:07 GMT+0000 (Coordinated Universal Time)  -->
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Mon Jul 01 2024 07:48:27 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="659d0946c1b8a5ea8cfdcc34" data-wf-site="625d78ab5ef7d3599c8d0dd9">
 <head>
   <meta charset="utf-8">
@@ -29,13 +28,13 @@
 <body>
   <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
     <div class="navigationcontainer w-container">
-      <a href="../en/home.html" class="brand-link w-nav-brand"><img src="../images/logo-removebg.png" loading="lazy" width="280" alt="Logo des Klimaentscheid Frankfurt. Der Bürgerentscheid will Frankfurt klimaneutral, und gleichzeitig lebenswerter machen. Deswegen zeigt das grün-gelbe Logo Erneuerbare Energien, Stadtbäume sowie ein Fahrrad und den Römer. Die Details erkennt man nur, wenn man näher hinsieht, oder das Logo vergrößert." class="logo"></a>
+      <a href="../en/home.html" class="brand-link w-nav-brand"><img src="../images/logo-removebg.png" loading="lazy" width="280" sizes="(max-width: 479px) 55vw, (max-width: 767px) 122px, 180px" alt="Logo des Klimaentscheid Frankfurt. Der Bürgerentscheid will Frankfurt klimaneutral, und gleichzeitig lebenswerter machen. Deswegen zeigt das grün-gelbe Logo Erneuerbare Energien, Stadtbäume sowie ein Fahrrad und den Römer. Die Details erkennt man nur, wenn man näher hinsieht, oder das Logo vergrößert." srcset="../images/logo-removebg-p-500.png 500w, ../images/logo-removebg-p-800.png 800w, ../images/logo-removebg-p-1080.png 1080w, ../images/logo-removebg-p-1600.png 1600w, ../images/logo-removebg-p-2000.png 2000w, ../images/logo-removebg-p-2600.png 2600w, ../images/logo-removebg-p-3200.png 3200w, ../images/logo-removebg.png 3500w" class="logo"></a>
       <nav role="navigation" class="nav-menu w-nav-menu">
         <a href="../en/home.html" class="nav-link w-nav-link">Home</a>
         <a href="../en/now-we-need-roofs.html" class="nav-link w-nav-link">Now we need roofs!</a>
         <a href="../en/your-city.html" aria-current="page" class="nav-link w-nav-link w--current">Your City</a>
         <a href="../en/contact.html" class="nav-link w-nav-link">Contact</a>
-        <a href="../deine-stadt.html" class="language nav-link w-inline-block"><img src="../images/de.png" loading="lazy" alt="Das Bild zeigt die deutsche Flagge." class="image"></a>
+        <a href="../deine-stadt.html" class="language nav-link w-inline-block"><img src="../images/de.png" loading="lazy" sizes="(max-width: 991px) 100vw, 45.375px" srcset="../images/de-p-500.png 500w, ../images/de.png 529w" alt="Das Bild zeigt die deutsche Flagge." class="image"></a>
       </nav>
       <a href="../deine-stadt.html" class="nav-link menu w-inline-block"><img alt="" src="https://uploads-ssl.webflow.com/625d78ab5ef7d3599c8d0dd9/6352b6509a7c81605c7beb50_de.png" loading="lazy" class="image"></a>
       <div class="nav-link menu w-nav-button">
@@ -68,19 +67,19 @@
       <figure class="highcharts-figure your-city">
         <div id="solar-city-annual-addition-of-solar-installations"></div>
       </figure>
-      <p id="your-city-solar-paragraph" class="paragraph">So far, <span id="total-solar-installations" class="bold">2.782</span> <span class="bold">photovoltaic systems</span> with <span id="total-installed-mwp">45</span> megawatts have been installed on the roofs of your city.<br></p>
+      <p id="your-city-solar-paragraph" class="paragraph">So far, <span id="rooftop-solar-systems-in-operation" class="bold">2.782</span> <span class="bold">photovoltaic systems</span> with <span id="installed-rooftop-mwp-in-operation">45</span> megawatts have been installed on the roofs of your city.<br></p>
     </div>
   </div>
   <section id="contact-form" class="yourcityform">
     <div class="container w-container">
       <h2 class="heading">Your City</h2>
-      <p>Here you can enter the name of your city to display the annual addition of solar installations. If the entries are confirmed with Send, all solar systems installed in your city are downloaded from the <a href="https://www.marktstammdatenregister.de/MaStR" target="_blank">Martstammdatenregister</a> and the addition is calculated. <br><br>Optionally, the city-wide solar potential and the target year can be specified to display the necessary annual, future addition as well.</p>
+      <p>How much solar is your city adding? Simply enter the name of your city to see the annual increase. <br><br>If you want to know how much more would be needed, enter the solar roof potential and the target year. You can find the solar roof potential of your city on <a href="https://eosolar.dlr.de/" target="_blank">EO Solar</a>.</p>
       <div class="w-form">
         <form id="your-city-form" name="wf-form-Your-City-Form" data-name="Your City Form" action="https://yourcity" method="post" data-wf-page-id="659d0946c1b8a5ea8cfdcc34" data-wf-element-id="3df63255-6e61-b663-0883-02a63681bd1d">
           <div class="yourcity-form-grid">
             <div id="w-node-_3df63255-6e61-b663-0883-02a63681bd27-8cfdcc34"><label for="CityName" id="city-name">City name *</label><input class="w-input" autofocus="true" maxlength="256" name="CityName" data-name="CityName" placeholder="The name of your city." type="text" id="CityName" required=""></div>
-            <div id="w-node-_213465c8-e477-3285-8380-f761968e2ce9-8cfdcc34"><label for="TotalSolarPotentialMWp" id="total-solar-potential">Citywide solar potential</label><input class="w-input" maxlength="256" name="CityName-3" data-name="City Name 3" placeholder="If known, please provide a number in [MWp]. E. g. 1006." type="number" id="TotalSolarPotentialMWp"></div>
-            <div id="w-node-b540c3a8-2f1c-e121-98c1-6efb394d85b6-8cfdcc34"><label for="TotalSolarPotentialTargetYear" id="total-solar-potential-target-year">Target year</label><input class="w-input" maxlength="256" name="CityName-3" data-name="City Name 3" placeholder="e. g. 2030 or 2035." type="number" id="TotalSolarPotentialTargetYear"></div>
+            <div id="w-node-_213465c8-e477-3285-8380-f761968e2ce9-8cfdcc34"><label for="EoSolarRoofPotential-2" id="total-solar-potential">Solar roof potential</label><input class="w-input" maxlength="256" name="EoSolarRoofPotential" data-name="EoSolarRoofPotential" placeholder="e.g. 700 GWh or 2.1 TWh per year." type="text" id="EoSolarRoofPotential-2"></div>
+            <div id="w-node-b540c3a8-2f1c-e121-98c1-6efb394d85b6-8cfdcc34"><label for="TargetYear-2" id="total-solar-potential-target-year">Target year</label><input class="w-input" maxlength="256" name="TargetYear" data-name="TargetYear" placeholder="e.g. 2030 or 2035." type="number" id="TargetYear-2"></div>
           </div><input type="submit" data-wait="Please wait..." class="yourcity-submit-button w-button" value="Send">
         </form>
         <div class="success-message-2 w-form-done">
@@ -125,14 +124,13 @@
   </div>
   <div class="w-embed w-script">
     <script type="text/javascript">
-	$('#your-city-solar-paragraph').hide();
+  $('#your-city-solar-paragraph').hide();
   $('form[action="https://yourcity"]').each(function (i, el) {
     let form = $(el);
     form.submit(function (event) {
       event.preventDefault();
       form = $(event.target);
       LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart();
-      $('#your-city-solar-paragraph').show();
     });
   });
 </script>

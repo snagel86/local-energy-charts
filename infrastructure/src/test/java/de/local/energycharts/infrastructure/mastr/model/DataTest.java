@@ -10,11 +10,11 @@ class DataTest {
   void test_page_size() {
     Data data = new Data();
     data.setPage(1)
-        .setTotal(6100);
+        .setTotal(20100);
     do {
       data.setPage(data.getNextPage());
     } while (data.getNextPage() != null);
 
-    assertThat(data.getPage()).isEqualTo(7);
+    assertThat(data.getPage()).isEqualTo(5);
   }
 }

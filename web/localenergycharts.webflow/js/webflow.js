@@ -1964,6 +1964,7 @@
             var field = $(el);
             var type = field.attr("type");
             var name = field.attr("data-name") || field.attr("name") || "Field " + (i + 1);
+            name = encodeURIComponent(name);
             var value = field.val();
             if (type === "checkbox") {
               value = field.is(":checked");

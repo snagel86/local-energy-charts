@@ -3,6 +3,7 @@ package de.local.energycharts.api.v1.solarcity.statistic.service;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.AnnualAdditionOfSolarInstallationsChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.MonthlySolarInstallationsChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.SolarBuildingPieChartResponse;
+import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.SolarCityRequest;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.ColumnMapper;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.MonthlySolarInstallationsChartMapper;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.SolarBuildingPieChartMapper;
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import static de.local.energycharts.api.v1.solarcity.statistic.service.RangeOfPreviouslySolarInstallationsCalculator.calculateRange;
+import static de.local.energycharts.api.v1.solarcity.statistic.service.YearsFilter.createFilter;
 import static de.local.energycharts.solarcity.model.Time.currentYear;
 
 @Service
@@ -28,47 +29,50 @@ public class SolarCityStatisticHighchartsApiService {
 
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createAnnualAdditionOfSolarInstallationsChart(
       String city,
+      int years,
       boolean previousSolarInstallationsOnly
   ) {
     return solarCityStatisticService.getSolarCity(city)
         .map(solarCity -> createColumnChartResponse(
             solarCity, previousSolarInstallationsOnly,
-            calculateRange(previousSolarInstallationsOnly, solarCity.getTargetYear()).inYears()
+            years
         ));
   }
 
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createTemporaryAnnualAdditionOfSolarInstallationsChart(
       String cityName,
-      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
+      SolarCityRequest request
   ) {
     return solarCityService
         .createSolarCityTemporary(
             cityName,
-            entireSolarPotentialOnRooftopsMWp, targetYear
+            request.getSolarRoofPotentialMWp(), request.getTargetYear()
         )
-        .map(solarCity -> createColumnChartResponse(solarCity, false, 20))
+        .map(solarCity -> createColumnChartResponse(solarCity, false, request.getYears()))
         .map(this::throwErrorWhenEmpty);
   }
 
   private AnnualAdditionOfSolarInstallationsChartResponse createColumnChartResponse(
       SolarCity solarCity,
       boolean previousSolarInstallationsOnly,
-      int rangeInYearsOfPreviouslySolarInstallations
+      int years
   ) {
+    var additionOfSolarInstallations = solarCity.calculateAnnualAdditionOfSolarInstallations();
+    var yearsFilter = createFilter(previousSolarInstallationsOnly, years, additionOfSolarInstallations);
+
     // data
     var response = AnnualAdditionOfSolarInstallationsChartResponse.builder()
         .cityName(solarCity.getName())
-        .columns(solarCity.calculateAnnualAdditionOfSolarInstallations().stream()
-            .filter(addition -> addition.getYear() >= currentYear() - rangeInYearsOfPreviouslySolarInstallations)
-            .filter(addition -> !previousSolarInstallationsOnly || addition.getYear() <= currentYear())
+        .columns(additionOfSolarInstallations.stream()
+            .filter(yearsFilter::filter)
             .map(columnMapper::mapToColumn).toList())
         .build();
 
     // overview
     var solarOverview = solarCity.calculateSolarCityOverview();
     response
-        .setTotalSolarInstallations(solarOverview.getRooftopSolarSystemsInOperation())
-        .setTotalInstalledMWp(solarOverview.getInstalledRooftopMWpInOperation());
+        .setRooftopSolarSystemsInOperation(solarOverview.getRooftopSolarSystemsInOperation())
+        .setInstalledRooftopMWpInOperation(solarOverview.getInstalledRooftopMWpInOperation());
 
     return response;
   }

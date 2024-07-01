@@ -1,6 +1,7 @@
 let LocalEnergyCharts = {};
 let baseApiUrl = 'http://localhost:8080';
 let language = 'de'; // default
+const years = 17;
 
 LocalEnergyCharts.changeLanguageToDeutsch = function () {
     language = 'de';
@@ -113,8 +114,8 @@ LocalEnergyCharts.getSolarOverview = function (city) {
 
         success: function (response) {
             $('#used-solar-potential-percent').text(formatNumber(response.usedRoofSolarPotentialPercent, 1) + ' %')
-            $('#total-solar-installations').text(formatNumber(response.rooftopSolarSystemsInOperation));
-            $('#total-installed-mwp').text(formatNumber(response.totalInstalledRoofMWp));
+            $('#rooftop-solar-systems-in-operation').text(formatNumber(response.rooftopSolarSystemsInOperation));
+            $('#installed-rooftop-mwp-in-operation').text(formatNumber(response.installedRooftopMWpInOperation));
             $('#entire-solar-potential-on-rooftops-mwp').text(formatNumber(response.entireSolarPotentialOnRooftopsMWp));
             $('#updated').text(new Date(response.updated).toLocaleDateString());
         }
@@ -131,7 +132,7 @@ LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart = function (
         url: `${baseApiUrl}/v1/solar-cities/${city}/statistics/annual-addition-of-solar-installations/highcharts`,
         contentType: 'application/json',
         dataType: 'json',
-        data: {previousSolarInstallationsOnly: previousSolarInstallationsOnly},
+        data: {previousSolarInstallationsOnly: previousSolarInstallationsOnly, years: years},
 
         success: function (response) {
             createAnnualAdditionOfSolarInstallationsChart(response);
@@ -148,12 +149,13 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
     function convertYourCityFormToJson(form) {
         let formData = $(form).serializeArray();
         cityName = formData[0].value;
-        let entireSolarPotentialOnRooftopsMWp = formData[1].value;
+        let eoSolarRoofPotential = formData[1].value;
         let targetYear = formData[2].value;
 
         return {
-            'entireSolarPotentialOnRooftopsMWp': parseInt(entireSolarPotentialOnRooftopsMWp),
-            'targetYear': parseInt(targetYear)
+            'eoSolarRoofPotential': eoSolarRoofPotential,
+            'targetYear': parseInt(targetYear),
+            'years': years
         };
     }
 
@@ -167,9 +169,10 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
         success: function (response) {
             createAnnualAdditionOfSolarInstallationsChart(response);
             showSuccessMessage();
-            $('#total-solar-installations').text(formatNumber(response.totalSolarInstallations));
-            $('#total-installed-mwp').text(formatNumber(response.totalInstalledMWp, 1));
+            $('#rooftop-solar-systems-in-operation').text(formatNumber(response.rooftopSolarSystemsInOperation));
+            $('#installed-rooftop-mwp-in-operation').text(formatNumber(response.installedRooftopMWpInOperation, 1));
             $('html, body').animate({scrollTop: 0}, 'slow');
+            $('#your-city-solar-paragraph').show();
         },
 
         error: function () {

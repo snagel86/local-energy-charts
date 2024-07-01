@@ -18,7 +18,7 @@ public interface SolarSystemMapper {
   // e. g. /Date(1628467200000)/
   Pattern restApiDatePattern = Pattern.compile("^\\/Date\\((\\d+)\\)\\/$");
 
-  //@Mapping(target = "id", source = "id")
+  @Mapping(target = "id", source = "id")
   @Mapping(target = "commissioning", source = "inbetriebnahmeDatum", qualifiedByName = "convertDate")
   @Mapping(target = "installedGrossPowerkWp", source = "bruttoleistung")
   @Mapping(target = "installedNetPowerkWp", source = "nettonennleistung")

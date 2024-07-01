@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class EinheitJson {
 
-//  @JsonProperty("Id")
-//  private String id;
+  @JsonProperty("Id")
+  private String id;
   @JsonProperty("EnergietraegerName")
   private String energietraegerName;
   @JsonProperty("BetriebsStatusName")

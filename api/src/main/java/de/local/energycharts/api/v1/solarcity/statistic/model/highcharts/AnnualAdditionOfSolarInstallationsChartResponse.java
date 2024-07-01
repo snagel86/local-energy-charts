@@ -14,8 +14,8 @@ public class AnnualAdditionOfSolarInstallationsChartResponse {
 
   private String cityName;
   private List<Column> columns;
-  private Long totalSolarInstallations;
-  private Double totalInstalledMWp;
+  private Long rooftopSolarSystemsInOperation;
+  private Double installedRooftopMWpInOperation;
 
   @JsonIgnore
   public boolean isEmpty() {

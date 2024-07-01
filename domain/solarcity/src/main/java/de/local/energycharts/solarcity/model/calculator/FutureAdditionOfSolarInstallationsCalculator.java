@@ -10,6 +10,7 @@ import java.util.*;
 import static de.local.energycharts.solarcity.model.Time.currentYear;
 import static java.lang.Math.exp;
 import static java.lang.Math.max;
+import static java.util.Collections.emptyList;
 import static java.util.Comparator.comparing;
 
 @RequiredArgsConstructor
@@ -22,6 +23,10 @@ public class FutureAdditionOfSolarInstallationsCalculator {
   private final List<AdditionOfSolarInstallations> additionsDoneYet;
 
   public List<AdditionOfSolarInstallations> calculateAnnualAdditions() {
+    if (targetYear < currentYear() + 3) {
+      return emptyList();
+    }
+
     var annualFutureDistribution = calculateAnnualFutureDistribution();
     return applyDistributionToAvailableSolarPotential(annualFutureDistribution);
   }
