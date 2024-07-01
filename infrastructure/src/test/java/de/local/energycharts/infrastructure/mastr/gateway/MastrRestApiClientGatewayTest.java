@@ -124,7 +124,7 @@ class MastrRestApiClientGatewayTest {
                     "EnergietraegerName": "Solare Strahlungsenergie"
                   }
                  ],
-                 "Total":2
+                 "Total":1
                 }
                 """)
         ));

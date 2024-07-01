@@ -22,31 +22,26 @@ public class MastrRestApiGateway implements MastrGateway {
 
   public Flux<SolarSystem> getSolarSystemsByPostcode(Integer postcode) {
     var mastrFilter = "Postleitzahl~eq~'" + postcode + "'~and~Energieträger~eq~'2495'";
-
-    return getSolarSystems(mastrFilter, 1)
-        .expand(response -> {
-          if (response.getNextPage() != null) {
-            return getSolarSystems(mastrFilter, response.getNextPage());
-          }
-          return Mono.empty();
-        }).flatMapIterable(Data::getData)
-        .map(solarSystemMapper::map);
+    return getAllSolarSystems(mastrFilter);
   }
 
   public Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey) {
     var mastrFilter = "Gemeindeschlüssel~eq~'" + municipalityKey + "'~and~Energieträger~eq~'2495'";
+    return getAllSolarSystems(mastrFilter);
+  }
 
-    return getSolarSystems(mastrFilter, 1)
+  private Flux<SolarSystem> getAllSolarSystems(String mastrFilter) {
+    return getNextPage(mastrFilter, 1)
         .expand(response -> {
           if (response.getNextPage() != null) {
-            return getSolarSystems(mastrFilter, response.getNextPage());
+            return getNextPage(mastrFilter, response.getNextPage());
           }
           return Mono.empty();
         }).flatMapIterable(Data::getData)
         .map(solarSystemMapper::map);
   }
 
-  private Mono<Data> getSolarSystems(String mastrFilter, Integer nextPage) {
+  private Mono<Data> getNextPage(String mastrFilter, Integer nextPage) {
     return webClient
         .mutate().codecs(configurer -> configurer
             .defaultCodecs()
