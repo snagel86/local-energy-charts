@@ -20,7 +20,6 @@ public class MongoSolarCityRepository implements SolarCityRepository {
   private final MongoTemplate mongoTemplate;
   private final MongoSolarCityMapper solarCityMapper;
 
-  @Override
   public Mono<SolarCity> save(SolarCity solarCity) {
     var mongoSolarCity = solarCityMapper.mapToMongoDocument(solarCity);
     return Mono.just(solarCityMapper.mapToDomainModel(
@@ -28,7 +27,6 @@ public class MongoSolarCityRepository implements SolarCityRepository {
     ));
   }
 
-  @Override
   public Mono<SolarCity> findByName(String name) {
     var solarCity = mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class);
     if (solarCity == null) {
@@ -37,7 +35,6 @@ public class MongoSolarCityRepository implements SolarCityRepository {
     return Mono.just(solarCityMapper.mapToDomainModel(solarCity));
   }
 
-  @Override
   public Flux<SolarCity> findAll() {
     return Flux.fromIterable(solarCityMapper
         .mapToDomainModels(mongoTemplate

@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static io.github.kaiso.relmongo.annotation.CascadeType.ALL;
-import static io.github.kaiso.relmongo.annotation.FetchType.EAGER;
+import static io.github.kaiso.relmongo.annotation.FetchType.LAZY;
 
 @Document(collection = "solarCity")
 @Data
@@ -27,7 +27,7 @@ public class MongoSolarCity implements Serializable {
   private Instant updated;
   private Double entireSolarPotentialOnRooftopsMWp;
   private Integer targetYear;
-  @OneToMany(fetch= EAGER, cascade = ALL)
+  @OneToMany(fetch= LAZY, cascade = ALL)
   @JoinProperty(name="solarSystems")
   private List<MongoSolarSystem> solarSystems;
 }
