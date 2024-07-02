@@ -122,7 +122,7 @@ class SolarCityServiceTest {
             SolarSystem.builder().id("3").postcode(60528).status(IN_OPERATION).build()
         ));
 
-    when(solarCityRepository.findByIdOrName("Frankfurt", "Frankfurt"))
+    when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
 
     assertThat(solarCityService.getAllPostcodes("Frankfurt").collectList().block())

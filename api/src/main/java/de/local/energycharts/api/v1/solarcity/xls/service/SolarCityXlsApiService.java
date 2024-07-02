@@ -19,8 +19,8 @@ public class SolarCityXlsApiService {
 
     private final SolarCityXlsService solarCityXlsService;
 
-    public Mono<ResponseEntity<?>> getSolarSystemsXls(String solarCityIdOrName) {
-        return solarCityXlsService.createAllSolarSystemsXls(solarCityIdOrName)
+    public Mono<ResponseEntity<?>> getSolarSystemsXls(String solarCityName) {
+        return solarCityXlsService.createAllSolarSystemsXls(solarCityName)
                 .map(xlsFile -> {
                     try {
                         return createOKResponseWith(xlsFile);

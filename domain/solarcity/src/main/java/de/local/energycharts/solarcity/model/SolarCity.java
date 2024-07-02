@@ -7,30 +7,20 @@ import de.local.energycharts.solarcity.model.statistic.SolarBuildingPieChart;
 import de.local.energycharts.solarcity.model.statistic.SolarCityOverview;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static de.local.energycharts.solarcity.model.Time.now;
-import static java.util.stream.Collectors.toSet;
 
 @Data
 @Accessors(chain = true)
-@Document
 public class SolarCity implements Serializable {
 
-  @Id
   private String id;
-  @Indexed(unique = true)
   private String name;
   private String municipalityKey;
   private Instant created;
