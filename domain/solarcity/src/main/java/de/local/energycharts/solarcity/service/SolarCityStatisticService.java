@@ -45,7 +45,7 @@ public class SolarCityStatisticService {
 
   @SneakyThrows
   private Mono<SolarCity> getCachedSolarCity(String city) {
-    return solarCityCache.get(city, () -> solarCityRepository.findByName(city));
+    return solarCityCache.get(city, () -> solarCityRepository.findByIdOrName(city, city));
   }
 
   public Mono<SolarCity> resetCachedSolarCity(String city) {

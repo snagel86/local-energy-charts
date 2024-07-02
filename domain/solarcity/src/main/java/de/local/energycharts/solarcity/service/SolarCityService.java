@@ -94,7 +94,7 @@ public class SolarCityService {
 
   public Flux<Integer> getAllPostcodes(String city) {
     return solarCityRepository
-        .findByName(city)
+        .findByIdOrName(city, city)
         .flatMapIterable(SolarCity::getAllPostcodes);
   }
 }

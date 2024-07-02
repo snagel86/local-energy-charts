@@ -26,26 +26,26 @@ class SolarCityStatisticServiceTest {
   void get_cached_solar_city() {
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
-    when(solarCityRepository.findByName("Frankfurt"))
+    when(solarCityRepository.findByIdOrName("Frankfurt", "Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
 
     solarCityStatisticService.getSolarCity("Frankfurt").block(); // find once from repository
     solarCityStatisticService.getSolarCity("Frankfurt").block(); // then get from cache
 
-    verify(solarCityRepository, atMostOnce()).findByName("Frankfurt");
+    verify(solarCityRepository, atMostOnce()).findByIdOrName("Frankfurt", "Frankfurt");
   }
 
   @Test
   void reset_cached_solar_city() {
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
-    when(solarCityRepository.findByName("Frankfurt"))
+    when(solarCityRepository.findByIdOrName("Frankfurt", "Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
 
     solarCityStatisticService.getSolarCity("Frankfurt").block();
     solarCityStatisticService.resetCachedSolarCity("Frankfurt").block();
     solarCityStatisticService.getSolarCity("Frankfurt").block();
 
-    verify(solarCityRepository, times(2)).findByName("Frankfurt");
+    verify(solarCityRepository, times(2)).findByIdOrName("Frankfurt", "Frankfurt");
   }
 }

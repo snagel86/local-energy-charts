@@ -33,7 +33,7 @@ public class SolarCityApiService {
     ).map(solarCityCreatedMapper::mapToResponse);
   }
 
-  public Flux<Integer> getAllPostcodes(String solarCityName) {
-    return solarCityService.getAllPostcodes(solarCityName);
+  public Flux<Integer> getAllPostcodes(String solarCityIdOrName) {
+    return solarCityService.getAllPostcodes(solarCityIdOrName);
   }
 }

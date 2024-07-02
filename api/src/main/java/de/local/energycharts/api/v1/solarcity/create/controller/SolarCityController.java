@@ -43,8 +43,8 @@ public class SolarCityController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = Integer[].class))})
   })
-  @GetMapping(value = "/solar-cities/{solarCityName}/postcodes", produces = "application/json")
-  public Flux<Integer> getAllPostcodes(@PathVariable("solarCityName") String solarCityName) {
-    return solarCityApiService.getAllPostcodes(solarCityName);
+  @GetMapping(value = "/solar-cities/{solarCityIdOrName}/postcodes", produces = "application/json")
+  public Flux<Integer> getAllPostcodes(@PathVariable String solarCityIdOrName) {
+    return solarCityApiService.getAllPostcodes(solarCityIdOrName);
   }
 }
