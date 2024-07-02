@@ -6,11 +6,9 @@ import reactor.core.publisher.Mono;
 
 public interface SolarCityRepository {
 
-  <S extends SolarCity> Mono<SolarCity> save(SolarCity entity);
+  Mono<SolarCity> save(SolarCity solarCity);
 
   Mono<SolarCity> findByName(String name);
-
-  Mono<SolarCity> findByIdOrName(String id, String name);
 
   Flux<SolarCity> findAll();
 }

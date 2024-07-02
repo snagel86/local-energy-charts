@@ -20,8 +20,8 @@ public class SolarCityXlsController {
 
     private final SolarCityXlsApiService solarCityXlsApiService;
 
-    @GetMapping(value = "/{solarCityIdOrName}/solar-systems/xls", produces = "application/json")
-    public Mono<ResponseEntity<?>> getSolarSystemsXLS(@PathVariable String solarCityIdOrName) {
-        return solarCityXlsApiService.getSolarSystemsXls(solarCityIdOrName);
+    @GetMapping(value = "/{solarCityName}/solar-systems/xls", produces = "application/json")
+    public Mono<ResponseEntity<?>> getSolarSystemsXLS(@PathVariable("solarCityName") String solarCityName) {
+        return solarCityXlsApiService.getSolarSystemsXls(solarCityName);
     }
 }

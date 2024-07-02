@@ -19,7 +19,7 @@ import static de.local.energycharts.solarcity.model.SolarSystem.Status.PERMANENT
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SolarSystem implements Serializable {
+public class SolarSystem  {
 
   private String id;
   private LocalDate commissioning;
