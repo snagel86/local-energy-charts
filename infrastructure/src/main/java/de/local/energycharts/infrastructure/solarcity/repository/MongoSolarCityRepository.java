@@ -30,17 +30,18 @@ public class MongoSolarCityRepository implements SolarCityRepository {
 
   @Override
   public Mono<SolarCity> findByName(String name) {
-    return Mono.just(
-        solarCityMapper.mapToDomainModel(
-            mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class)
-        ));
+    var solarCity = mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class);
+    if (solarCity == null) {
+      return Mono.empty();
+    }
+    return Mono.just(solarCityMapper.mapToDomainModel(solarCity));
   }
 
   @Override
   public Flux<SolarCity> findAll() {
-    return Flux.fromIterable(
-        solarCityMapper.mapToDomainModels(
-            mongoTemplate.findAll(MongoSolarCity.class)
+    return Flux.fromIterable(solarCityMapper
+        .mapToDomainModels(mongoTemplate
+            .findAll(MongoSolarCity.class)
         ));
   }
 }
