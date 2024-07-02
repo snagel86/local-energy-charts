@@ -14,7 +14,7 @@ import java.util.List;
 import static io.github.kaiso.relmongo.annotation.CascadeType.ALL;
 import static io.github.kaiso.relmongo.annotation.FetchType.EAGER;
 
-@Document
+@Document(collection = "solarCity")
 @Data
 public class MongoSolarCity implements Serializable {
 

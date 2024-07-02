@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
-@Document
+@Document(collection = "solarSystem")
 @Data
 public class MongoSolarSystem implements Serializable {
 
