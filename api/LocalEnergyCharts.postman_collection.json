@@ -37,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 1006.0,\n    \"targetYear\": 2035\n}"
+					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 2100.0,\n    \"targetYear\": 2035\n}"
 				},
 				"url": {
 					"raw": "{{host}}/v1/solar-city/create",
@@ -79,7 +79,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/statistics/annual-addition-of-solar-installations/highcharts",
+					"raw": "{{host}}/v1/solar-cities/{{city}}/statistics/annual-addition-of-solar-installations/highcharts?years=20",
 					"host": [
 						"{{host}}"
 					],
@@ -90,6 +90,12 @@
 						"statistics",
 						"annual-addition-of-solar-installations",
 						"highcharts"
+					],
+					"query": [
+						{
+							"key": "years",
+							"value": "20"
+						}
 					]
 				}
 			},
