@@ -38,7 +38,7 @@ public class SolarSystem  {
   }
 
   public Integer getCommissioningYear() {
-    return commissioning.getYear();
+    return commissioning != null ? commissioning.getYear() : 1970;
   }
 
   public LocalDate getCommissioningMonth() {
