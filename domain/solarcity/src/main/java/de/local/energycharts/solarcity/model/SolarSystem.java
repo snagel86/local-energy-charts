@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -38,7 +37,7 @@ public class SolarSystem  {
   }
 
   public Integer getCommissioningYear() {
-    return commissioning != null ? commissioning.getYear() : 1970;
+    return commissioning.getYear();
   }
 
   public LocalDate getCommissioningMonth() {
