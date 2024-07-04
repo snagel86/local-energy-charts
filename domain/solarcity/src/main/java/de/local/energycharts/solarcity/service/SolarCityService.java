@@ -60,20 +60,17 @@ public class SolarCityService {
 
   public Mono<SolarCity> updateSolarCity(SolarCity solarCity) {
     if (solarCity.getMunicipalityKey() != null) {
-
-      return createOrUpdateSolarCity(
-          solarCity.getName(),
-          solarCity.getMunicipalityKey(),
-          solarCity.getEntireSolarPotentialOnRooftopsMWp(),
-          solarCity.getTargetYear()
-      );
+      return mastrGateway.getSolarSystemsByMunicipalityKey(solarCity.getMunicipalityKey())
+          .collect(toSet())
+          .map(solarCity::setSolarSystems)
+          .flatMap(solarCityRepository::save);
     }
 
-    return createOrUpdateSolarCity(
-        solarCity.getName(),
-        solarCity.getEntireSolarPotentialOnRooftopsMWp(),
-        solarCity.getTargetYear()
-    );
+    return opendatasoftGateway.getPostcodes(solarCity.getName())
+        .flatMap(mastrGateway::getSolarSystemsByPostcode)
+        .collect(toSet())
+        .map(solarCity::setSolarSystems)
+        .flatMap(solarCityRepository::save);
   }
 
   public Mono<SolarCity> createSolarCityTemporary(

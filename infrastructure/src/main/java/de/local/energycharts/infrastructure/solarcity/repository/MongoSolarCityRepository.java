@@ -6,6 +6,7 @@ import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.repository.SolarCityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -36,9 +37,18 @@ public class MongoSolarCityRepository implements SolarCityRepository {
   }
 
   public Flux<SolarCity> findAll() {
+    var query = new Query();
+    query.fields().include(
+        "id",
+        "name",
+        "municipalityKey",
+        "created", "updated",
+        "entireSolarPotentialOnRooftopsMWp", "targetYear"
+    );
+
     return Flux.fromIterable(solarCityMapper
         .mapToDomainModels(mongoTemplate
-            .findAll(MongoSolarCity.class)
-        ));
+            .find(query, MongoSolarCity.class))
+    );
   }
 }
