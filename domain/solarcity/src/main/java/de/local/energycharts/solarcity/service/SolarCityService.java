@@ -59,6 +59,8 @@ public class SolarCityService {
   }
 
   public Mono<SolarCity> updateSolarCity(SolarCity solarCity) {
+    solarCity.setUpdated(now());
+
     if (solarCity.getMunicipalityKey() != null) {
       return mastrGateway.getSolarSystemsByMunicipalityKey(solarCity.getMunicipalityKey())
           .collect(toSet())

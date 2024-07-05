@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static de.local.energycharts.solarcity.model.Time.now;
+import java.math.BigDecimal;
+
+import static java.math.RoundingMode.HALF_UP;
 
 @Component
 @RequiredArgsConstructor
@@ -18,12 +20,15 @@ public class SolarCityUpdateScheduler {
 
   @Scheduled(cron = "0 0 */4 * * *")
   public void updateAllSolarCities() {
-    final var start = now();
     solarCityUpdateService.updateAllSolarCities()
         .onErrorContinue((err, i) -> logger.error(err.getMessage()))
-        .subscribe(updatedSolarCity -> logger.info("solar-city '{}' was updated in {} ms.",
-                updatedSolarCity.getName(), (now().toEpochMilli() - start.toEpochMilli())
-            )
-        );
+        .elapsed()
+        .subscribe(updatedSolarCityTuple -> logger.info(
+            "solar-city '{}' was updated in {} seconds.",
+            updatedSolarCityTuple.getT2().getName(),
+            BigDecimal.valueOf(
+                updatedSolarCityTuple.getT1()
+            ).divide(BigDecimal.valueOf(1000), HALF_UP).setScale(1, HALF_UP).doubleValue()
+        ));
   }
 }
