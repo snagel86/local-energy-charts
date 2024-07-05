@@ -5,12 +5,17 @@ import de.local.energycharts.infrastructure.solarcity.model.mapper.MongoSolarCit
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.repository.SolarCityRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
+import static de.local.energycharts.solarcity.model.Time.now;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -20,12 +25,19 @@ public class MongoSolarCityRepository implements SolarCityRepository {
 
   private final MongoTemplate mongoTemplate;
   private final MongoSolarCityMapper solarCityMapper;
+  private final Logger logger = LoggerFactory.getLogger(MongoSolarCityRepository.class);
 
   public Mono<SolarCity> save(SolarCity solarCity) {
+    logger.info("save solar-city {}", solarCity.getName());
+    var start = now();
     var mongoSolarCity = solarCityMapper.mapToMongoDocument(solarCity);
-    return Mono.just(solarCityMapper.mapToDomainModel(
-        mongoTemplate.save(mongoSolarCity)
-    ));
+    var savedSolarCity = mongoTemplate.save(mongoSolarCity);
+    logger.info(
+        "solar-city {} was saved in {} ms",
+        solarCity.getName(),
+        Duration.between(start, now()).toMillis()
+    );
+    return Mono.just(solarCityMapper.mapToDomainModel(savedSolarCity));
   }
 
   public Mono<SolarCity> findByName(String name) {
