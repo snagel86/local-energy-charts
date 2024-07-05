@@ -5,6 +5,9 @@ import de.local.energycharts.infrastructure.mastr.model.mapper.SolarSystemMapper
 import de.local.energycharts.solarcity.gateway.MastrGateway;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,6 +22,7 @@ public class MastrRestApiGateway implements MastrGateway {
 
   private final SolarSystemMapper solarSystemMapper;
   private final WebClient webClient;
+  private final Logger logger = LoggerFactory.getLogger(MastrRestApiGateway.class);
 
   public Flux<SolarSystem> getSolarSystemsByPostcode(Integer postcode) {
     var mastrFilter = "Postleitzahl~eq~'" + postcode + "'~and~Energieträger~eq~'2495'";
@@ -56,9 +60,19 @@ public class MastrRestApiGateway implements MastrGateway {
             .build()
         )
         .retrieve()
+        .onStatus(HttpStatusCode::isError, response -> {
+          logger.error("failed to retrieved mastr data with filter {}, page={}", mastrFilter, nextPage);
+          return Mono.error(new IllegalStateException(
+              String.format("Failed to retrieve mastr data. filter=%s, page={%d}", mastrFilter, nextPage)
+          ));
+        })
         .bodyToMono(Data.class)
         .map(data -> data.setPage(nextPage))
-        .timeout(Duration.ofSeconds(120))
-        .retryWhen(backoff(3, Duration.ofSeconds(2)));
+        .timeout(Duration.ofSeconds(300))
+        .retryWhen(backoff(3, Duration.ofSeconds(2)))
+        .map(data -> {
+          logger.info("successfully retrieved mastr data with filter {}, page={}", mastrFilter, nextPage);
+          return data;
+        });
   }
 }
