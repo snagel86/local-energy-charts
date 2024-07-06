@@ -27,7 +27,7 @@ public class MongoSolarCity implements Serializable {
   private Instant updated;
   private Double entireSolarPotentialOnRooftopsMWp;
   private Integer targetYear;
-  @OneToMany(fetch= EAGER, cascade = ALL)
+  @OneToMany(fetch= EAGER, cascade = ALL, orphanRemoval = true)
   @JoinProperty(name="solarSystems")
   private List<MongoSolarSystem> solarSystems;
 }

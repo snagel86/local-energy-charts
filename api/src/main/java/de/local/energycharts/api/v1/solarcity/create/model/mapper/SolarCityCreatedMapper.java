@@ -1,7 +1,7 @@
 package de.local.energycharts.api.v1.solarcity.create.model.mapper;
 
-import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.api.v1.solarcity.create.model.SolarCityCreatedResponse;
+import de.local.energycharts.solarcity.model.SolarCity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

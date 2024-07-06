@@ -91,6 +91,10 @@ public class SolarCityService {
         );
   }
 
+  public Flux<SolarCity> getAllSolarCities(){
+    return solarCityRepository.findAll();
+  }
+
   public Flux<Integer> getAllPostcodes(String city) {
     return solarCityRepository
         .findByName(city)

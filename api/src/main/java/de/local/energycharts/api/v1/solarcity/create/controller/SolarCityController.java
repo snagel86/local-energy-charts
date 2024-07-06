@@ -2,7 +2,9 @@ package de.local.energycharts.api.v1.solarcity.create.controller;
 
 import de.local.energycharts.api.v1.solarcity.create.model.CreateSolarCityRequest;
 import de.local.energycharts.api.v1.solarcity.create.model.SolarCityCreatedResponse;
+import de.local.energycharts.api.v1.solarcity.create.model.SolarCityResponse;
 import de.local.energycharts.api.v1.solarcity.create.service.SolarCityApiService;
+import de.local.energycharts.solarcity.model.SolarCity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,6 +37,17 @@ public class SolarCityController {
   @PostMapping(value = "/solar-city/create", produces = "application/json")
   public Mono<SolarCityCreatedResponse> createSolarCity(@RequestBody CreateSolarCityRequest request) {
     return solarCityApiService.createSolarCity(request);
+  }
+
+  @Operation(summary = "List all created solar cities.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "List all created solar cities.",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = SolarCityResponse[].class))})
+  })
+  @GetMapping(value = "/solar-cities/all", produces = "application/json")
+  public Flux<SolarCityResponse> getAllSolarCities() {
+    return solarCityApiService.getAllSolarCities();
   }
 
   @Operation(summary = "Checks the resolved post-codes via Opendatasoft by the given name of the created solar city.")

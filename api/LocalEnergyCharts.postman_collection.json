@@ -14,12 +14,12 @@
 					"basic": [
 						{
 							"key": "password",
-							"value": "secret",
+							"value": "VAeMSv5uS97nh6MM",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "user",
+							"value": "pvfrankfurt",
 							"type": "string"
 						}
 					]
@@ -68,6 +68,25 @@
 						"solar-cities",
 						"{{city}}",
 						"postcodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all solar cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/solar-cities/all",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"solar-cities",
+						"all"
 					]
 				}
 			},

@@ -26,9 +26,7 @@ public class SolarCityUpdateScheduler {
         .subscribe(updatedSolarCityTuple -> logger.info(
             "solar-city '{}' was updated in {} seconds.",
             updatedSolarCityTuple.getT2().getName(),
-            BigDecimal.valueOf(
-                updatedSolarCityTuple.getT1()
-            ).divide(BigDecimal.valueOf(1000), HALF_UP).setScale(1, HALF_UP).doubleValue()
+            BigDecimal.valueOf(updatedSolarCityTuple.getT1() / 1000.0).setScale(2, HALF_UP)
         ));
   }
 }

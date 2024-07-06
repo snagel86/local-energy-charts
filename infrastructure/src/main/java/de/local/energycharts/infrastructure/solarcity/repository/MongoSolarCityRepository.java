@@ -13,9 +13,11 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 
 import static de.local.energycharts.solarcity.model.Time.now;
+import static java.math.RoundingMode.HALF_UP;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -33,9 +35,9 @@ public class MongoSolarCityRepository implements SolarCityRepository {
     var mongoSolarCity = solarCityMapper.mapToMongoDocument(solarCity);
     var savedSolarCity = mongoTemplate.save(mongoSolarCity);
     logger.info(
-        "solar-city {} was saved in {} ms",
+        "solar-city {} was saved in {} seconds",
         solarCity.getName(),
-        Duration.between(start, now()).toMillis()
+        BigDecimal.valueOf(Duration.between(start, now()).toMillis() / 1000.0).setScale(2, HALF_UP)
     );
     return Mono.just(solarCityMapper.mapToDomainModel(savedSolarCity));
   }
