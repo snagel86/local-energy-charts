@@ -14,12 +14,12 @@
 					"basic": [
 						{
 							"key": "password",
-							"value": "VAeMSv5uS97nh6MM",
+							"value": "secret",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "pvfrankfurt",
+							"value": "user",
 							"type": "string"
 						}
 					]

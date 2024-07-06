@@ -48,6 +48,7 @@ public class SolarCityService {
         .defaultIfEmpty(SolarCity.createNewSolarCity(cityName, municipalityKey))
         .map(solarCity -> solarCity
             .setUpdated(now())
+            .setMunicipalityKey(municipalityKey)
             .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
             .setTargetYear(targetYear)
         )
