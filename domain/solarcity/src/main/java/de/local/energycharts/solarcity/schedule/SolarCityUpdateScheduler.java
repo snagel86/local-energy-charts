@@ -24,7 +24,7 @@ public class SolarCityUpdateScheduler {
         .onErrorContinue((err, i) -> logger.error(err.getMessage()))
         .elapsed()
         .subscribe(updatedSolarCityTuple -> logger.info(
-            "solar-city '{}' was updated in {} seconds.",
+            "solar-city {} was updated in {} seconds.",
             updatedSolarCityTuple.getT2().getName(),
             BigDecimal.valueOf(updatedSolarCityTuple.getT1() / 1000.0).setScale(2, HALF_UP)
         ));

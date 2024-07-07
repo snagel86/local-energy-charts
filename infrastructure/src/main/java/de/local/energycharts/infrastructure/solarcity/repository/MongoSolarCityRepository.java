@@ -30,7 +30,6 @@ public class MongoSolarCityRepository implements SolarCityRepository {
   private final Logger logger = LoggerFactory.getLogger(MongoSolarCityRepository.class);
 
   public Mono<SolarCity> save(SolarCity solarCity) {
-    logger.info("save solar-city {}", solarCity.getName());
     var start = now();
     var mongoSolarCity = solarCityMapper.mapToMongoDocument(solarCity);
     var savedSolarCity = mongoTemplate.save(mongoSolarCity);
