@@ -10,5 +10,7 @@ public interface SolarCityRepository {
 
   Mono<SolarCity> findByName(String name);
 
+  SolarCity findByNameSync(String name);
+
   Flux<SolarCity> findAll();
 }

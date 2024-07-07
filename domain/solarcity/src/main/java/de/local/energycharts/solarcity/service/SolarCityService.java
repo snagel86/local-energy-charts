@@ -1,25 +1,53 @@
 package de.local.energycharts.solarcity.service;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import de.local.energycharts.solarcity.gateway.MastrGateway;
 import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.repository.SolarCityRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static java.time.Instant.now;
+import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.stream.Collectors.toSet;
 
 @Service
-@RequiredArgsConstructor
 public class SolarCityService {
 
-  private final SolarCityRepository solarCityRepository;
-  private final SolarCityStatisticService solarCityStatisticService;
   private final MastrGateway mastrGateway;
   private final OpendatasoftGateway opendatasoftGateway;
+  private final SolarCityRepository solarCityRepository;
+  private final Cache<String, SolarCity> solarCityCache;
+
+  public SolarCityService(
+      MastrGateway mastrGateway,
+      OpendatasoftGateway opendatasoftGateway,
+      SolarCityRepository solarCityRepository
+  ) {
+    this.mastrGateway = mastrGateway;
+    this.opendatasoftGateway = opendatasoftGateway;
+    this.solarCityRepository = solarCityRepository;
+    solarCityCache = CacheBuilder.newBuilder()
+        .expireAfterWrite(24, HOURS)
+        .concurrencyLevel(Runtime.getRuntime().availableProcessors())
+        .build();
+  }
+
+  @SneakyThrows
+  public Mono<SolarCity> getCachedSolarCity(String city) {
+    return Mono.just(
+        solarCityCache.get(city, () -> solarCityRepository.findByNameSync(city))
+    );
+  }
+
+  Mono<SolarCity> resetCachedSolarCity(SolarCity solarCity) {
+    solarCityCache.invalidate(solarCity.getName());
+    return Mono.just(solarCity);
+  }
 
   public Mono<SolarCity> createOrUpdateSolarCity(
       String cityName,
@@ -38,7 +66,7 @@ public class SolarCityService {
             .map(solarCity::setSolarSystems)
             .flatMap(solarCityRepository::save)
         )
-        .flatMap(solarCityStatisticService::resetCachedSolarCity);
+        .flatMap(this::resetCachedSolarCity);
   }
 
   public Mono<SolarCity> createOrUpdateSolarCity(
@@ -58,7 +86,7 @@ public class SolarCityService {
             .collect(toSet())
             .map(solarCity::setSolarSystems)
             .flatMap(solarCityRepository::save)
-        ).flatMap(solarCityStatisticService::resetCachedSolarCity);
+        ).flatMap(this::resetCachedSolarCity);
   }
 
   public Mono<SolarCity> updateSolarCity(SolarCity solarCity) {
@@ -69,7 +97,7 @@ public class SolarCityService {
           .collect(toSet())
           .map(solarCity::setSolarSystems)
           .flatMap(solarCityRepository::save)
-          .flatMap(solarCityStatisticService::resetCachedSolarCity);
+          .flatMap(this::resetCachedSolarCity);
     }
 
     return opendatasoftGateway.getPostcodes(solarCity.getName())
@@ -77,7 +105,7 @@ public class SolarCityService {
         .collect(toSet())
         .map(solarCity::setSolarSystems)
         .flatMap(solarCityRepository::save)
-        .flatMap(solarCityStatisticService::resetCachedSolarCity);
+        .flatMap(this::resetCachedSolarCity);
   }
 
   public Mono<SolarCity> createSolarCityTemporary(
@@ -96,7 +124,7 @@ public class SolarCityService {
         );
   }
 
-  public Flux<SolarCity> getAllSolarCities(){
+  public Flux<SolarCity> getAllSolarCities() {
     return solarCityRepository.findAll();
   }
 

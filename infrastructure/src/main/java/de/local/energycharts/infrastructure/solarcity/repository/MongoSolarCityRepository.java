@@ -49,6 +49,11 @@ public class MongoSolarCityRepository implements SolarCityRepository {
     return Mono.just(solarCityMapper.mapToDomainModel(solarCity));
   }
 
+  public SolarCity findByNameSync(String name) {
+    var solarCity = mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class);
+    return solarCityMapper.mapToDomainModel(solarCity);
+  }
+
   public Flux<SolarCity> findAll() {
     var query = new Query();
     query.fields().include(
