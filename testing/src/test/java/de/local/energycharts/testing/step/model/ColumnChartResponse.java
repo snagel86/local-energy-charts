@@ -9,6 +9,6 @@ public class ColumnChartResponse {
 
     private String cityName;
     private List<Column> columns;
-    private Integer totalSolarInstallations;
-    private Double totalInstalledMWp;
+    private Integer rooftopSolarSystemsInOperation;
+    private Double installedRooftopMWpInOperation;
 }

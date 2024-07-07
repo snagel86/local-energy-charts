@@ -43,7 +43,7 @@ class SolarCityStatisticServiceTest {
         .thenReturn(Mono.just(frankfurt));
 
     solarCityStatisticService.getSolarCity("Frankfurt").block();
-    solarCityStatisticService.resetCachedSolarCity("Frankfurt").block();
+    solarCityStatisticService.resetCachedSolarCity(frankfurt).block();
     solarCityStatisticService.getSolarCity("Frankfurt").block();
 
     verify(solarCityRepository, times(2)).findByName("Frankfurt");

@@ -6,6 +6,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static de.local.energycharts.testing.step.builder.MastrSolarResponseBuilder.PAGE_SIZE;
 
 public class MastrRestAPIService {
 
@@ -23,7 +24,7 @@ public class MastrRestAPIService {
         "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
     ))
         .withQueryParam("page", equalTo(page.toString()))
-        .withQueryParam("pageSize", equalTo("1000"))
+        .withQueryParam("pageSize", equalTo(PAGE_SIZE.toString()))
         .withQueryParam("filter", equalTo("Postleitzahl~eq~'" + postcode + "'~and~Energieträger~eq~'2495'"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")

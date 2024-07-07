@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toSet;
 public class SolarCityService {
 
   private final SolarCityRepository solarCityRepository;
+  private final SolarCityStatisticService solarCityStatisticService;
   private final MastrGateway mastrGateway;
   private final OpendatasoftGateway opendatasoftGateway;
 
@@ -36,7 +37,8 @@ public class SolarCityService {
             .collect(toSet())
             .map(solarCity::setSolarSystems)
             .flatMap(solarCityRepository::save)
-        );
+        )
+        .flatMap(solarCityStatisticService::resetCachedSolarCity);
   }
 
   public Mono<SolarCity> createOrUpdateSolarCity(
@@ -56,7 +58,7 @@ public class SolarCityService {
             .collect(toSet())
             .map(solarCity::setSolarSystems)
             .flatMap(solarCityRepository::save)
-        );
+        ).flatMap(solarCityStatisticService::resetCachedSolarCity);
   }
 
   public Mono<SolarCity> updateSolarCity(SolarCity solarCity) {
@@ -66,14 +68,16 @@ public class SolarCityService {
       return mastrGateway.getSolarSystemsByMunicipalityKey(solarCity.getMunicipalityKey())
           .collect(toSet())
           .map(solarCity::setSolarSystems)
-          .flatMap(solarCityRepository::save);
+          .flatMap(solarCityRepository::save)
+          .flatMap(solarCityStatisticService::resetCachedSolarCity);
     }
 
     return opendatasoftGateway.getPostcodes(solarCity.getName())
         .flatMap(mastrGateway::getSolarSystemsByPostcode)
         .collect(toSet())
         .map(solarCity::setSolarSystems)
-        .flatMap(solarCityRepository::save);
+        .flatMap(solarCityRepository::save)
+        .flatMap(solarCityStatisticService::resetCachedSolarCity);
   }
 
   public Mono<SolarCity> createSolarCityTemporary(

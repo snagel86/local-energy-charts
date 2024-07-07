@@ -53,7 +53,9 @@ public class LocalEnergyChartsService {
       String cityName,
       boolean previousSolarInstallationsOnly
   ) {
-    return given().queryParam("previousSolarInstallationsOnly", previousSolarInstallationsOnly)
+    return given()
+        .queryParam("previousSolarInstallationsOnly", previousSolarInstallationsOnly)
+        .queryParam("years", 20)
         .get("/v1/solar-cities/" + cityName + "/statistics/annual-addition-of-solar-installations/highcharts")
         .then();
   }

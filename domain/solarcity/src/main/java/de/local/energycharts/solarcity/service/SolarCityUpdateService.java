@@ -14,13 +14,11 @@ public class SolarCityUpdateService {
 
   private final SolarCityRepository solarCityRepository;
   private final SolarCityService solarCityService;
-  private final SolarCityStatisticService solarCityStatisticService;
   private final Logger logger = LoggerFactory.getLogger(SolarCityUpdateService.class.getName());
 
   public Flux<SolarCity> updateAllSolarCities() {
     return solarCityRepository.findAll()
         .flatMap(solarCityService::updateSolarCity)
-        .onErrorContinue((err, i) -> logger.error(err.getMessage()))
-        .flatMap(updatedSolarCity -> solarCityStatisticService.resetCachedSolarCity(updatedSolarCity.getName()));
+        .onErrorContinue((err, i) -> logger.error(err.getMessage()));
   }
 }

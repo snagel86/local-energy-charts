@@ -54,8 +54,9 @@ public class MastrStep {
   public void addSchoolsAndStubTheResponse(int count) {
     mastrSolarResponseBuilder.addSchoolsWith100kWp(count);
     List<JSONObject> responses = mastrSolarResponseBuilder.build();
-    for (int page = 1; page < responses.size(); page++) {
-      mastrRestAPIService.stubGetSolarSystems(postcode, responses.get(page).toString(), page);
+    int page = 1;
+    for (JSONObject response : responses) {
+      mastrRestAPIService.stubGetSolarSystems(postcode, response.toString(), page++);
     }
   }
 }

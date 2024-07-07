@@ -1,10 +1,10 @@
 package de.local.energycharts.solarcity.service;
 
+import de.local.energycharts.solarcity.gateway.MastrGateway;
+import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.repository.SolarCityRepository;
-import de.local.energycharts.solarcity.gateway.MastrGateway;
-import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,16 +16,19 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Set;
 
+import static de.local.energycharts.solarcity.model.SolarCity.createNewSolarCity;
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SolarCityServiceTest {
 
   @InjectMocks
   private SolarCityService solarCityService;
+  @Mock
+  private SolarCityStatisticService solarCityStatisticService;
   @Mock
   private SolarCityRepository solarCityRepository;
   @Mock
@@ -34,7 +37,7 @@ class SolarCityServiceTest {
   private OpendatasoftGateway opendatasoftGateway;
 
   @Test
-  void create_a_solar_city() {
+  void create_a_new_solar_city() {
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.empty());
     when(mastrGateway.getSolarSystemsByPostcode(60314))
@@ -50,6 +53,8 @@ class SolarCityServiceTest {
         .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
     when(opendatasoftGateway.getPostcodes("Frankfurt"))
         .thenReturn(Flux.fromIterable(List.of(60314, 60528)));
+    when(solarCityStatisticService.resetCachedSolarCity(any(SolarCity.class)))
+        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
 
     SolarCity solarCity = solarCityService.createOrUpdateSolarCity(
         "Frankfurt",
@@ -57,12 +62,14 @@ class SolarCityServiceTest {
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
-    assertThat(solarCity.calculateTotalNumberOfSolarInstallations()).isEqualTo(3);
+    assertThat(solarCity.getAllSolarSystems()).hasSize(3);
+    verify(solarCityStatisticService, times(1))
+        .resetCachedSolarCity(any(SolarCity.class));
   }
 
   @Test
-  void update_a_solar_city() {
-    SolarCity frankfurt = SolarCity.createNewSolarCity("Frankfurt");
+  void create_or_update_an_existing_solar_city() {
+    SolarCity frankfurt = createNewSolarCity("Frankfurt");
 
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
@@ -79,6 +86,8 @@ class SolarCityServiceTest {
         .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
     when(opendatasoftGateway.getPostcodes("Frankfurt"))
         .thenReturn(Flux.fromIterable(List.of(60314, 60528)));
+    when(solarCityStatisticService.resetCachedSolarCity(any(SolarCity.class)))
+        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
 
     SolarCity solarCity = solarCityService.createOrUpdateSolarCity(
         "Frankfurt",
@@ -86,7 +95,58 @@ class SolarCityServiceTest {
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
-    assertThat(solarCity.calculateTotalNumberOfSolarInstallations()).isEqualTo(3);
+    assertThat(solarCity.getAllSolarSystems()).hasSize(3);
+    verify(solarCityStatisticService, times(1))
+        .resetCachedSolarCity(any(SolarCity.class));
+  }
+
+  @Test
+  void create_or_update_an_existing_solar_city_by_municipality_key() {
+    SolarCity frankfurt = createNewSolarCity("Frankfurt");
+
+    when(solarCityRepository.findByName("Frankfurt"))
+        .thenReturn(Mono.just(frankfurt));
+    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000"))
+        .thenReturn(Flux.fromIterable(List.of(
+            SolarSystem.builder().id("1").status(IN_OPERATION).build(),
+            SolarSystem.builder().id("2").status(IN_OPERATION).build()
+        )));
+    when(solarCityRepository.save(any(SolarCity.class)))
+        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
+    when(solarCityStatisticService.resetCachedSolarCity(any(SolarCity.class)))
+        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
+
+    SolarCity solarCity = solarCityService.createOrUpdateSolarCity(
+        "Frankfurt", "06412000",
+        2100.0, 2035
+    ).block();
+
+    assertThat(solarCity.getName()).isEqualTo("Frankfurt");
+    assertThat(solarCity.getAllSolarSystems()).hasSize(2);
+    verify(solarCityStatisticService, times(1))
+        .resetCachedSolarCity(any(SolarCity.class));
+  }
+
+  @Test
+  void update_an_existing_solar_city_by_municipality_key() {
+    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000"))
+        .thenReturn(Flux.fromIterable(List.of(
+            SolarSystem.builder().id("1").status(IN_OPERATION).build(),
+            SolarSystem.builder().id("2").status(IN_OPERATION).build()
+        )));
+    when(solarCityRepository.save(any(SolarCity.class)))
+        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
+    when(solarCityStatisticService.resetCachedSolarCity(any(SolarCity.class)))
+        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
+
+    SolarCity solarCity = solarCityService.updateSolarCity(
+        createNewSolarCity("Frankfurt", "06412000")
+    ).block();
+
+    assertThat(solarCity.getName()).isEqualTo("Frankfurt");
+    assertThat(solarCity.getAllSolarSystems()).hasSize(2);
+    verify(solarCityStatisticService, times(1))
+        .resetCachedSolarCity(any(SolarCity.class));
   }
 
   @Test
@@ -109,13 +169,12 @@ class SolarCityServiceTest {
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
-    assertThat(solarCity.calculateTotalNumberOfSolarInstallations()).isEqualTo(3);
+    assertThat(solarCity.getAllSolarSystems()).hasSize(3);
   }
 
   @Test
   void get_all_postcodes() {
-    var frankfurt = SolarCity
-        .createNewSolarCity("Frankfurt")
+    var frankfurt = createNewSolarCity("Frankfurt")
         .setSolarSystems(Set.of(
             SolarSystem.builder().id("1").postcode(60314).status(IN_OPERATION).build(),
             SolarSystem.builder().id("2").postcode(60314).status(IN_OPERATION).build(),

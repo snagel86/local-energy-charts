@@ -48,8 +48,8 @@ public class SolarCityStatisticService {
     return solarCityCache.get(city, () -> solarCityRepository.findByName(city));
   }
 
-  public Mono<SolarCity> resetCachedSolarCity(String city) {
-    solarCityCache.invalidate(city);
-    return getCachedSolarCity(city);
+  public Mono<SolarCity> resetCachedSolarCity(SolarCity solarCity) {
+    solarCityCache.invalidate(solarCity.getName());
+    return getCachedSolarCity(solarCity.getName());
   }
 }

@@ -20,7 +20,7 @@ public class MastrSolarResponseBuilder {
   private final Map<Integer, List<JSONObject>> datas = new HashMap<>();
   private Integer lastSolarSystemId = 1;
   private Integer currentPage = 1;
-  private final Integer pageSize = 1000;
+  public static final Integer PAGE_SIZE = 5000;
 
   public void addBalkonkraftwerksWith06kWp(int count) {
     for (int i = 0; i < count; ++i) {
@@ -53,12 +53,12 @@ public class MastrSolarResponseBuilder {
   }
 
   private void addSolarSystem(JSONObject solarSystem) {
-    if (datas.get(currentPage) != null && datas.get(currentPage).size() >= pageSize) {
+    if (datas.get(currentPage) != null && datas.get(currentPage).size() >= PAGE_SIZE) {
       currentPage++;
     }
 
     if (!datas.containsKey(currentPage)) {
-      datas.put(currentPage, new ArrayList<>(pageSize));
+      datas.put(currentPage, new ArrayList<>(PAGE_SIZE));
     }
 
     datas.get(currentPage).add(solarSystem);

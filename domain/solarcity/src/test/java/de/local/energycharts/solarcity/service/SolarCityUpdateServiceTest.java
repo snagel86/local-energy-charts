@@ -10,7 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SolarCityUpdateServiceTest {
@@ -21,31 +22,31 @@ class SolarCityUpdateServiceTest {
   private SolarCityRepository solarCityRepository;
   @Mock
   private SolarCityService solarCityService;
-  @Mock
-  private SolarCityStatisticService solarCityStatisticService;
 
   @Test
   void update_all_solar_cities() {
     var koeln = SolarCity.createNewSolarCity("Köln").setId("1");
-    var frankfurt = SolarCity.createNewSolarCity("Frankfurt am Main").setId("4");
+    var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("4");
     when(solarCityRepository.findAll())
         .thenReturn(Flux.just(koeln, frankfurt));
     when(solarCityService.updateSolarCity(koeln))
         .thenReturn(Mono.error(new IllegalStateException()));
     when(solarCityService.updateSolarCity(frankfurt))
         .thenReturn(Mono.just(frankfurt));
-    when(solarCityStatisticService.resetCachedSolarCity(frankfurt.getName()))
-        .thenReturn(Mono.just(frankfurt));
 
-    solarCityUpdateService.updateAllSolarCities().subscribe();
-    verify(solarCityStatisticService, never()).resetCachedSolarCity(koeln.getName());
-    verify(solarCityStatisticService, times(1)).resetCachedSolarCity(frankfurt.getName());
+    assertThat(
+        solarCityUpdateService.updateAllSolarCities()
+            .map(SolarCity::getName)
+            .collectList().block()
+    ).containsExactly("Frankfurt");
 
     when(solarCityService.updateSolarCity(koeln))
         .thenReturn(Mono.just(koeln));
 
-    solarCityUpdateService.updateAllSolarCities().subscribe();
-    verify(solarCityStatisticService, times(1)).resetCachedSolarCity(koeln.getName());
-    verify(solarCityStatisticService, times(1)).resetCachedSolarCity(frankfurt.getName());
+    assertThat(
+        solarCityUpdateService.updateAllSolarCities()
+            .map(SolarCity::getName)
+            .collectList().block()
+    ).containsExactlyInAnyOrder("Frankfurt", "Köln");
   }
 }
