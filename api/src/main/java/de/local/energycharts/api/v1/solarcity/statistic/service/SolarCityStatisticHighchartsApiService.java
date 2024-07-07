@@ -32,7 +32,7 @@ public class SolarCityStatisticHighchartsApiService {
       int years,
       boolean previousSolarInstallationsOnly
   ) {
-    return solarCityStatisticService.getSolarCity(city)
+    return solarCityService.getCachedSolarCity(city)
         .map(solarCity -> createColumnChartResponse(
             solarCity, previousSolarInstallationsOnly,
             years
