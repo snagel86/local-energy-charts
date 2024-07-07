@@ -477,7 +477,16 @@ a {
 }
 
 .checkbox.muenchen {
+  border-color: #011633;
   outline-color: #fff;
+}
+
+.checkbox.koeln {
+  border-color: #666;
+}
+
+.checkbox.lueneburg {
+  border-color: #7a7a7a;
 }
 
 .checkbox-field {
