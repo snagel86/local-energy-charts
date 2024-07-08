@@ -48,7 +48,7 @@ public class SolarCityStatisticController {
   @GetMapping(value = "/{solarCityName}/statistics/annual-addition-of-solar-installations/highcharts", produces = "application/json")
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> getAnnualAdditionOfSolarInstallationsHighcharts(
       @PathVariable("solarCityName") String solarCityName,
-      @RequestParam("years") int years,
+      @RequestParam(name ="years", required = false, defaultValue = "20") int years,
       @RequestParam(name = "previousSolarInstallationsOnly", required = false) boolean previousSolarInstallationsOnly
   ) {
     return solarCityStatisticHighchartsApiService.createAnnualAdditionOfSolarInstallationsChart(

@@ -42,15 +42,16 @@ public class MongoSolarCityRepository implements SolarCityRepository {
   }
 
   public Mono<SolarCity> findByName(String name) {
-    var solarCity = mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class);
-    if (solarCity == null) {
-      return Mono.empty();
-    }
-    return Mono.just(solarCityMapper.mapToDomainModel(solarCity));
+    var solarCity = findByNameSync(name);
+    return solarCity != null ? Mono.just(solarCity) : Mono.empty();
   }
 
   public SolarCity findByNameSync(String name) {
     var solarCity = mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class);
+    if (solarCity == null) {
+      solarCity = mongoTemplate.findById(name, MongoSolarCity.class);
+      return solarCityMapper.mapToDomainModel(solarCity);
+    }
     return solarCityMapper.mapToDomainModel(solarCity);
   }
 

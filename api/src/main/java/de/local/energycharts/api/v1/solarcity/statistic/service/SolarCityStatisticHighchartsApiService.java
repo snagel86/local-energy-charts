@@ -9,20 +9,17 @@ import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.SolarBuildingPieChartMapper;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.service.SolarCityService;
-import de.local.energycharts.solarcity.service.SolarCityStatisticService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import static de.local.energycharts.api.v1.solarcity.statistic.service.YearsFilter.createFilter;
-import static de.local.energycharts.solarcity.model.Time.currentYear;
 
 @Service
 @RequiredArgsConstructor
 public class SolarCityStatisticHighchartsApiService {
 
   private final SolarCityService solarCityService;
-  private final SolarCityStatisticService solarCityStatisticService;
   private final ColumnMapper columnMapper;
   private final SolarBuildingPieChartMapper solarBuildingPieChartMapper;
   private final MonthlySolarInstallationsChartMapper monthlySolarInstallationsChartMapper;
@@ -86,12 +83,14 @@ public class SolarCityStatisticHighchartsApiService {
   }
 
   public Mono<SolarBuildingPieChartResponse> createSolarBuildingPieChart(String city) {
-    return solarCityStatisticService.createSolarBuildingPieChart(city)
+    return solarCityService.getCachedSolarCity(city)
+        .map(SolarCity::calculateSolarBuildingPieChart)
         .map(solarBuildingPieChartMapper::mapToResponse);
   }
 
   public Mono<MonthlySolarInstallationsChartResponse> createMonthlySolarInstallationsChart(String city) {
-    return solarCityStatisticService.createMonthlySolarInstallations(city)
+    return solarCityService.getCachedSolarCity(city)
+        .map(SolarCity::calculateMonthlySolarInstallations)
         .map(monthlySolarInstallationsChartMapper::mapToResponse);
   }
 }
