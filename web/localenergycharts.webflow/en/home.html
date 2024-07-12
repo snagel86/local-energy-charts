@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Sun Jul 07 2024 00:01:29 GMT+0000 (Coordinated Universal Time)  -->
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Fri Jul 12 2024 17:16:26 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="659d0946c1b8a5ea8cfdcc26" data-wf-site="625d78ab5ef7d3599c8d0dd9">
 <head>
   <meta charset="utf-8">
@@ -141,13 +141,13 @@
   </div>
   <div class="html-embed w-embed w-script">
     <script type="text/javascript">
-  let city = 'Frankfurt am Main';
-  LocalEnergyCharts.changeLanguageToEnglish();
-  LocalEnergyCharts.getSolarOverview(city);
-  LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart(city, false);
+  let solarCityId = '6689ce1dc7e058484bdefd23';
+  LocalEnergyCharts.changeLanguageToDeutsch();
+  LocalEnergyCharts.getSolarOverview(solarCityId);
+  LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart(solarCityId, false);
   $("#previous-solar-installations-only").on('click', function () {
     let previousSolarInstallationsOnly = $('#previous-solar-installations-only').prop('checked');
-    LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart(city, previousSolarInstallationsOnly);
+    LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart(solarCityId, previousSolarInstallationsOnly);
   });
 </script>
   </div>

@@ -104,10 +104,10 @@ const highchartsStyle = {
 }
 
 
-LocalEnergyCharts.getSolarOverview = function (city) {
+LocalEnergyCharts.getSolarOverview = function (id) {
 
     $.ajax({
-        url: `${baseApiUrl}/v1/solar-cities/${city}/statistics/overview`,
+        url: `${baseApiUrl}/v1/solar-cities/${id}/statistics/overview`,
         contentType: 'application/json',
         dataType: 'json',
 
@@ -123,13 +123,13 @@ LocalEnergyCharts.getSolarOverview = function (city) {
 
 
 LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart = function (
-    city,
+    id,
     previousSolarInstallationsOnly,
     years = 17
 ) {
 
     $.ajax({
-        url: `${baseApiUrl}/v1/solar-cities/${city}/statistics/annual-addition-of-solar-installations/highcharts`,
+        url: `${baseApiUrl}/v1/solar-cities/${id}/statistics/annual-addition-of-solar-installations/highcharts`,
         contentType: 'application/json',
         dataType: 'json',
         data: {previousSolarInstallationsOnly: previousSolarInstallationsOnly, years: years},
@@ -142,13 +142,13 @@ LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart = function (
 
 LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = function () {
 
-    let cityName = '';
+    let name = '';
     let yourCityForm = $('#your-city-form');
     let yourCityRequest = JSON.stringify(convertYourCityFormToJson(yourCityForm))
 
     function convertYourCityFormToJson(form) {
         let formData = $(form).serializeArray();
-        cityName = formData[0].value;
+        name = formData[0].value;
         let eoSolarRoofPotential = formData[1].value;
         let targetYear = formData[2].value;
 
@@ -160,7 +160,7 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
     }
 
     $.ajax({
-        url: `${baseApiUrl}/v1/solar-cities/${cityName}/statistics/annual-addition-of-solar-installations/highcharts/temporary`,
+        url: `${baseApiUrl}/v1/solar-cities/${name}/statistics/annual-addition-of-solar-installations/highcharts/temporary`,
         method: 'POST',
         data: yourCityRequest,
         contentType: 'application/json',
@@ -355,10 +355,10 @@ function createAnnualAdditionOfSolarInstallationsChart(response) {
 }
 
 
-LocalEnergyCharts.getBuildingPieChart = function (city) {
+LocalEnergyCharts.getBuildingPieChart = function (id) {
 
     $.ajax({
-        url: `${baseApiUrl}/v1/solar-cities/${city}/statistics/building-pie-chart/highcharts`,
+        url: `${baseApiUrl}/v1/solar-cities/${id}/statistics/building-pie-chart/highcharts`,
         contentType: 'application/json',
         dataType: 'json',
 
@@ -474,10 +474,10 @@ function createBuildingPieChart(response) {
 }
 
 
-LocalEnergyCharts.getMonthlySolarInstallationsChart = function (city) {
+LocalEnergyCharts.getMonthlySolarInstallationsChart = function (id) {
 
     $.ajax({
-        url: `${baseApiUrl}/v1/solar-cities/${city}/statistics/monthly-solar-installations/highcharts`,
+        url: `${baseApiUrl}/v1/solar-cities/${id}/statistics/monthly-solar-installations/highcharts`,
         contentType: 'application/json',
         dataType: 'json',
 
