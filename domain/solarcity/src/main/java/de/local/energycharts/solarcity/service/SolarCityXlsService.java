@@ -15,8 +15,8 @@ public class SolarCityXlsService {
     private final SolarCityRepository solarCityRepository;
     private final SolarSystemsXlsWriter solarSystemsXlsWriter;
 
-    public Mono<File> createAllSolarSystemsXls(String city) {
-        return solarCityRepository.findByName(city)
+    public Mono<File> createAllSolarSystemsXls(String id) {
+        return solarCityRepository.findById(id)
                 .map(solarSystemsXlsWriter::write);
     }
 }

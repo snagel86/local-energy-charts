@@ -25,11 +25,11 @@ public class SolarCityStatisticHighchartsApiService {
   private final MonthlySolarInstallationsChartMapper monthlySolarInstallationsChartMapper;
 
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createAnnualAdditionOfSolarInstallationsChart(
-      String city,
+      String id,
       int years,
       boolean previousSolarInstallationsOnly
   ) {
-    return solarCityService.getCachedSolarCity(city)
+    return solarCityService.getCachedSolarCity(id)
         .map(solarCity -> createColumnChartResponse(
             solarCity, previousSolarInstallationsOnly,
             years
@@ -37,12 +37,12 @@ public class SolarCityStatisticHighchartsApiService {
   }
 
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createTemporaryAnnualAdditionOfSolarInstallationsChart(
-      String cityName,
+      String name,
       SolarCityRequest request
   ) {
     return solarCityService
         .createSolarCityTemporary(
-            cityName,
+            name,
             request.getSolarRoofPotentialMWp(), request.getTargetYear()
         )
         .map(solarCity -> createColumnChartResponse(solarCity, false, request.getYears()))
@@ -82,14 +82,14 @@ public class SolarCityStatisticHighchartsApiService {
     }
   }
 
-  public Mono<SolarBuildingPieChartResponse> createSolarBuildingPieChart(String city) {
-    return solarCityService.getCachedSolarCity(city)
+  public Mono<SolarBuildingPieChartResponse> createSolarBuildingPieChart(String id) {
+    return solarCityService.getCachedSolarCity(id)
         .map(SolarCity::calculateSolarBuildingPieChart)
         .map(solarBuildingPieChartMapper::mapToResponse);
   }
 
-  public Mono<MonthlySolarInstallationsChartResponse> createMonthlySolarInstallationsChart(String city) {
-    return solarCityService.getCachedSolarCity(city)
+  public Mono<MonthlySolarInstallationsChartResponse> createMonthlySolarInstallationsChart(String id) {
+    return solarCityService.getCachedSolarCity(id)
         .map(SolarCity::calculateMonthlySolarInstallations)
         .map(monthlySolarInstallationsChartMapper::mapToResponse);
   }

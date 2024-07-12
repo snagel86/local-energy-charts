@@ -38,29 +38,29 @@ public class SolarCityService {
   }
 
   @SneakyThrows
-  public Mono<SolarCity> getCachedSolarCity(String city) {
+  public Mono<SolarCity> getCachedSolarCity(String id) {
     return Mono.just(
-        solarCityCache.get(city, () -> solarCityRepository.findByNameSync(city))
+        solarCityCache.get(id, () -> solarCityRepository.findByIdSync(id))
     );
   }
 
   Mono<SolarCity> resetCachedSolarCity(SolarCity solarCity) {
-    solarCityCache.invalidate(solarCity.getName());
+    solarCityCache.invalidate(solarCity.getId());
     return Mono.just(solarCity);
   }
 
   public Mono<SolarCity> createOrUpdateSolarCity(
-      String cityName,
+      String name,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   ) {
-    return solarCityRepository.findByName(cityName)
-        .defaultIfEmpty(SolarCity.createNewSolarCity(cityName))
+    return solarCityRepository.findByName(name)
+        .defaultIfEmpty(SolarCity.createNewSolarCity(name))
         .map(solarCity -> solarCity
             .setUpdated(now())
             .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
             .setTargetYear(targetYear)
         )
-        .flatMap(solarCity -> opendatasoftGateway.getPostcodes(cityName)
+        .flatMap(solarCity -> opendatasoftGateway.getPostcodes(name)
             .flatMap(mastrGateway::getSolarSystemsByPostcode)
             .collect(toSet())
             .map(solarCity::setSolarSystems)
@@ -70,12 +70,12 @@ public class SolarCityService {
   }
 
   public Mono<SolarCity> createOrUpdateSolarCity(
-      String cityName,
+      String name,
       String municipalityKey,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   ) {
-    return solarCityRepository.findByName(cityName)
-        .defaultIfEmpty(SolarCity.createNewSolarCity(cityName, municipalityKey))
+    return solarCityRepository.findByName(name)
+        .defaultIfEmpty(SolarCity.createNewSolarCity(name, municipalityKey))
         .map(solarCity -> solarCity
             .setUpdated(now())
             .setMunicipalityKey(municipalityKey)
@@ -109,15 +109,15 @@ public class SolarCityService {
   }
 
   public Mono<SolarCity> createSolarCityTemporary(
-      String cityName,
+      String name,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   ) {
     return Mono.just(
-            SolarCity.createNewSolarCity(cityName)
+            SolarCity.createNewSolarCity(name)
                 .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
                 .setTargetYear(targetYear)
         )
-        .flatMap(solarCity -> opendatasoftGateway.getPostcodes(cityName)
+        .flatMap(solarCity -> opendatasoftGateway.getPostcodes(name)
             .flatMap(mastrGateway::getSolarSystemsByPostcode)
             .collect(toSet())
             .map(solarCity::setSolarSystems)
@@ -128,9 +128,9 @@ public class SolarCityService {
     return solarCityRepository.findAll();
   }
 
-  public Flux<Integer> getAllPostcodes(String city) {
+  public Flux<Integer> getAllPostcodes(String id) {
     return solarCityRepository
-        .findByName(city)
+        .findById(id)
         .flatMapIterable(SolarCity::getAllPostcodes);
   }
 }

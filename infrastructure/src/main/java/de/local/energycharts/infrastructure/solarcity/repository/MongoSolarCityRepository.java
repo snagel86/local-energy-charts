@@ -19,7 +19,6 @@ import java.time.Duration;
 import static de.local.energycharts.solarcity.model.Time.now;
 import static java.math.RoundingMode.HALF_UP;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,18 +40,32 @@ public class MongoSolarCityRepository implements SolarCityRepository {
     return Mono.just(solarCityMapper.mapToDomainModel(savedSolarCity));
   }
 
-  public Mono<SolarCity> findByName(String name) {
-    var solarCity = findByNameSync(name);
+  public Mono<SolarCity> findById(String id) {
+    var solarCity = findByIdSync(id);
     return solarCity != null ? Mono.just(solarCity) : Mono.empty();
   }
 
-  public SolarCity findByNameSync(String name) {
-    var solarCity = mongoTemplate.findOne(query(where("name").is(name)), MongoSolarCity.class);
-    if (solarCity == null) {
-      solarCity = mongoTemplate.findById(name, MongoSolarCity.class);
-      return solarCityMapper.mapToDomainModel(solarCity);
+  public SolarCity findByIdSync(String id) {
+    return solarCityMapper.mapToDomainModel(
+        mongoTemplate.findById(id, MongoSolarCity.class)
+    );
+  }
+
+  public Mono<SolarCity> findByName(String name) {
+    var query = new Query();
+    query.fields().include(
+        "id",
+        "name",
+        "municipalityKey",
+        "created", "updated",
+        "entireSolarPotentialOnRooftopsMWp", "targetYear"
+    );
+    query.addCriteria(where("name").is(name));
+    var solarCity = mongoTemplate.findOne(query, MongoSolarCity.class);
+    if (solarCity != null) {
+      return Mono.just(solarCityMapper.mapToDomainModel(solarCity));
     }
-    return solarCityMapper.mapToDomainModel(solarCity);
+    return Mono.empty();
   }
 
   public Flux<SolarCity> findAll() {

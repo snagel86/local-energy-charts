@@ -38,27 +38,27 @@ class SolarCityServiceTest {
   void get_cached_solar_city() {
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
-    when(solarCityRepository.findByNameSync("Frankfurt"))
+    when(solarCityRepository.findByIdSync("Frankfurt"))
         .thenReturn(frankfurt);
 
     solarCityService.getCachedSolarCity("Frankfurt").block(); // find once from repository
     solarCityService.getCachedSolarCity("Frankfurt").block(); // then get from cache
 
-    verify(solarCityRepository, atMostOnce()).findByName("Frankfurt");
+    verify(solarCityRepository, atMostOnce()).findById("Frankfurt");
   }
 
   @Test
   void reset_cached_solar_city() {
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
-    when(solarCityRepository.findByNameSync("Frankfurt"))
+    when(solarCityRepository.findByIdSync("Frankfurt"))
         .thenReturn(frankfurt);
 
     solarCityService.getCachedSolarCity("Frankfurt").block();
     solarCityService.resetCachedSolarCity(frankfurt).block();
     solarCityService.getCachedSolarCity("Frankfurt").block();
 
-    verify(solarCityRepository, times(2)).findByNameSync("Frankfurt");
+    verify(solarCityRepository, times(2)).findByIdSync("Frankfurt");
   }
 
   @Test
@@ -190,7 +190,7 @@ class SolarCityServiceTest {
             SolarSystem.builder().id("3").postcode(60528).status(IN_OPERATION).build()
         ));
 
-    when(solarCityRepository.findByName("Frankfurt"))
+    when(solarCityRepository.findById("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
 
     assertThat(solarCityService.getAllPostcodes("Frankfurt").collectList().block())

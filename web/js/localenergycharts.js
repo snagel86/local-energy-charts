@@ -1,7 +1,6 @@
 let LocalEnergyCharts = {};
 let baseApiUrl = 'http://localhost:8080';
 let language = 'de'; // default
-const years = 17;
 
 LocalEnergyCharts.changeLanguageToDeutsch = function () {
     language = 'de';
@@ -126,6 +125,7 @@ LocalEnergyCharts.getSolarOverview = function (city) {
 LocalEnergyCharts.getAnnualAdditionOfSolarInstallationsChart = function (
     city,
     previousSolarInstallationsOnly,
+    years = 17
 ) {
 
     $.ajax({
@@ -155,7 +155,7 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
         return {
             'eoSolarRoofPotential': eoSolarRoofPotential,
             'targetYear': parseInt(targetYear),
-            'years': years
+            'years': 17
         };
     }
 

@@ -32,9 +32,9 @@ public class SolarCityStatisticController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = SolarCityOverviewResponse.class))})
   })
-  @GetMapping(value = "/{solarCityName}/statistics/overview", produces = "application/json")
-  public Mono<SolarCityOverviewResponse> getOverview(@PathVariable("solarCityName") String solarCityName) {
-    return solarCityStatisticApiService.createOverview(solarCityName);
+  @GetMapping(value = "/{id}/statistics/overview", produces = "application/json")
+  public Mono<SolarCityOverviewResponse> getOverview(@PathVariable("id") String id) {
+    return solarCityStatisticApiService.createOverview(id);
   }
 
   @Operation(summary = "The column chart shows the annual addition of solar installations in a city. "
@@ -45,14 +45,14 @@ public class SolarCityStatisticController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = AnnualAdditionOfSolarInstallationsChartResponse.class))})
   })
-  @GetMapping(value = "/{solarCityName}/statistics/annual-addition-of-solar-installations/highcharts", produces = "application/json")
+  @GetMapping(value = "/{id}/statistics/annual-addition-of-solar-installations/highcharts", produces = "application/json")
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> getAnnualAdditionOfSolarInstallationsHighcharts(
-      @PathVariable("solarCityName") String solarCityName,
+      @PathVariable("id") String id,
       @RequestParam(name ="years", required = false, defaultValue = "20") int years,
       @RequestParam(name = "previousSolarInstallationsOnly", required = false) boolean previousSolarInstallationsOnly
   ) {
     return solarCityStatisticHighchartsApiService.createAnnualAdditionOfSolarInstallationsChart(
-        solarCityName,
+        id,
         years,
         previousSolarInstallationsOnly
     );
@@ -64,13 +64,13 @@ public class SolarCityStatisticController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = AnnualAdditionOfSolarInstallationsChartResponse.class))})
   })
-  @PostMapping(value = "/{solarCityName}/statistics/annual-addition-of-solar-installations/highcharts/temporary", produces = "application/json")
+  @PostMapping(value = "/{name}/statistics/annual-addition-of-solar-installations/highcharts/temporary", produces = "application/json")
   public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createTemporaryAnnualAdditionOfSolarInstallations(
-      @PathVariable("solarCityName") String solarCityName,
+      @PathVariable("name") String name,
       @RequestBody SolarCityRequest request
   ) {
     return solarCityStatisticHighchartsApiService.createTemporaryAnnualAdditionOfSolarInstallationsChart(
-        solarCityName.trim(),
+        name.trim(),
         request
     );
   }
@@ -81,11 +81,11 @@ public class SolarCityStatisticController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = MonthlySolarInstallationsChartResponse.class))})
   })
-  @GetMapping(value = "/{solarCityName}/statistics/monthly-solar-installations/highcharts", produces = "application/json")
+  @GetMapping(value = "/{id}/statistics/monthly-solar-installations/highcharts", produces = "application/json")
   public Mono<MonthlySolarInstallationsChartResponse> getMonthlySolarInstallationsChart(
-      @PathVariable("solarCityName") String solarCityName
+      @PathVariable("id") String id
   ) {
-    return solarCityStatisticHighchartsApiService.createMonthlySolarInstallationsChart(solarCityName);
+    return solarCityStatisticHighchartsApiService.createMonthlySolarInstallationsChart(id);
   }
 
   @Operation(summary = "The pie chart shows the distribution of solar installations on different buildings " +
@@ -95,10 +95,10 @@ public class SolarCityStatisticController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = SolarBuildingPieChartResponse.class))})
   })
-  @GetMapping(value = "/{solarCityName}/statistics/building-pie-chart/highcharts", produces = "application/json")
+  @GetMapping(value = "/{id}/statistics/building-pie-chart/highcharts", produces = "application/json")
   public Mono<SolarBuildingPieChartResponse> getSolarBuildingPieChart(
-      @PathVariable("solarCityName") String solarCityName
+      @PathVariable("id") String id
   ) {
-    return solarCityStatisticHighchartsApiService.createSolarBuildingPieChart(solarCityName);
+    return solarCityStatisticHighchartsApiService.createSolarBuildingPieChart(id);
   }
 }

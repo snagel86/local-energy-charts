@@ -8,9 +8,11 @@ public interface SolarCityRepository {
 
   Mono<SolarCity> save(SolarCity solarCity);
 
-  Mono<SolarCity> findByName(String name);
+  Mono<SolarCity> findById(String id);
 
-  SolarCity findByNameSync(String name);
+  SolarCity findByIdSync(String id);
+
+  Mono<SolarCity> findByName(String name);
 
   Flux<SolarCity> findAll();
 }
