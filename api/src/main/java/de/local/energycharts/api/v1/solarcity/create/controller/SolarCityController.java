@@ -4,7 +4,6 @@ import de.local.energycharts.api.v1.solarcity.create.model.CreateSolarCityReques
 import de.local.energycharts.api.v1.solarcity.create.model.SolarCityCreatedResponse;
 import de.local.energycharts.api.v1.solarcity.create.model.SolarCityResponse;
 import de.local.energycharts.api.v1.solarcity.create.service.SolarCityApiService;
-import de.local.energycharts.solarcity.model.SolarCity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,10 +23,14 @@ public class SolarCityController {
 
   private final SolarCityApiService solarCityApiService;
 
-  @Operation(summary = "Creates a solar city based on the solar installations registered in the Marktstammdatenregister. " +
-      "Using Opendatasoft, all available post-codes are resolved by the name of the city, " +
-      "which then can be used to request the corresponding solar installations from the Marktstammdatenregister. " +
-      "Afterwards, a schedule takes over the update, so that the data always remains up-to-date on a daily basis."
+  @Operation(summary = """
+      Creates a solar city based on the solar installations registered in the Marktstammdatenregister.
+      You can optionally enter the municipality key of the city,
+      which you can find here: https://www.statistikportal.de/de/gemeindeverzeichnis.
+      Alternatively, all available postal codes are resolved via Opendatasoft using the name of the city,
+      which is then used to query the corresponding solar installations from the Marktstammdatenregister.
+      A schedule then takes over the updating so that the data is always up to date.
+      """
   )
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Responds with statistics how many solar systems are already installed.",
@@ -56,8 +59,8 @@ public class SolarCityController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = Integer[].class))})
   })
-  @GetMapping(value = "/solar-cities/{solarCityName}/postcodes", produces = "application/json")
-  public Flux<Integer> getAllPostcodes(@PathVariable("solarCityName") String solarCityName) {
-    return solarCityApiService.getAllPostcodes(solarCityName);
+  @GetMapping(value = "/solar-cities/{id}/postcodes", produces = "application/json")
+  public Flux<Integer> getAllPostcodes(@PathVariable("id") String id) {
+    return solarCityApiService.getAllPostcodes(id);
   }
 }
