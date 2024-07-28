@@ -69,7 +69,7 @@ public class SolarCity implements Serializable {
   public List<AdditionOfSolarInstallations> calculateAnnualAdditionOfSolarInstallations() {
     var additions = calculateAnnualAdditionOfSolarSystems();
 
-    if (isTotalSolarPotentialAndTargetYearSpecified()) {
+    if (isEntireSolarPotentialAndTargetYearSpecified()) {
       var futureAdditions = calculateFutureAnnualAdditionOfSolarSystems(additions);
       additions.addAll(futureAdditions);
     }
@@ -84,7 +84,7 @@ public class SolarCity implements Serializable {
     return new AdditionOfSolarInstallationsCalculator(solarSystems).calculateAnnualAdditions();
   }
 
-  private boolean isTotalSolarPotentialAndTargetYearSpecified() {
+  private boolean isEntireSolarPotentialAndTargetYearSpecified() {
     return entireSolarPotentialOnRooftopsMWp != null && targetYear != null;
   }
 
