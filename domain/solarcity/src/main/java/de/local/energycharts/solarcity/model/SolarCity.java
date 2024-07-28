@@ -1,6 +1,9 @@
 package de.local.energycharts.solarcity.model;
 
-import de.local.energycharts.solarcity.model.calculator.*;
+import de.local.energycharts.solarcity.model.calculator.AdditionOfSolarInstallationsCalculator;
+import de.local.energycharts.solarcity.model.calculator.MonthlySolarInstallationsCalculator;
+import de.local.energycharts.solarcity.model.calculator.SolarBuildingPieChartCalculator;
+import de.local.energycharts.solarcity.model.calculator.SolarCityOverviewCalculator;
 import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallations;
 import de.local.energycharts.solarcity.model.statistic.MonthlySolarInstallations;
 import de.local.energycharts.solarcity.model.statistic.SolarBuildingPieChart;
@@ -59,44 +62,18 @@ public class SolarCity implements Serializable {
   }
 
   public SolarBuildingPieChart calculateSolarBuildingPieChart() {
-    return new SolarBuildingPieChartCalculator(solarSystems).calculatePieChart();
+    return new SolarBuildingPieChartCalculator(solarSystems)
+        .calculatePieChart();
   }
 
   public MonthlySolarInstallations calculateMonthlySolarInstallations() {
-    return new MonthlySolarInstallationsCalculator(solarSystems).calculatorMonthlyInstallations();
+    return new MonthlySolarInstallationsCalculator(solarSystems)
+        .calculatorMonthlyInstallations();
   }
 
   public List<AdditionOfSolarInstallations> calculateAnnualAdditionOfSolarInstallations() {
-    var additions = calculateAnnualAdditionOfSolarSystems();
-
-    if (isEntireSolarPotentialAndTargetYearSpecified()) {
-      var futureAdditions = calculateFutureAnnualAdditionOfSolarSystems(additions);
-      additions.addAll(futureAdditions);
-    }
-
-    return additions.stream()
-        .map(addition -> addition.setCityName(name))
-        .sorted()
-        .toList();
-  }
-
-  private List<AdditionOfSolarInstallations> calculateAnnualAdditionOfSolarSystems() {
-    return new AdditionOfSolarInstallationsCalculator(solarSystems).calculateAnnualAdditions();
-  }
-
-  private boolean isEntireSolarPotentialAndTargetYearSpecified() {
-    return entireSolarPotentialOnRooftopsMWp != null && targetYear != null;
-  }
-
-  private List<AdditionOfSolarInstallations> calculateFutureAnnualAdditionOfSolarSystems(
-      List<AdditionOfSolarInstallations> additionsDoneYet
-  ) {
-    return new FutureAdditionOfSolarInstallationsCalculator(
-        entireSolarPotentialOnRooftopsMWp,
-        targetYear,
-        solarSystems,
-        additionsDoneYet
-    ).calculateAnnualAdditions();
+    return new AdditionOfSolarInstallationsCalculator(this)
+        .calculateAnnualAdditionOfSolarInstallations();
   }
 
   public Set<SolarSystem> getAllSolarSystems() {

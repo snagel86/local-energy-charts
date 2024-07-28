@@ -1,13 +1,12 @@
 package de.local.energycharts.solarcity.model.calculator;
 
 import de.local.energycharts.solarcity.model.SolarBuilder;
-import de.local.energycharts.solarcity.model.calculator.AdditionOfSolarInstallationsCalculator;
 import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallations;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AdditionOfSolarInstallationsCalculatorTest {
+class CurrentAdditionOfSolarInstallationsCalculatorTest {
 
   @Test
   void test_categorization_of_solar_systems() {
@@ -18,7 +17,7 @@ class AdditionOfSolarInstallationsCalculatorTest {
         .addApartmentBuildingsWith25kWp(100)
         .addSchoolsWith100kWp(50)
         .build();
-    var calculator = new AdditionOfSolarInstallationsCalculator(solarSystems);
+    var calculator = new CurrentAdditionOfSolarInstallationsCalculator(solarSystems);
     var annualAdditions = calculator.calculateAnnualAdditions();
 
     assertThat(annualAdditions)

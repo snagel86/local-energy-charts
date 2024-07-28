@@ -1,11 +1,14 @@
 package de.local.energycharts.solarcity.model.calculator;
 
+import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallations;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static de.local.energycharts.solarcity.model.Time.currentYear;
 import static java.lang.Math.exp;
@@ -14,16 +17,13 @@ import static java.util.Collections.emptyList;
 import static java.util.Comparator.comparing;
 
 @RequiredArgsConstructor
-@Builder
 public class FutureAdditionOfSolarInstallationsCalculator {
 
-  private final Double entireSolarPotentialOnRooftopsMWp;
-  private final Integer targetYear;
-  private final Set<SolarSystem> solarSystems;
+  private final SolarCity solarCity;
   private final List<AdditionOfSolarInstallations> additionsDoneYet;
 
   public List<AdditionOfSolarInstallations> calculateAnnualAdditions() {
-    if (targetYear < currentYear() + 3) {
+    if (solarCity.getTargetYear() < currentYear() + 3) {
       return emptyList();
     }
 
@@ -45,7 +45,7 @@ public class FutureAdditionOfSolarInstallationsCalculator {
     int nextYear = currentYear() + 1;
 
     for (double t = -3.0; t <= 6.0; t += 0.01) {
-      Integer year = (int) Math.round((targetYear - nextYear) / 9.0 * (t + 3.0)) + nextYear;
+      Integer year = (int) Math.round((solarCity.getTargetYear() - nextYear) / 9.0 * (t + 3.0)) + nextYear;
       if (annualFutureDistribution.containsKey(year)) {
         annualFutureDistribution.put(year, 1 / (1 + exp(-t)) + annualFutureDistribution.get(year));
       } else {
@@ -121,11 +121,11 @@ public class FutureAdditionOfSolarInstallationsCalculator {
   }
 
   Double calculateYetToBeInstalledMWp() {
-    return entireSolarPotentialOnRooftopsMWp - calculateInstalledMWpInOperation();
+    return solarCity.getEntireSolarPotentialOnRooftopsMWp() - calculateInstalledMWpInOperation();
   }
 
   Double calculateInstalledMWpInOperation() {
-    return solarSystems.stream()
+    return solarCity.getAllSolarSystems().stream()
         .filter(SolarSystem::isInOperation)
         // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
@@ -134,7 +134,7 @@ public class FutureAdditionOfSolarInstallationsCalculator {
   }
 
   Double calculateAverageRoofSolarMWp() {
-    return solarSystems.stream()
+    return solarCity.getAllSolarSystems().stream()
         // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
         .mapToDouble(SolarSystem::getInstalledNetPowerkWp)

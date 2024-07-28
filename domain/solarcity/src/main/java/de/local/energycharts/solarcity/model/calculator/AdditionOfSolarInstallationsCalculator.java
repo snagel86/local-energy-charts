@@ -1,63 +1,46 @@
 package de.local.energycharts.solarcity.model.calculator;
 
-import de.local.energycharts.solarcity.model.SolarSystem;
+import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallations;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 public class AdditionOfSolarInstallationsCalculator {
 
-  private final Set<SolarSystem> solarSystems;
+  private final SolarCity solarCity;
 
-  public List<AdditionOfSolarInstallations> calculateAnnualAdditions() {
-    var additions = new ArrayList<AdditionOfSolarInstallations>();
+  public List<AdditionOfSolarInstallations> calculateAnnualAdditionOfSolarInstallations() {
+    var additions = calculateCurrentAnnualAdditionOfSolarSystems();
 
-    solarSystems.stream()
-        .collect(groupingBy(SolarSystem::getCommissioningYear))
-        .forEach((year, solarSystemsByYear) ->
-            additions.add(createAddition(year, solarSystemsByYear))
-        );
-    return additions;
+    if (isEntireSolarPotentialAndTargetYearSpecified()) {
+      var futureAdditions = calculateFutureAnnualAdditionOfSolarSystems(additions);
+      additions.addAll(futureAdditions);
+    }
+
+    return additions.stream()
+        .map(addition -> addition.setCityName(solarCity.getName()))
+        .sorted()
+        .toList();
   }
 
-  private AdditionOfSolarInstallations createAddition(
-      Integer year,
-      List<SolarSystem> solarSystems
+  private List<AdditionOfSolarInstallations> calculateCurrentAnnualAdditionOfSolarSystems() {
+    return new CurrentAdditionOfSolarInstallationsCalculator(
+        solarCity.getSolarSystems()
+    ).calculateAnnualAdditions();
+  }
+
+  private boolean isEntireSolarPotentialAndTargetYearSpecified() {
+    return solarCity.getEntireSolarPotentialOnRooftopsMWp() != null && solarCity.getTargetYear() != null;
+  }
+
+  private List<AdditionOfSolarInstallations> calculateFutureAnnualAdditionOfSolarSystems(
+      List<AdditionOfSolarInstallations> additionsDoneYet
   ) {
-    return AdditionOfSolarInstallations.builder()
-        .year(year)
-        .numberOfSolarSystemsUpTo1kWp(solarSystems.stream()
-            .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= 1.0)
-            .count()
-        )
-        .numberOfSolarSystems1To10kWp(solarSystems.stream()
-            .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
-            .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= 10.0)
-            .count()
-        )
-        .numberOfSolarSystems10To40kWp(solarSystems.stream()
-            .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 10.0)
-            .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= 40.0)
-            .count()
-        )
-        .numberOfSolarSystemsFrom40kWp(solarSystems.stream()
-            .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 40.0)
-            .count()
-        )
-        .numberOfSolarSystems(solarSystems.size())
-        .totalInstalledMWp(sumTotalInstalledMWp(solarSystems))
-        .build();
-  }
-
-  private double sumTotalInstalledMWp(List<SolarSystem> solarSystemsByYear) {
-    return solarSystemsByYear.stream()
-        .mapToDouble(SolarSystem::getInstalledNetPowerkWp)
-        .sum() / 1000.0; // kWp -> MWp
+    return new FutureAdditionOfSolarInstallationsCalculator(
+        solarCity,
+        additionsDoneYet
+    ).calculateAnnualAdditions();
   }
 }

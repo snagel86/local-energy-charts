@@ -1,8 +1,8 @@
 package de.local.energycharts.solarcity.model.calculator;
 
+import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.model.Time;
-import de.local.energycharts.solarcity.model.calculator.FutureAdditionOfSolarInstallationsCalculator;
 import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallations;
 import org.junit.jupiter.api.Test;
 
@@ -19,8 +19,10 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
   @Test
   void return_empty_list_when_target_year_less_than_3_years_in_future() {
     Time.freezeNowAt(Instant.parse("2024-01-01T00:00:00.00Z"));
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder()
-        .targetYear(2026).build();
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(
+        new SolarCity().setTargetYear(2026),
+        null
+    );
 
     assertThat(calculator.calculateAnnualAdditions()).isEmpty();
   }
@@ -34,7 +36,7 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
         .year(2022)
         .totalInstalledMWp(10.4).build();
     var additionsDoneYet = List.of(addition2019, addition2022);
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder().additionsDoneYet(additionsDoneYet).build();
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(null, additionsDoneYet);
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
 
     assertThat(calculator.getAnnualInstalledMWpFromPreviousYear())
@@ -50,7 +52,7 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
         .year(2022)
         .totalInstalledMWp(10.4).build();
     var additionsDoneYet = List.of(addition2019, addition2022);
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder().additionsDoneYet(additionsDoneYet).build();
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(null, additionsDoneYet);
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
 
     assertThat(calculator.getAnnualInstalledMWpFromCurrentYear())
@@ -66,7 +68,7 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
         .year(2022)
         .totalInstalledMWp(5.4).build();
     var additionsDoneYet = List.of(addition2021, addition2022);
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder().additionsDoneYet(additionsDoneYet).build();
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(null, additionsDoneYet);
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
 
     assertThat(calculator.getHighestLastAnnualInstalledMWp())
@@ -84,10 +86,12 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
     // roof solar.
     var school = SolarSystem.builder().installedNetPowerkWp(99.0).status(IN_OPERATION).build();
     var solarSystems = Set.of(balkonkraftwerk, school);
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder()
-        .entireSolarPotentialOnRooftopsMWp(100.0)
-        .solarSystems(solarSystems).build();
-
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(
+        new SolarCity()
+            .setEntireSolarPotentialOnRooftopsMWp(100.0)
+            .setSolarSystems(solarSystems),
+        null
+    );
     assertThat(calculator.calculateYetToBeInstalledMWp())
         .isEqualTo(99.901); // 100 MW - 99.0 kW = 100 MW - 0.099 MW = 99.901 MW
   }
@@ -99,7 +103,10 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
     var solarSystem3 = SolarSystem.builder().installedNetPowerkWp(5.0).status(IN_OPERATION).build();
     var solarSystem4 = SolarSystem.builder().installedNetPowerkWp(25.0).status(PERMANENTLY_SHUT_DOWN).build();
     var solarSystems = Set.of(solarSystem1, solarSystem2, solarSystem3, solarSystem4);
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder().solarSystems(solarSystems).build();
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(
+        new SolarCity().setSolarSystems(solarSystems),
+        null
+    );
 
     assertThat(calculator.calculateInstalledMWpInOperation())
         .isEqualTo(0.035);
@@ -113,7 +120,10 @@ class FutureAdditionOfSolarInstallationsCalculatorTest {
     var solarSystem4 = SolarSystem.builder().installedNetPowerkWp(25.0).build();
     var solarSystems = Set.of(solarSystem1, solarSystem2, solarSystem3, solarSystem4);
 
-    var calculator = FutureAdditionOfSolarInstallationsCalculator.builder().solarSystems(solarSystems).build();
+    var calculator = new FutureAdditionOfSolarInstallationsCalculator(
+        new SolarCity().setSolarSystems(solarSystems),
+        null
+    );
 
     assertThat(calculator.calculateAverageRoofSolarMWp())
         .isEqualTo(0.015);

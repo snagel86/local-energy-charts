@@ -38,27 +38,27 @@ class SolarCityServiceTest {
   void get_cached_solar_city() {
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
-    when(solarCityRepository.findByIdSync("Frankfurt"))
+    when(solarCityRepository.findByIdSync("1"))
         .thenReturn(frankfurt);
 
-    solarCityService.getCachedSolarCity("Frankfurt").block(); // find once from repository
-    solarCityService.getCachedSolarCity("Frankfurt").block(); // then get from cache
+    solarCityService.getCachedSolarCity("1").block(); // find once from repository
+    solarCityService.getCachedSolarCity("1").block(); // then get from cache
 
-    verify(solarCityRepository, atMostOnce()).findById("Frankfurt");
+    verify(solarCityRepository, atMostOnce()).findById("1");
   }
 
   @Test
   void reset_cached_solar_city() {
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
-    when(solarCityRepository.findByIdSync("Frankfurt"))
+    when(solarCityRepository.findByIdSync("1"))
         .thenReturn(frankfurt);
 
-    solarCityService.getCachedSolarCity("Frankfurt").block();
+    solarCityService.getCachedSolarCity("1").block();
     solarCityService.resetCachedSolarCity(frankfurt).block();
-    solarCityService.getCachedSolarCity("Frankfurt").block();
+    solarCityService.getCachedSolarCity("1").block();
 
-    verify(solarCityRepository, times(2)).findByIdSync("Frankfurt");
+    verify(solarCityRepository, times(2)).findByIdSync("1");
   }
 
   @Test
@@ -75,7 +75,12 @@ class SolarCityServiceTest {
             SolarSystem.builder().id("3").status(IN_OPERATION).build()
         )));
     when(solarCityRepository.save(any(SolarCity.class)))
-        .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
+        .thenAnswer(invocation -> (
+            Mono.just(
+                ((SolarCity) invocation.getArguments()[0])
+                    .setId("1") // save returns the solar city with a new generated id
+            )
+        ));
     when(opendatasoftGateway.getPostcodes("Frankfurt"))
         .thenReturn(Flux.fromIterable(List.of(60314, 60528)));
 
@@ -90,7 +95,7 @@ class SolarCityServiceTest {
 
   @Test
   void create_or_update_an_existing_solar_city() {
-    SolarCity frankfurt = createNewSolarCity("Frankfurt");
+    SolarCity frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
@@ -119,7 +124,7 @@ class SolarCityServiceTest {
 
   @Test
   void create_or_update_an_existing_solar_city_by_municipality_key() {
-    SolarCity frankfurt = createNewSolarCity("Frankfurt");
+    SolarCity frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
 
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
@@ -151,7 +156,7 @@ class SolarCityServiceTest {
         .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
 
     SolarCity solarCity = solarCityService.updateSolarCity(
-        createNewSolarCity("Frankfurt", "06412000")
+        createNewSolarCity("Frankfurt", "06412000").setId("1")
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
