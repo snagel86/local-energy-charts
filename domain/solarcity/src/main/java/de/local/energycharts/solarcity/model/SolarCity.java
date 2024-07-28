@@ -53,12 +53,8 @@ public class SolarCity implements Serializable {
   }
 
   public SolarCityOverview calculateSolarCityOverview() {
-    return new SolarCityOverviewCalculator(
-        entireSolarPotentialOnRooftopsMWp,
-        targetYear,
-        solarSystems,
-        updated
-    ).calculateSolarCityOverview();
+    return new SolarCityOverviewCalculator(this)
+        .calculateSolarCityOverview();
   }
 
   public SolarBuildingPieChart calculateSolarBuildingPieChart() {

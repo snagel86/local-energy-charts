@@ -1,6 +1,7 @@
 package de.local.energycharts.solarcity.model.calculator;
 
 import de.local.energycharts.solarcity.model.SolarBuilder;
+import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.Time;
 import de.local.energycharts.solarcity.model.statistic.SolarCityOverview;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,13 @@ class SolarCityOverviewCalculatorTest {
         .addSchoolsWith100kWp(100)           // = 10.0 MWp
         .build();
     var updated = Time.now();
-    var calculator = new SolarCityOverviewCalculator(1000.0, 2030, solarSystems, updated);
+    var calculator = new SolarCityOverviewCalculator(
+        new SolarCity()
+            .setEntireSolarPotentialOnRooftopsMWp(1000.0)
+            .setTargetYear(2030)
+            .setSolarSystems(solarSystems)
+            .setUpdated(updated)
+    );
 
     var overview = SolarCityOverview.builder()
         .installedRooftopMWpInOperation(20.0)

@@ -1,19 +1,25 @@
 package de.local.energycharts.solarcity.model.calculator;
 
+import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.model.statistic.SolarCityOverview;
-import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.Set;
 
-@RequiredArgsConstructor
 public class SolarCityOverviewCalculator {
 
   private final Double entireSolarPotentialOnRooftopsMWp;
   private final Integer targetYear;
   private final Set<SolarSystem> solarSystems;
   private final Instant updated;
+
+  public SolarCityOverviewCalculator(SolarCity solarCity) {
+    entireSolarPotentialOnRooftopsMWp = solarCity.getEntireSolarPotentialOnRooftopsMWp();
+    targetYear = solarCity.getTargetYear();
+    solarSystems = solarCity.getAllSolarSystems();
+    updated = solarCity.getUpdated();
+  }
 
   public SolarCityOverview calculateSolarCityOverview() {
     var installedRooftopMWpInOperation = calculateInstalledRooftopMWpInOperation();
