@@ -11,7 +11,6 @@ import de.local.energycharts.solarcity.model.statistic.SolarCityOverview;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -21,7 +20,7 @@ import static de.local.energycharts.solarcity.model.Time.now;
 
 @Data
 @Accessors(chain = true)
-public class SolarCity implements Serializable {
+public class SolarCity {
 
   private String id;
   private String name;
@@ -46,10 +45,6 @@ public class SolarCity implements Serializable {
         .setName(name)
         .setMunicipalityKey(municipalityKey)
         .setCreated(now());
-  }
-
-  public int calculateTotalNumberOfSolarInstallations() {
-    return solarSystems.stream().toList().size();
   }
 
   public SolarCityOverview calculateSolarCityOverview() {

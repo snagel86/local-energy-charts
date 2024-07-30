@@ -4,27 +4,12 @@ import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallati
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.Set;
 
-import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
-import static de.local.energycharts.solarcity.model.SolarSystem.Status.NONE;
 import static java.lang.Math.round;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SolarCityTest {
-
-  @Test
-  void calculate_total_number_of_solar_installations() {
-    var frankfurt = new SolarCity();
-    frankfurt.setSolarSystems(Set.of(
-        SolarSystem.builder().id("1").status(IN_OPERATION).build(),
-        SolarSystem.builder().id("2").status(NONE).build())
-    );
-
-    assertThat(frankfurt.calculateTotalNumberOfSolarInstallations()).isEqualTo(2);
-  }
 
   @Test
   void calculate_annual_addition_of_solar_installations() {

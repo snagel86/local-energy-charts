@@ -10,11 +10,11 @@ import org.mapstruct.Named;
 public interface SolarCityCreatedMapper {
 
   @Mapping(target = "cityName", source = "name")
-  @Mapping(target = "totalNumberOfSolarInstallations", source = "solarCity", qualifiedByName = "calculateTotalNumberOfSolarInstallations")
+  @Mapping(target = "totalNumberOfSolarInstallations", source = "solarCity", qualifiedByName = "getTotalNumberOfSolarInstallations")
   SolarCityCreatedResponse mapToResponse(SolarCity solarCity);
 
-  @Named("calculateTotalNumberOfSolarInstallations")
-  default Integer calculateTotalNumberOfSolarInstallations(SolarCity solarCity) {
-    return solarCity.calculateTotalNumberOfSolarInstallations();
+  @Named("getTotalNumberOfSolarInstallations")
+  default Integer getTotalNumberOfSolarInstallations(SolarCity solarCity) {
+    return solarCity.getAllSolarSystems().size();
   }
 }
