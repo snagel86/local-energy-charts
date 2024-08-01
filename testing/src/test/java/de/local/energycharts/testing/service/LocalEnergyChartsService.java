@@ -1,19 +1,22 @@
 package de.local.energycharts.testing.service;
 
+import de.local.energycharts.testing.step.model.SolarCityCreatedResponse;
+import io.restassured.response.ValidatableResponse;
+import org.json.JSONObject;
+
+import java.time.Instant;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
-import io.restassured.response.ValidatableResponse;
-import java.time.Instant;
-import org.json.JSONObject;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * To test the api of this application, <a href="https://rest-assured.io/">https://rest-assured.io/</a> is used.
  * This makes it simple to create, execute and test RESTful calls.
  */
 public class LocalEnergyChartsService {
+
+  private String id;
 
   public void createSolarCity(
       String cityName,
@@ -26,37 +29,38 @@ public class LocalEnergyChartsService {
       requestJson.put("targetYear", targetYear);
     }
 
-    given()
+    var response = given()
         .header("Content-type", "application/json")
         .auth().basic("user", "secret")
         .body(requestJson.toString())
-    .when()
+        .when()
         .post("/v1/solar-city/create")
-    .then()
-        .body(
-            "cityName", is(cityName),
-            "id", notNullValue()
-        );
+        .then()
+        .extract().as(SolarCityCreatedResponse.class);
+
+    assertThat(response.getCityName()).isEqualTo(cityName);
+    assertThat(response.getId()).isNotNull();
+
+    id = response.getId();
   }
 
-  public ValidatableResponse getOverview(String cityName) {
-    return when().get("/v1/solar-cities/" + cityName + "/statistics/overview").then();
+  public ValidatableResponse getOverview() {
+    return when().get("/v1/solar-cities/" + id + "/statistics/overview").then();
   }
 
-  public ValidatableResponse getSolarBuildingPieChart(String cityName) {
+  public ValidatableResponse getSolarBuildingPieChart() {
     return given()
-            .get("/v1/solar-cities/" + cityName + "/statistics/building-pie-chart/highcharts")
-            .then();
+        .get("/v1/solar-cities/" + id + "/statistics/building-pie-chart/highcharts")
+        .then();
   }
 
   public ValidatableResponse getAnnualAdditionOfSolarInstallationsHighcharts(
-      String cityName,
       boolean previousSolarInstallationsOnly
   ) {
     return given()
         .queryParam("previousSolarInstallationsOnly", previousSolarInstallationsOnly)
         .queryParam("years", 20)
-        .get("/v1/solar-cities/" + cityName + "/statistics/annual-addition-of-solar-installations/highcharts")
+        .get("/v1/solar-cities/" + id + "/statistics/annual-addition-of-solar-installations/highcharts")
         .then();
   }
 
@@ -73,9 +77,9 @@ public class LocalEnergyChartsService {
     return given()
         .header("Content-type", "application/json")
         .body(requestJson.toString())
-    .when()
+        .when()
         .post("/v1/mail/send")
-    .then();
+        .then();
   }
 
   public void freezeNowAt(Instant now) {
@@ -85,9 +89,9 @@ public class LocalEnergyChartsService {
     given()
         .header("Content-type", "application/json")
         .body(requestJson.toString())
-    .when()
+        .when()
         .put("/v1/test/time/freeze-now")
-    .then()
+        .then()
         .statusCode(200);
   }
 }

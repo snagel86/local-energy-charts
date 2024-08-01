@@ -3,7 +3,6 @@ package de.local.energycharts.testing.step;
 import de.local.energycharts.testing.service.LocalEnergyChartsService;
 import de.local.energycharts.testing.step.model.Column;
 import de.local.energycharts.testing.step.model.ColumnChartResponse;
-import de.local.energycharts.testing.step.model.SolarBuildingPieChartResponse;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -11,15 +10,14 @@ import io.cucumber.java.en.When;
 import io.restassured.response.ValidatableResponse;
 
 import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 
 import static java.lang.Integer.parseInt;
 import static java.math.RoundingMode.HALF_UP;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 
 public class LocalEnergyChartsStep {
 
@@ -27,7 +25,6 @@ public class LocalEnergyChartsStep {
 
   private Double totalSolarPotentialMWp;
   private Integer targetYear;
-  private String cityName;
   private Integer currentYear;
   private ValidatableResponse solarBuildingPieChart;
   private ValidatableResponse writtenMailResponse;
@@ -44,13 +41,12 @@ public class LocalEnergyChartsStep {
 
   @When("all solar systems in {string} are downloaded from the Marktstammdatenregister")
   public void createSolarCity(String cityName) {
-    this.cityName = cityName;
     localEnergyChartsService.createSolarCity(cityName, totalSolarPotentialMWp, targetYear);
   }
 
   @Then("the overview has a total of {int} installed solar systems with a capacity of {float} megawatt peak")
   public void getOverview(int totalSolarInstallations, float totalInstalledMWp) {
-    localEnergyChartsService.getOverview(cityName)
+    localEnergyChartsService.getOverview()
         .body(
             "rooftopSolarSystemsInOperation", is(totalSolarInstallations),
             "installedRooftopMWpInOperation", is(totalInstalledMWp)
@@ -61,7 +57,7 @@ public class LocalEnergyChartsStep {
   public void getAndValidateHighchart(double expectedTotalInstalledMWp, DataTable dataTable) {
     ValidatableResponse response =
         localEnergyChartsService
-            .getAnnualAdditionOfSolarInstallationsHighcharts(cityName, false);
+            .getAnnualAdditionOfSolarInstallationsHighcharts(false);
 
     validateTotalMWp(expectedTotalInstalledMWp, response);
     validateContainingValues(dataTable, response);
@@ -89,7 +85,7 @@ public class LocalEnergyChartsStep {
   public void getAndValidateAndFutureAvailableSolarPotential(double expectedFutureAvailableSolarPotentialMWp) {
     var response =
         localEnergyChartsService
-            .getAnnualAdditionOfSolarInstallationsHighcharts(cityName, false)
+            .getAnnualAdditionOfSolarInstallationsHighcharts(false)
             .extract().as(ColumnChartResponse.class);
 
     validateAvailableFutureSolarPotential(expectedFutureAvailableSolarPotentialMWp, response);
@@ -110,7 +106,7 @@ public class LocalEnergyChartsStep {
   public void getAverageOfAllYetInstalledSolarSystems(int expectedAveragekWp) {
     var response =
         localEnergyChartsService
-            .getAnnualAdditionOfSolarInstallationsHighcharts(cityName, false)
+            .getAnnualAdditionOfSolarInstallationsHighcharts(false)
             .extract().as(ColumnChartResponse.class);
 
     validateAverageOfAllYetInstalledSolarSystems(expectedAveragekWp, response);
@@ -141,7 +137,7 @@ public class LocalEnergyChartsStep {
   @Then("(the pie chart must have )a slice with {int} solar installations with {float} MWp, which is {float} %")
   public void getAndValidateSolarBuildingPieChart(Integer count, Float installedMWp, Float percentage) {
     if (solarBuildingPieChart == null) {
-      solarBuildingPieChart = localEnergyChartsService.getSolarBuildingPieChart(cityName);
+      solarBuildingPieChart = localEnergyChartsService.getSolarBuildingPieChart();
     }
     solarBuildingPieChart
         .body(

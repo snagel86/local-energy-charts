@@ -74,7 +74,7 @@ To test the application, and at the same time document it, [Cucumber](https://cu
 
 Please start the application in test mode as follows, and run the tests.
 
-    docker-compose up -d
+    docker compose up -d
     ./gradlew clean bootRun --args='--spring.profiles.active=test' 
     ./gradlew cucumberCli
 

@@ -1,7 +1,5 @@
 package de.local.energycharts.testing.service;
 
-import java.util.List;
-
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class OpendatasoftAPIService {
@@ -17,15 +15,30 @@ public class OpendatasoftAPIService {
   public void stubGetPostcodes(String cityName, String response) {
     configureFor("localhost", 8083);
     stubFor(get(urlPathMatching(
-        "/api/records/1.0/search/"
-    ))
-        .withQueryParam("dataset", equalTo("georef-germany-postleitzahl"))
-        .withQueryParam("rows", equalTo("10000"))
-        .withQueryParam("refine.plz_name", equalTo(cityName))
-        .willReturn(aResponse()
-            .withHeader("Content-Type", "application/json")
-            .withBody(response)
-        )
+            "/api/records/1.0/search/"
+        ))
+            .withQueryParam("dataset", equalTo("georef-germany-postleitzahl"))
+            .withQueryParam("rows", equalTo("100"))
+            .withQueryParam("start", equalTo("0"))
+            .withQueryParam("refine.plz_name", equalTo(cityName))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody(response)
+            )
+    );
+
+    // Since pagination is used, the records in the last request must be empty to mark the stop.
+    stubFor(get(urlPathMatching(
+            "/api/records/1.0/search/"
+        ))
+            .withQueryParam("dataset", equalTo("georef-germany-postleitzahl"))
+            .withQueryParam("rows", equalTo("100"))
+            .withQueryParam("start", equalTo("100"))
+            .withQueryParam("refine.plz_name", equalTo(cityName))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody("{ \"records\": [] }") // empty records
+            )
     );
   }
 }
