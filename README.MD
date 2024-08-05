@@ -33,8 +33,6 @@ First, create a new *solar city*
 
     POST /v1/create/solar-city
 
-with basic auth user/secret and request body:
-
 ```json
 {
   "cityName": "Frankfurt am Main",
@@ -48,28 +46,22 @@ Then request e.g.:
 
     GET /v1/solar-cities/<id>/statistics/annual-addition-of-solar-installations/highcharts
 
-### Postman ###
-
-You can also test the API with Postman. Find the full collection in [here](api/LocalEnergyCharts.postman_collection.json).
-
 ## Architecture ##
-![architecture](architecture.png).
+![architecture](architecture.png)
 
 ## Getting Started Yourself ##
-Configure your path to the web folder in application.yaml.
+If you want to host the application yourself, please install Java version 21, Docker with Docker Compose.
+
+Configure your path to the web folder in application.yaml
 
     spring.web.resources.static-locations=file:/<path>/local-energy-charts/web/
 
-If you want to host the application yourself, please install Java version 21, Docker with Docker Compose and run the following commands.
+and run the following commands. 
 
     docker compose up -d
     ./gradlew bootRun
 
-Then execute the requests above on http://localhost:8080
-
-See also the [postman collection](api/LocalEnergyCharts.postman_collection.json).
-
-Finally, visit http://localhost:8080
+Create a [solar city](#usage-), try the api with [postman](api/LocalEnergyCharts.postman_collection.json) and visit: http://localhost:8080.
 
 ## Testing ##
 
