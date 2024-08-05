@@ -1,6 +1,5 @@
 dependencies {
-    implementation project(':domain:solarcity')
-    implementation project(':domain:mailing')
+    implementation project(':domain')
 
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework.security:spring-security-config'

@@ -13,7 +13,6 @@ buildscript {
 
 include 'main'
 include 'api'
-include 'domain:solarcity'
-include 'domain:mailing'
+include 'domain'
 include 'infrastructure'
-include 'testing'
+include 'test'

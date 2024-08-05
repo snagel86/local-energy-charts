@@ -8,7 +8,7 @@ bootJar {
 
 dependencies {
     implementation project(':api')
-    implementation project(':domain:solarcity')
+    implementation project(':domain')
     implementation project(':infrastructure')
 
     implementation('org.springframework.boot:spring-boot-starter-web-services') {

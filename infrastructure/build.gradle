@@ -1,6 +1,5 @@
 dependencies {
-    implementation project(':domain:solarcity')
-    implementation project(':domain::mailing')
+    implementation project(':domain')
 
     implementation 'org.springframework.data:spring-data-mongodb'
     implementation 'io.github.kaiso.relmongo:relmongo:4.0.0'
