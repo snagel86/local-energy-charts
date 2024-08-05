@@ -1,10 +1,10 @@
 dependencies {
     // https://cucumber.io/
-    testImplementation 'io.cucumber:cucumber-java:7.8.1'
-    testImplementation 'io.cucumber:cucumber-junit:7.8.1'
+    testImplementation 'io.cucumber:cucumber-java:7.18.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.18.1'
 
     // https://wiremock.org/
-    testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
+    testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.2'
 
     // https://rest-assured.io/
     testImplementation('io.rest-assured:rest-assured:5.2.0') {
@@ -12,8 +12,8 @@ dependencies {
     }
     testImplementation 'io.rest-assured:rest-assured-all:5.2.0'
 
-    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.4'
-    testImplementation 'org.json:json:20220924'
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.17.2'
+    testImplementation 'org.json:json:20240303'
 }
 
 configurations {

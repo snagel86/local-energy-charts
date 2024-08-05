@@ -20,8 +20,12 @@ https://pv-frankfurt.de/
 ## Open API ##
 
 This application comes with an [OpenAPI](https://pv-frankfurt.de/openapi.html) that allows you to easily create a new solar overview for cities.
-You just need the name of your city, and optionally the entire rooftop solar potential and the target year. Then all solar installations are downloaded from the [Marktstammdatenregister](https://www.marktstammdatenregister.de/MaStR), and updated daily. 
-The API then provides you with a statistical analysis for the annual addition of solar installations, including the distribution of Balkonkraftwerke, apartment buildings, homes, schools or industrial buildings.
+You just need the [municipality key](https://www.statistikportal.de/de/gemeindeverzeichnis) of your city, and optionally the [rooftop solar potential](https://eosolar.dlr.de/) and the target year. 
+Then all solar installations are downloaded from the [Marktstammdatenregister](https://www.marktstammdatenregister.de/MaStR), and updated daily.
+Alternatively, the municipality key can be left empty and the zip code search can be used instead. Then please make sure that your city is listed in [Opendatasoft](https://public.opendatasoft.com/explore/dataset/georef-germany-postleitzahl/information/).
+
+The API then provides you with a statistical analysis for the annual addition of solar installations, 
+including the distribution of balcony power plants, apartment buildings, homes, schools or industrial buildings.
 
 ### Usage ###
 
@@ -34,30 +38,31 @@ with basic auth user/secret and request body:
 ```json
 {
   "cityName": "Frankfurt am Main",
-  "entireSolarPotentialOnRooftopsMWp": 1006.0,
+  "municipalityKey": "06412000",
+  "entireSolarPotentialOnRooftopsMWp": 2100.0,
   "targetYear": 2035
 }
 ```
 
-Please make sure that your city is listed in [Opendatasoft](https://public.opendatasoft.com/explore/dataset/georef-germany-postleitzahl/information/). Then request e.g.:
+Then request e.g.:
 
-    GET /v1/solar-cities/Frankfurt am Main/statistics/annual-addition-of-solar-installations/highcharts
+    GET /v1/solar-cities/<id>/statistics/annual-addition-of-solar-installations/highcharts
 
 ### Postman ###
 
 You can also test the API with Postman. Find the full collection in [here](api/LocalEnergyCharts.postman_collection.json).
 
 ## Architecture ##
-You can find the architecture of the application [here](architecture.drawio.pdf).
+![architecture](architecture.png).
 
 ## Getting Started Yourself ##
 Configure your path to the web folder in application.yaml.
 
     spring.web.resources.static-locations=file:/<path>/local-energy-charts/web/
 
-If you want to host the application yourself, please install Java version 17, Docker with Docker Compose and run the following commands.
+If you want to host the application yourself, please install Java version 21, Docker with Docker Compose and run the following commands.
 
-    docker-compose up -d
+    docker compose up -d
     ./gradlew bootRun
 
 Then execute the requests above on http://localhost:8080
@@ -70,7 +75,7 @@ Finally, visit http://localhost:8080
 
 To test the application, and at the same time document it, [Cucumber](https://cucumber.io/) was used. Documentation and tests can be found in the following module.
 
-    testing/src/test/resources/cucumber
+    test/src/test/resources/cucumber
 
 Please start the application in test mode as follows, and run the tests.
 
