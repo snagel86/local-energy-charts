@@ -166,19 +166,37 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
         contentType: 'application/json',
         dataType: 'json',
 
+        beforeSend: function () {
+            showLoader();
+        },
+
         success: function (response) {
-            createAnnualAdditionOfSolarInstallationsChart(response);
             showSuccessMessage();
-            $('#rooftop-solar-systems-in-operation').text(formatNumber(response.rooftopSolarSystemsInOperation));
-            $('#installed-rooftop-mwp-in-operation').text(formatNumber(response.installedRooftopMWpInOperation, 1));
-            $('html, body').animate({scrollTop: 0}, 'slow');
-            $('#your-city-solar-paragraph').show();
+            createAnnualAdditionOfSolarInstallationsChart(response);
+            updateAndShowInfoText(response);
+            hideLoader();
+            scrollToTop();
         },
 
         error: function () {
+            hideLoader();
             showErrorMessage();
         }
     });
+
+    function updateAndShowInfoText(response) {
+        $('#rooftop-solar-systems-in-operation').text(formatNumber(response.rooftopSolarSystemsInOperation));
+        $('#installed-rooftop-mwp-in-operation').text(formatNumber(response.installedRooftopMWpInOperation, 1));
+        $('#your-city-solar-paragraph').show();
+    }
+
+    function showLoader() {
+        $('#loader-container').css('display', 'flex');
+    }
+
+    function hideLoader() {
+        $('#loader-container').css('display', 'none');
+    }
 
     function showSuccessMessage() {
         let parent = $(yourCityForm.parent());
@@ -190,6 +208,10 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
         let parent = $(yourCityForm.parent());
         parent.children('.w-form-done').css('display', 'none');
         parent.find('.w-form-fail').css('display', 'block');
+    }
+
+    function scrollToTop(){
+        $('html, body').animate({scrollTop: 0}, 'slow');
     }
 }
 

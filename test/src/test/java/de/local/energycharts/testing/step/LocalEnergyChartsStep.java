@@ -54,13 +54,13 @@ public class LocalEnergyChartsStep {
   }
 
   @Then("the calculated highchart has a total of {double} MWp and contains the following values")
-  public void getAndValidateHighchart(double expectedTotalInstalledMWp, DataTable dataTable) {
+  public void getAndValidateHighchart(double expectedTotalInstalledMWp, DataTable givenValues) {
     ValidatableResponse response =
         localEnergyChartsService
             .getAnnualAdditionOfSolarInstallationsHighcharts(false);
 
     validateTotalMWp(expectedTotalInstalledMWp, response);
-    validateContainingValues(dataTable, response);
+    validateHighchartValues(givenValues, response);
   }
 
   private void validateTotalMWp(double expectedTotalInstalledMWp, ValidatableResponse response) {
@@ -73,8 +73,8 @@ public class LocalEnergyChartsStep {
     assertThat(totalInstalledMWp).isEqualTo(expectedTotalInstalledMWp);
   }
 
-  private void validateContainingValues(DataTable dataTable, ValidatableResponse response) {
-    dataTable.entries().forEach(row -> response.body(
+  private void validateHighchartValues(DataTable givenValues, ValidatableResponse response) {
+    givenValues.entries().forEach(row -> response.body(
         "columns.name", hasItem(row.get("year")),
         "columns.y", hasItem(Float.valueOf(row.get("MWp"))),
         "columns.numberOfSolarSystems", hasItem(Integer.valueOf(row.get("number of solar systems")))

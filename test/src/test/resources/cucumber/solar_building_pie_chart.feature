@@ -10,13 +10,13 @@ Feature: solar building pie chart
 
     Given is, that for the postcode search for 'Frankfurt', the following postcodes are stored in Opendatasoft
       | 60314 |
-    And that in 2022 for postcode 60314, 40000 homes (with 5.0 kWp)
-    And 12000 solar systems on apartment buildings (with 25.0 kWp)
-    And 4600 solar systems on commercial buildings (with 100.0 kWp)
-    And 400 on schools (with 100.0 kWp) are registered in the Marktstammdatenregister
+    And that in 2022 for postcode 60314, 4000 homes (with 5.0 kWp)
+    And 1200 solar systems on apartment buildings (with 25.0 kWp)
+    And 460 solar systems on commercial buildings (with 100.0 kWp)
+    And 40 on schools (with 100.0 kWp) are registered in the Marktstammdatenregister
 
     When all solar systems in 'Frankfurt' are downloaded from the Marktstammdatenregister
 
-    Then the pie chart must have a slice with 40000 solar installations with 200 MWp, which is 20 %
-    And a slice with 12000 solar installations with 300 MWp, which is 30 %
-    And a slice with 5000 solar installations with 500 MWp, which is 50 %
+    Then the pie chart must have a slice with 4000 solar installations with 20 MWp, which is 20 %
+    And a slice with 1200 solar installations with 30 MWp, which is 30 %
+    And a slice with 500 solar installations with 50 MWp, which is 50 %

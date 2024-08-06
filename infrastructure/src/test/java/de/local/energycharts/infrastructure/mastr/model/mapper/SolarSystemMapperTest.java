@@ -18,7 +18,7 @@ class SolarSystemMapperTest {
   @Test
   void test_mapping_from_solar_einheit() {
     EinheitJson mastrSolarEinheit = new EinheitJson();
-    //mastrSolarEinheit.setId("1234");
+    mastrSolarEinheit.setId("1234");
     mastrSolarEinheit.setInbetriebnahmeDatum("/Date(1628467200000)/");
     mastrSolarEinheit.setDatumLetzteAktualisierung("/Date(1629107527571)/");
     mastrSolarEinheit.setPlz("60314");
@@ -32,6 +32,7 @@ class SolarSystemMapperTest {
         .id("1234")
         .commissioning(LocalDate.of(2021, 8, 9))
         .lastChange(Instant.parse("2021-08-16T09:52:07.571Z"))
+        .postcode(60314)
         .installedGrossPowerkWp(10.4)
         .installedNetPowerkWp(7.28)
         .status(Status.IN_OPERATION)
