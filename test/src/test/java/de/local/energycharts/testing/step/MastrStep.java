@@ -16,8 +16,8 @@ public class MastrStep {
   private Integer postcode;
 
   @Given("(is, )that for the postcode {int}, the following solar systems are registered in the Marktstammdatenregister")
-  public void stubTheGivenResponse(int postcode, DataTable dataTable) {
-    var response = new MastrSolarResponseConverter().convert(dataTable);
+  public void stubTheGivenResponse(int postcode, DataTable givenSolarSystems) {
+    var response = new MastrSolarResponseConverter().convert(givenSolarSystems);
     mastrRestAPIService.stubGetSolarSystems(postcode, response.toString(), 1);
   }
 

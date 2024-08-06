@@ -22,6 +22,20 @@ public class MastrSolarResponseBuilder {
   private Integer currentPage = 1;
   public static final Integer PAGE_SIZE = 5000;
 
+  public List<JSONObject> build() {
+    List<JSONObject> responses = new ArrayList<>();
+    final var total = datas.values().stream().mapToInt(List::size).sum();
+
+    datas.forEach((page, data) -> {
+      JSONObject response = new JSONObject();
+      response.put("Data", data);
+      response.put("Total", total);
+      responses.add(response);
+    });
+
+    return responses;
+  }
+
   public void addBalkonkraftwerksWith06kWp(int count) {
     for (int i = 0; i < count; ++i) {
       addSolarSystem(createSolarSystem(0.6));
@@ -62,20 +76,6 @@ public class MastrSolarResponseBuilder {
     }
 
     datas.get(currentPage).add(solarSystem);
-  }
-
-  public List<JSONObject> build() {
-    List<JSONObject> responses = new ArrayList<>();
-    final var total = datas.values().stream().mapToInt(List::size).sum();
-
-    datas.forEach((page, data) -> {
-      JSONObject response = new JSONObject();
-      response.put("Data", data);
-      response.put("Total", total);
-      responses.add(response);
-    });
-
-    return responses;
   }
 
   private JSONObject createSolarSystem(double installedNetPowerkWp) {
