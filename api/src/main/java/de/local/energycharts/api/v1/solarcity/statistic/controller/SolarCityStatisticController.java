@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -33,8 +34,10 @@ public class SolarCityStatisticController {
               schema = @Schema(implementation = SolarCityOverviewResponse.class))})
   })
   @GetMapping(value = "/{id}/statistics/overview", produces = "application/json")
-  public Mono<SolarCityOverviewResponse> getOverview(@PathVariable("id") String id) {
-    return solarCityStatisticApiService.createOverview(id);
+  public Mono<ResponseEntity<SolarCityOverviewResponse>> getOverview(@PathVariable("id") String id) {
+    return solarCityStatisticApiService.createOverview(id)
+        .map(ResponseEntity::ok)
+        .onErrorReturn(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "The column chart shows the annual addition of solar installations in a city. "
@@ -46,16 +49,17 @@ public class SolarCityStatisticController {
               schema = @Schema(implementation = AnnualAdditionOfSolarInstallationsChartResponse.class))})
   })
   @GetMapping(value = "/{id}/statistics/annual-addition-of-solar-installations/highcharts", produces = "application/json")
-  public Mono<AnnualAdditionOfSolarInstallationsChartResponse> getAnnualAdditionOfSolarInstallationsHighcharts(
+  public Mono<ResponseEntity<AnnualAdditionOfSolarInstallationsChartResponse>> getAnnualAdditionOfSolarInstallationsHighcharts(
       @PathVariable("id") String id,
-      @RequestParam(name ="years", required = false, defaultValue = "20") int years,
+      @RequestParam(name = "years", required = false, defaultValue = "20") int years,
       @RequestParam(name = "previousSolarInstallationsOnly", required = false) boolean previousSolarInstallationsOnly
   ) {
     return solarCityStatisticHighchartsApiService.createAnnualAdditionOfSolarInstallationsChart(
-        id,
-        years,
-        previousSolarInstallationsOnly
-    );
+            id,
+            years,
+            previousSolarInstallationsOnly
+        ).map(ResponseEntity::ok)
+        .onErrorReturn(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "", hidden = true)
@@ -65,14 +69,15 @@ public class SolarCityStatisticController {
               schema = @Schema(implementation = AnnualAdditionOfSolarInstallationsChartResponse.class))})
   })
   @PostMapping(value = "/{name}/statistics/annual-addition-of-solar-installations/highcharts/temporary", produces = "application/json")
-  public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createTemporaryAnnualAdditionOfSolarInstallations(
+  public Mono<ResponseEntity<AnnualAdditionOfSolarInstallationsChartResponse>> createTemporaryAnnualAdditionOfSolarInstallations(
       @PathVariable("name") String name,
       @RequestBody SolarCityRequest request
   ) {
     return solarCityStatisticHighchartsApiService.createTemporaryAnnualAdditionOfSolarInstallationsChart(
-        name.trim(),
-        request
-    );
+            name.trim(),
+            request
+        ).map(ResponseEntity::ok)
+        .onErrorReturn(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "", hidden = true)
@@ -82,10 +87,13 @@ public class SolarCityStatisticController {
               schema = @Schema(implementation = MonthlySolarInstallationsChartResponse.class))})
   })
   @GetMapping(value = "/{id}/statistics/monthly-solar-installations/highcharts", produces = "application/json")
-  public Mono<MonthlySolarInstallationsChartResponse> getMonthlySolarInstallationsChart(
+  public Mono<ResponseEntity<MonthlySolarInstallationsChartResponse>> getMonthlySolarInstallationsChart(
       @PathVariable("id") String id
   ) {
-    return solarCityStatisticHighchartsApiService.createMonthlySolarInstallationsChart(id);
+    return solarCityStatisticHighchartsApiService
+        .createMonthlySolarInstallationsChart(id)
+        .map(ResponseEntity::ok)
+        .onErrorReturn(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "The pie chart shows the distribution of solar installations on different buildings " +
@@ -96,9 +104,12 @@ public class SolarCityStatisticController {
               schema = @Schema(implementation = SolarBuildingPieChartResponse.class))})
   })
   @GetMapping(value = "/{id}/statistics/building-pie-chart/highcharts", produces = "application/json")
-  public Mono<SolarBuildingPieChartResponse> getSolarBuildingPieChart(
+  public Mono<ResponseEntity<SolarBuildingPieChartResponse>> getSolarBuildingPieChart(
       @PathVariable("id") String id
   ) {
-    return solarCityStatisticHighchartsApiService.createSolarBuildingPieChart(id);
+    return solarCityStatisticHighchartsApiService
+        .createSolarBuildingPieChart(id)
+        .map(ResponseEntity::ok)
+        .onErrorReturn(ResponseEntity.notFound().build());
   }
 }

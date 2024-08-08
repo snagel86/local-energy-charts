@@ -2,6 +2,7 @@ package de.local.energycharts.solarcity.service;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import de.local.energycharts.solarcity.gateway.MastrGateway;
 import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
 import de.local.energycharts.solarcity.model.SolarCity;
@@ -39,9 +40,13 @@ public class SolarCityService {
 
   @SneakyThrows
   public Mono<SolarCity> getCachedSolarCity(String id) {
-    return Mono.just(
-        solarCityCache.get(id, () -> solarCityRepository.findByIdSync(id))
-    );
+    try {
+      return Mono.just(
+          solarCityCache.get(id, () -> solarCityRepository.findByIdSync(id))
+      );
+    } catch (CacheLoader.InvalidCacheLoadException e) {
+      return Mono.error(e);
+    }
   }
 
   Mono<SolarCity> resetCachedSolarCity(SolarCity solarCity) {
