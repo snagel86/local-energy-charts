@@ -59,14 +59,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/postcodes",
+					"raw": "{{host}}/v1/solar-cities/{{id}}/postcodes",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"solar-cities",
-						"{{city}}",
+						"{{id}}",
 						"postcodes"
 					]
 				}
@@ -98,14 +98,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/statistics/annual-addition-of-solar-installations/highcharts?years=20",
+					"raw": "{{host}}/v1/solar-cities/{{id}}/statistics/annual-addition-of-solar-installations/highcharts?years=20",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"solar-cities",
-						"{{city}}",
+						"{{id}}",
 						"statistics",
 						"annual-addition-of-solar-installations",
 						"highcharts"
@@ -126,14 +126,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/statistics/building-pie-chart/highcharts",
+					"raw": "{{host}}/v1/solar-cities/{{id}}/statistics/building-pie-chart/highcharts",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"solar-cities",
-						"{{city}}",
+						"{{id}}",
 						"statistics",
 						"building-pie-chart",
 						"highcharts"
@@ -148,14 +148,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/statistics/monthly-solar-installations/highcharts",
+					"raw": "{{host}}/v1/solar-cities/{{id}}/statistics/monthly-solar-installations/highcharts",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"solar-cities",
-						"{{city}}",
+						"{{id}}",
 						"statistics",
 						"monthly-solar-installations",
 						"highcharts"
@@ -170,14 +170,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/statistics/overview",
+					"raw": "{{host}}/v1/solar-cities/{{id}}/statistics/overview",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"solar-cities",
-						"{{city}}",
+						"{{id}}",
 						"statistics",
 						"overview"
 					]
@@ -191,14 +191,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/v1/solar-cities/{{city}}/solar-systems/xls",
+					"raw": "{{host}}/v1/solar-cities/{{id}}/solar-systems/xls",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"v1",
 						"solar-cities",
-						"{{city}}",
+						"{{id}}",
 						"solar-systems",
 						"xls"
 					]
@@ -262,9 +262,8 @@
 			"type": "default"
 		},
 		{
-			"key": "city",
-			"value": "Frankfurt am Main",
-			"type": "default"
+			"key": "id",
+			"value": "66b1dd3c48b40c753d98278a"
 		}
 	]
 }
