@@ -8,10 +8,10 @@ The data basis is provided by the [Marktstammdatenregister](https://www.marktsta
 
 You can find the feature documentation at the following links:
 
-* [highcharts: annual addition of solar installations](testing/src/test/resources/cucumber/annual_addition_of_solar_installations.feature) 
-* [introduction: solar overview](testing/src/test/resources/cucumber/solar_systems_overview.feature) 
-* [action: now we need roofs!](testing/src/test/resources/cucumber/now_we_need_roofs.feature) 
-* [solar building pie chart](testing/src/test/resources/cucumber/solar_building_pie_chart.feature) 
+* [highcharts: annual addition of solar installations](test/src/test/resources/cucumber/annual_addition_of_solar_installations.feature) 
+* [introduction: solar overview](test/src/test/resources/cucumber/solar_systems_overview.feature) 
+* [action: now we need roofs!](test/src/test/resources/cucumber/now_we_need_roofs.feature) 
+* [solar building pie chart](test/src/test/resources/cucumber/solar_building_pie_chart.feature) 
 
 Please visit:
 
