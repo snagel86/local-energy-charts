@@ -1,10 +1,13 @@
 package de.local.energycharts.solarcity.model.calculator;
 
 import de.local.energycharts.solarcity.model.SolarBuilder;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static de.local.energycharts.solarcity.model.statistic.SolarBuildingPieChart.SliceType.*;
+import java.util.Collections;
+
 import static de.local.energycharts.solarcity.model.calculator.SolarBuildingPieChartAssert.assertThat;
+import static de.local.energycharts.solarcity.model.statistic.SolarBuildingPieChart.SliceType.*;
 
 class SolarBuildingPieChartCalculatorTest {
 
@@ -29,5 +32,12 @@ class SolarBuildingPieChartCalculatorTest {
 
     assertThat(pieChart.getSlice(SCHOOLS_INDUSTRIAL_BUILDINGS_AND_CO))
         .hasInstalledMWp(5.0).hasCount(50).andHasPercentage(50.0);
+  }
+
+  @Test
+  void empty_pie_chart() {
+    var pieChart = new SolarBuildingPieChartCalculator(Collections.emptySet()).calculatePieChart();
+    Assertions.assertThat(pieChart.getTotalInstalledMWp()).isEqualTo(0.0);
+    Assertions.assertThat(pieChart.getSlices()).isEmpty();
   }
 }

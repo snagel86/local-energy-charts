@@ -19,11 +19,13 @@ public class SolarBuildingPieChartCalculator {
   public SolarBuildingPieChart calculatePieChart() {
     pieChart = new SolarBuildingPieChart();
 
-    pieChart.setTotalInstalledMWp(calculateTotalInstalledMWpOf(solarSystems));
-    pieChart.addSlice(calculateSlice(SCHOOLS_INDUSTRIAL_BUILDINGS_AND_CO, 40.0, 9999999.9));
-    pieChart.addSlice(calculateSlice(APARTMENT_BUILDINGS_COMMERCIAL_AND_CO, 10.0, 40.0));
-    pieChart.addSlice(calculateSlice(HOMES, 1.0, 10.0));
-    pieChart.addSlice(calculateSlice(BALKONKRAFTWERKE, 0.0, 1.0));
+    if (!solarSystems.isEmpty()) {
+      pieChart.setTotalInstalledMWp(calculateTotalInstalledMWpOf(solarSystems));
+      pieChart.addSlice(calculateSlice(SCHOOLS_INDUSTRIAL_BUILDINGS_AND_CO, 40.0, 9999999.9));
+      pieChart.addSlice(calculateSlice(APARTMENT_BUILDINGS_COMMERCIAL_AND_CO, 10.0, 40.0));
+      pieChart.addSlice(calculateSlice(HOMES, 1.0, 10.0));
+      pieChart.addSlice(calculateSlice(BALKONKRAFTWERKE, 0.0, 1.0));
+    }
 
     return pieChart;
   }

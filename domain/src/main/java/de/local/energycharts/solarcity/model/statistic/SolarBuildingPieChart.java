@@ -10,8 +10,8 @@ import java.util.List;
 @Accessors(chain = true)
 public class SolarBuildingPieChart {
 
-  private Double totalInstalledMWp;
-  private List<Slice> slices;
+  private Double totalInstalledMWp = 0.0;
+  private List<Slice> slices = new ArrayList<>(0);
 
   public void addSlice(Slice slice) {
     if (slices == null) {
