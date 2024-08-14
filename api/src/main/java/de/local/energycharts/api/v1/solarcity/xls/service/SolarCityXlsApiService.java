@@ -17,27 +17,28 @@ import java.io.FileNotFoundException;
 @RequiredArgsConstructor
 public class SolarCityXlsApiService {
 
-    private final SolarCityXlsService solarCityXlsService;
+  private final SolarCityXlsService solarCityXlsService;
 
-    public Mono<ResponseEntity<?>> getSolarSystemsXls(String id) {
-        return solarCityXlsService.createAllSolarSystemsXls(id)
-                .map(xlsFile -> {
-                    try {
-                        return createOKResponseWith(xlsFile);
-                    } catch (FileNotFoundException e) {
-                        return ResponseEntity.internalServerError().body(e.getMessage());
-                    }
-                });
-    }
+  public Mono<ResponseEntity<?>> getSolarSystemsXls(String id) {
+    return solarCityXlsService.createAllSolarSystemsXls(id)
+        .map(xlsFile -> {
+          try {
+            return createOKResponseWith(xlsFile);
+          } catch (FileNotFoundException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+          }
+        })
+        .defaultIfEmpty(ResponseEntity.notFound().build());
+  }
 
-    private ResponseEntity<Resource> createOKResponseWith(File xlsFile) throws FileNotFoundException {
-        var resource = new InputStreamResource(new FileInputStream(xlsFile));
+  private ResponseEntity<Resource> createOKResponseWith(File xlsFile) throws FileNotFoundException {
+    var resource = new InputStreamResource(new FileInputStream(xlsFile));
 
-        return ResponseEntity
-                .ok()
-                .header("Content-disposition", "attachment; filename=" + xlsFile.getName())
-                .contentLength(xlsFile.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
-    }
+    return ResponseEntity
+        .ok()
+        .header("Content-disposition", "attachment; filename=" + xlsFile.getName())
+        .contentLength(xlsFile.length())
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .body(resource);
+  }
 }

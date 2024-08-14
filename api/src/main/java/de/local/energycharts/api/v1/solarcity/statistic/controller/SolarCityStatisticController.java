@@ -37,7 +37,7 @@ public class SolarCityStatisticController {
   public Mono<ResponseEntity<SolarCityOverviewResponse>> getOverview(@PathVariable("id") String id) {
     return solarCityStatisticApiService.createOverview(id)
         .map(ResponseEntity::ok)
-        .onErrorReturn(ResponseEntity.notFound().build());
+        .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "The column chart shows the annual addition of solar installations in a city. "
@@ -59,7 +59,7 @@ public class SolarCityStatisticController {
             years,
             previousSolarInstallationsOnly
         ).map(ResponseEntity::ok)
-        .onErrorReturn(ResponseEntity.notFound().build());
+        .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "", hidden = true)
@@ -77,7 +77,7 @@ public class SolarCityStatisticController {
             name.trim(),
             request
         ).map(ResponseEntity::ok)
-        .onErrorReturn(ResponseEntity.notFound().build());
+        .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "", hidden = true)
@@ -93,7 +93,7 @@ public class SolarCityStatisticController {
     return solarCityStatisticHighchartsApiService
         .createMonthlySolarInstallationsChart(id)
         .map(ResponseEntity::ok)
-        .onErrorReturn(ResponseEntity.notFound().build());
+        .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
   @Operation(summary = "The pie chart shows the distribution of solar installations on different buildings " +
@@ -110,6 +110,6 @@ public class SolarCityStatisticController {
     return solarCityStatisticHighchartsApiService
         .createSolarBuildingPieChart(id)
         .map(ResponseEntity::ok)
-        .onErrorReturn(ResponseEntity.notFound().build());
+        .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 }
