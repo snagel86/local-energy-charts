@@ -5,9 +5,9 @@ import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.repository.SolarCityRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
@@ -20,12 +20,11 @@ import static de.local.energycharts.solarcity.model.SolarCity.createNewSolarCity
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SolarCityServiceTest {
 
-  @InjectMocks
   private SolarCityService solarCityService;
   @Mock
   private SolarCityRepository solarCityRepository;
@@ -34,31 +33,14 @@ class SolarCityServiceTest {
   @Mock
   private OpendatasoftGateway opendatasoftGateway;
 
-  @Test
-  void get_cached_solar_city() {
-    var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
-
-    when(solarCityRepository.findByIdSync("1"))
-        .thenReturn(frankfurt);
-
-    solarCityService.getCachedSolarCity("1").block(); // find once from repository
-    solarCityService.getCachedSolarCity("1").block(); // then get from cache
-
-    verify(solarCityRepository, atMostOnce()).findById("1");
-  }
-
-  @Test
-  void reset_cached_solar_city() {
-    var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("1");
-
-    when(solarCityRepository.findByIdSync("1"))
-        .thenReturn(frankfurt);
-
-    solarCityService.getCachedSolarCity("1").block();
-    solarCityService.resetCachedSolarCity(frankfurt).block();
-    solarCityService.getCachedSolarCity("1").block();
-
-    verify(solarCityRepository, times(2)).findByIdSync("1");
+  @BeforeEach
+  void createSolarCityService() {
+    solarCityService = new SolarCityService(
+        mastrGateway,
+        opendatasoftGateway,
+        new SolarCityCacheService(solarCityRepository),
+        solarCityRepository
+    );
   }
 
   @Test
@@ -74,13 +56,13 @@ class SolarCityServiceTest {
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("3").status(IN_OPERATION).build()
         )));
+
     when(solarCityRepository.save(any(SolarCity.class)))
-        .thenAnswer(invocation -> (
-            Mono.just(
+        .thenAnswer(invocation -> (Mono.just(
                 ((SolarCity) invocation.getArguments()[0])
-                    .setId("1") // save returns the solar city with a new generated id
-            )
-        ));
+                    .setId("1") // save returns the solar city with a new generated id;
+            ))
+        );
     when(opendatasoftGateway.getPostcodes("Frankfurt"))
         .thenReturn(Flux.fromIterable(List.of(60314, 60528)));
 
