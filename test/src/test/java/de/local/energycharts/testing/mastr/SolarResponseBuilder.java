@@ -1,4 +1,4 @@
-package de.local.energycharts.testing.builder;
+package de.local.energycharts.testing.mastr;
 
 import io.cucumber.datatable.DataTable;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ import java.util.Map;
 import static java.time.LocalTime.MIDNIGHT;
 import static java.util.Collections.singletonList;
 
-public class MastrSolarResponseBuilder {
+public class SolarResponseBuilder {
 
   private DataTable dataTable;
   private Integer year;
@@ -25,17 +25,17 @@ public class MastrSolarResponseBuilder {
   private Integer currentPage = 1;
   public static final Integer PAGE_SIZE = 5000;
 
-  public MastrSolarResponseBuilder from(DataTable dataTable) {
+  public SolarResponseBuilder from(DataTable dataTable) {
     this.dataTable = dataTable;
     return this;
   }
 
-  public MastrSolarResponseBuilder withYear(int year) {
+  public SolarResponseBuilder withYear(int year) {
     this.year = year;
     return this;
   }
 
-  public MastrSolarResponseBuilder withPostcode(int postcode) {
+  public SolarResponseBuilder withPostcode(int postcode) {
     this.postcode = postcode;
     return this;
   }
@@ -64,7 +64,7 @@ public class MastrSolarResponseBuilder {
     }
   }
 
-  public MastrSolarResponseBuilder addSchoolsWith100kWp(int count) {
+  public SolarResponseBuilder addSchoolsWith100kWp(int count) {
     for (int i = 0; i < count; ++i) {
       addSolarSystem(createSolarSystem(100.0));
     }

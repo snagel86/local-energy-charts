@@ -1,17 +1,16 @@
-package de.local.energycharts.testing.builder;
+package de.local.energycharts.testing.opendatasoft;
 
-import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpendatasoftPlzResponseBuilder {
+public class PostcodeResponseBuilder {
 
   private final List<JSONObject> records = new ArrayList<>();
   private List<Integer> postcodes;
 
-  public OpendatasoftPlzResponseBuilder withPostcodes(List<Integer> postcodes){
+  public PostcodeResponseBuilder withPostcodes(List<Integer> postcodes){
     this.postcodes = postcodes;
     return this;
   }

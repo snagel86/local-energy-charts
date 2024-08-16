@@ -1,6 +1,6 @@
-package de.local.energycharts.testing.client;
+package de.local.energycharts.testing.api;
 
-import de.local.energycharts.testing.model.SolarCityCreatedResponse;
+import de.local.energycharts.testing.api.model.SolarCityCreatedResponse;
 import io.restassured.response.ValidatableResponse;
 import org.json.JSONObject;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * To test the api of this application, <a href="https://rest-assured.io/">https://rest-assured.io/</a> is used.
  * This makes it simple to create, execute and test RESTful calls.
  */
-public class LocalEnergyChartsAPIClient {
+public class ApiClient {
 
   private String id;
 

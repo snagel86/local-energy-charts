@@ -1,4 +1,4 @@
-package de.local.energycharts.testing.model;
+package de.local.energycharts.testing.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

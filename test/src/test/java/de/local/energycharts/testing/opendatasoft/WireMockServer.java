@@ -1,10 +1,13 @@
-package de.local.energycharts.testing.server;
+package de.local.energycharts.testing.opendatasoft;
 
+import io.cucumber.java.After;
 import org.json.JSONObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class OpendatasoftWireMockServer {
+public class WireMockServer {
+
+  private static final int PORT = 8083;
 
   /**
    * To simulate <a href="https://public.opendatasoft.com/explore/dataset/georef-germany-postleitzahl/information/">Opendatasoft</a>, as an external service with its own api,
@@ -15,7 +18,7 @@ public class OpendatasoftWireMockServer {
    * @param response The response from the Opendatasoft to simulate.
    */
   public void stubGetPostcodes(String cityName, JSONObject response) {
-    configureFor("localhost", 8083);
+    configureFor("localhost", PORT);
     stubFor(get(urlPathMatching(
             "/api/records/1.0/search/"
         ))
@@ -42,5 +45,11 @@ public class OpendatasoftWireMockServer {
                 .withBody("{ \"records\": [] }") // empty records
             )
     );
+  }
+
+  @After
+  public void reset() {
+    configureFor("localhost", PORT);
+    resetAllRequests();
   }
 }
