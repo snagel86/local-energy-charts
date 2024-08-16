@@ -1,4 +1,4 @@
-package de.local.energycharts.testing.step.builder;
+package de.local.energycharts.testing.builder;
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -6,11 +6,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 public class OpendatasoftPlzResponseBuilder {
 
   private final List<JSONObject> records = new ArrayList<>();
-  private final List<Integer> postcodes;
+  private List<Integer> postcodes;
+
+  public OpendatasoftPlzResponseBuilder withPostcodes(List<Integer> postcodes){
+    this.postcodes = postcodes;
+    return this;
+  }
 
   public JSONObject build() {
     JSONObject response = new JSONObject();

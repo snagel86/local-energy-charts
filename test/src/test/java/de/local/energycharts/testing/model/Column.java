@@ -1,4 +1,4 @@
-package de.local.energycharts.testing.step.model;
+package de.local.energycharts.testing.model;
 
 import lombok.Data;
 

@@ -1,4 +1,6 @@
-package de.local.energycharts.testing.service;
+package de.local.energycharts.testing.server;
+
+import org.json.JSONObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
@@ -6,9 +8,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-import static de.local.energycharts.testing.step.builder.MastrSolarResponseBuilder.PAGE_SIZE;
+import static de.local.energycharts.testing.builder.MastrSolarResponseBuilder.PAGE_SIZE;
 
-public class MastrRestAPIService {
+public class MastrWireMockServer {
 
   /**
    * To simulate the Marktstammdatenregister, as an external service with its own api,
@@ -18,7 +20,7 @@ public class MastrRestAPIService {
    * @param postcode The postcode to which the Marktstammdatenregister should respond with the following response.
    * @param response The response from the Marktstammdatenregister to simulate.
    */
-  public void stubGetSolarSystems(int postcode, String response, Integer page) {
+  public void stubGetSolarSystems(int postcode, JSONObject response, Integer page) {
     configureFor("localhost", 8082);
     stubFor(get(urlPathMatching(
         "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
@@ -28,8 +30,23 @@ public class MastrRestAPIService {
         .withQueryParam("filter", equalTo("Postleitzahl~eq~'" + postcode + "'~and~Energieträger~eq~'2495'"))
         .willReturn(aResponse()
             .withHeader("Content-Type", "application/json")
-            .withBody(response)
+            .withBody(response.toString())
         )
+    );
+  }
+
+  public void stubGetSolarSystems(String municipalityKey, JSONObject response, Integer page) {
+    configureFor("localhost", 8082);
+    stubFor(get(urlPathMatching(
+            "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
+        ))
+            .withQueryParam("page", equalTo(page.toString()))
+            .withQueryParam("pageSize", equalTo(PAGE_SIZE.toString()))
+            .withQueryParam("filter", equalTo("Gemeindeschlüssel~eq~'" + municipalityKey + "'~and~Energieträger~eq~'2495'"))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody(response.toString())
+            )
     );
   }
 }

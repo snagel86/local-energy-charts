@@ -1,8 +1,7 @@
 package de.local.energycharts.testing.step;
 
-import de.local.energycharts.testing.service.MastrRestAPIService;
-import de.local.energycharts.testing.step.builder.MastrSolarResponseBuilder;
-import de.local.energycharts.testing.step.converter.MastrSolarResponseConverter;
+import de.local.energycharts.testing.builder.MastrSolarResponseBuilder;
+import de.local.energycharts.testing.server.MastrWireMockServer;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -11,27 +10,47 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class MastrStep {
-  private final MastrRestAPIService mastrRestAPIService = new MastrRestAPIService();
-  private MastrSolarResponseBuilder mastrSolarResponseBuilder;
+  private final MastrWireMockServer mastrWireMockServer = new MastrWireMockServer();
+  private final MastrSolarResponseBuilder mastrSolarResponseBuilder = new MastrSolarResponseBuilder();
   private Integer postcode;
 
+  @Given("(is, )that for the Gemeindeschlüssel {string}, the following solar systems are registered in the Marktstammdatenregister")
+  public void stubSolarResponse(String municipalityKey, DataTable givenSolarSystems) {
+    List<JSONObject> responses = mastrSolarResponseBuilder
+        .from(givenSolarSystems)
+        .build();
+    int page = 1;
+    for (JSONObject response : responses) {
+      mastrWireMockServer.stubGetSolarSystems(municipalityKey, response, page++);
+    }
+  }
+
   @Given("(is, )that for the postcode {int}, the following solar systems are registered in the Marktstammdatenregister")
-  public void stubTheGivenResponse(int postcode, DataTable givenSolarSystems) {
-    var response = new MastrSolarResponseConverter().convert(givenSolarSystems);
-    mastrRestAPIService.stubGetSolarSystems(postcode, response.toString(), 1);
+  public void stubSolarResponse(int postcode, DataTable givenSolarSystems) {
+    List<JSONObject> responses = mastrSolarResponseBuilder
+        .from(givenSolarSystems)
+        .build();
+    int page = 1;
+    for (JSONObject response : responses) {
+      mastrWireMockServer.stubGetSolarSystems(postcode, response, page++);
+    }
   }
 
   @Given("that in {int} for postcode {int}, {int} Balkonkraftwerke \\(with 0.6 kWp)")
   public void addBalkonkraftwerke(int year, int postcode, int count) {
-    mastrSolarResponseBuilder = new MastrSolarResponseBuilder(year, postcode);
-    mastrSolarResponseBuilder.addBalkonkraftwerksWith06kWp(count);
+    mastrSolarResponseBuilder
+        .withYear(year)
+        .withPostcode(postcode)
+        .addBalkonkraftwerksWith06kWp(count);
     this.postcode = postcode;
   }
 
   @Given("that in {int} for postcode {int}, {int} homes \\(with 5.0 kWp)")
   public void addHomes(int year, int postcode, int count) {
-    mastrSolarResponseBuilder = new MastrSolarResponseBuilder(year, postcode);
-    mastrSolarResponseBuilder.addHomesWith5kWp(count);
+    mastrSolarResponseBuilder
+        .withYear(year)
+        .withPostcode(postcode)
+        .addHomesWith5kWp(count);
     this.postcode = postcode;
   }
 
@@ -42,21 +61,24 @@ public class MastrStep {
 
   @And("{int} solar systems on apartment buildings \\(with 25.0 kWp)")
   public void addApartmentBuildings(int count) {
-    mastrSolarResponseBuilder.addApartmentBuildingsWith25kWp(count);
+    mastrSolarResponseBuilder
+        .addApartmentBuildingsWith25kWp(count);
   }
 
   @And("{int} solar systems on commercial buildings \\(with 100.0 kWp)")
   public void addCommercialBuildings(int count) {
-    mastrSolarResponseBuilder.addCommercialBuildingsWith100kWp(count);
+    mastrSolarResponseBuilder
+        .addCommercialBuildingsWith100kWp(count);
   }
 
   @And("{int} on schools \\(with 100.0 kWp) are registered in the Marktstammdatenregister")
-  public void addSchoolsAndStubTheResponse(int count) {
-    mastrSolarResponseBuilder.addSchoolsWith100kWp(count);
-    List<JSONObject> responses = mastrSolarResponseBuilder.build();
+  public void addSchoolsAndStubSolarResponse(int count) {
+    List<JSONObject> responses = mastrSolarResponseBuilder
+        .addSchoolsWith100kWp(count)
+        .build();
     int page = 1;
     for (JSONObject response : responses) {
-      mastrRestAPIService.stubGetSolarSystems(postcode, response.toString(), page++);
+      mastrWireMockServer.stubGetSolarSystems(postcode, response, page++);
     }
   }
 }

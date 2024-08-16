@@ -1,8 +1,8 @@
 package de.local.energycharts.testing.step;
 
-import de.local.energycharts.testing.service.LocalEnergyChartsService;
-import de.local.energycharts.testing.step.model.Column;
-import de.local.energycharts.testing.step.model.ColumnChartResponse;
+import de.local.energycharts.testing.client.LocalEnergyChartsAPIClient;
+import de.local.energycharts.testing.model.Column;
+import de.local.energycharts.testing.model.ColumnChartResponse;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -21,10 +21,12 @@ import static org.hamcrest.Matchers.is;
 
 public class LocalEnergyChartsStep {
 
-  private final LocalEnergyChartsService localEnergyChartsService = new LocalEnergyChartsService();
+  private final LocalEnergyChartsAPIClient localEnergyChartsAPIClient = new LocalEnergyChartsAPIClient();
 
+  private String cityName;
   private Double totalSolarPotentialMWp;
   private Integer targetYear;
+  private String municipalityKey;
   private Integer currentYear;
   private ValidatableResponse solarBuildingPieChart;
   private ValidatableResponse writtenMailResponse;
@@ -39,14 +41,25 @@ public class LocalEnergyChartsStep {
     this.targetYear = targetYear;
   }
 
+  @And("the Gemeindeschlüssel für {string} is {string}")
+  public void setCityNameAndMunicipalityKey(String cityName, String municipalityKey) {
+    this.cityName = cityName;
+    this.municipalityKey = municipalityKey;
+  }
+
+  @When("all solar systems are downloaded from the Marktstammdatenregister")
+  public void createSolarCity() {
+    localEnergyChartsAPIClient.createSolarCity(cityName, municipalityKey, totalSolarPotentialMWp, targetYear);
+  }
+
   @When("all solar systems in {string} are downloaded from the Marktstammdatenregister")
   public void createSolarCity(String cityName) {
-    localEnergyChartsService.createSolarCity(cityName, totalSolarPotentialMWp, targetYear);
+    localEnergyChartsAPIClient.createSolarCity(cityName, totalSolarPotentialMWp, targetYear);
   }
 
   @Then("the overview has a total of {int} installed solar systems with a capacity of {float} megawatt peak")
   public void getOverview(int totalSolarInstallations, float totalInstalledMWp) {
-    localEnergyChartsService.getOverview()
+    localEnergyChartsAPIClient.getOverview()
         .body(
             "rooftopSolarSystemsInOperation", is(totalSolarInstallations),
             "installedRooftopMWpInOperation", is(totalInstalledMWp)
@@ -56,7 +69,7 @@ public class LocalEnergyChartsStep {
   @Then("the calculated highchart has a total of {double} MWp and contains the following values")
   public void getAndValidateHighchart(double expectedTotalInstalledMWp, DataTable givenValues) {
     ValidatableResponse response =
-        localEnergyChartsService
+        localEnergyChartsAPIClient
             .getAnnualAdditionOfSolarInstallationsHighcharts(false);
 
     validateTotalMWp(expectedTotalInstalledMWp, response);
@@ -84,7 +97,7 @@ public class LocalEnergyChartsStep {
   @And("the future available rooftop solar potential is {double} MWp")
   public void getAndValidateAndFutureAvailableSolarPotential(double expectedFutureAvailableSolarPotentialMWp) {
     var response =
-        localEnergyChartsService
+        localEnergyChartsAPIClient
             .getAnnualAdditionOfSolarInstallationsHighcharts(false)
             .extract().as(ColumnChartResponse.class);
 
@@ -105,7 +118,7 @@ public class LocalEnergyChartsStep {
   @And("the average of all yet installed solar systems is {int} kWp")
   public void getAverageOfAllYetInstalledSolarSystems(int expectedAveragekWp) {
     var response =
-        localEnergyChartsService
+        localEnergyChartsAPIClient
             .getAnnualAdditionOfSolarInstallationsHighcharts(false)
             .extract().as(ColumnChartResponse.class);
 
@@ -126,7 +139,7 @@ public class LocalEnergyChartsStep {
 
   @When("the tenant writes the following from {string} to the landlady*lord to {string}")
   public void tenantWritesMail(String fromTenant, String toLandlord, String message) {
-    writtenMailResponse = localEnergyChartsService.sendMail(message, fromTenant, toLandlord);
+    writtenMailResponse = localEnergyChartsAPIClient.sendMail(message, fromTenant, toLandlord);
   }
 
   @Then("the mail was successfully sent.")
@@ -137,7 +150,7 @@ public class LocalEnergyChartsStep {
   @Then("(the pie chart must have )a slice with {int} solar installations with {float} MWp, which is {float} %")
   public void getAndValidateSolarBuildingPieChart(Integer count, Float installedMWp, Float percentage) {
     if (solarBuildingPieChart == null) {
-      solarBuildingPieChart = localEnergyChartsService.getSolarBuildingPieChart();
+      solarBuildingPieChart = localEnergyChartsAPIClient.getSolarBuildingPieChart();
     }
     solarBuildingPieChart
         .body(
@@ -151,6 +164,6 @@ public class LocalEnergyChartsStep {
   public void freezeNowAt(String date) {
     var today = LocalDate.parse(date);
     currentYear = today.getYear();
-    localEnergyChartsService.freezeNowAt(today.atStartOfDay().toInstant(UTC));
+    localEnergyChartsAPIClient.freezeNowAt(today.atStartOfDay().toInstant(UTC));
   }
 }

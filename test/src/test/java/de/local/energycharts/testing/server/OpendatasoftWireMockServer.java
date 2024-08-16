@@ -1,8 +1,10 @@
-package de.local.energycharts.testing.service;
+package de.local.energycharts.testing.server;
+
+import org.json.JSONObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class OpendatasoftAPIService {
+public class OpendatasoftWireMockServer {
 
   /**
    * To simulate <a href="https://public.opendatasoft.com/explore/dataset/georef-germany-postleitzahl/information/">Opendatasoft</a>, as an external service with its own api,
@@ -12,7 +14,7 @@ public class OpendatasoftAPIService {
    * @param cityName The name of the city to which Opendatasoft should respond with the following post codes.
    * @param response The response from the Opendatasoft to simulate.
    */
-  public void stubGetPostcodes(String cityName, String response) {
+  public void stubGetPostcodes(String cityName, JSONObject response) {
     configureFor("localhost", 8083);
     stubFor(get(urlPathMatching(
             "/api/records/1.0/search/"
@@ -23,7 +25,7 @@ public class OpendatasoftAPIService {
             .withQueryParam("refine.plz_name", equalTo(cityName))
             .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
-                .withBody(response)
+                .withBody(response.toString())
             )
     );
 

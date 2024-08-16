@@ -1,6 +1,6 @@
-package de.local.energycharts.testing.service;
+package de.local.energycharts.testing.client;
 
-import de.local.energycharts.testing.step.model.SolarCityCreatedResponse;
+import de.local.energycharts.testing.model.SolarCityCreatedResponse;
 import io.restassured.response.ValidatableResponse;
 import org.json.JSONObject;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * To test the api of this application, <a href="https://rest-assured.io/">https://rest-assured.io/</a> is used.
  * This makes it simple to create, execute and test RESTful calls.
  */
-public class LocalEnergyChartsService {
+public class LocalEnergyChartsAPIClient {
 
   private String id;
 
@@ -22,8 +22,18 @@ public class LocalEnergyChartsService {
       String cityName,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   ) {
+    createSolarCity(cityName, null, entireSolarPotentialOnRooftopsMWp, targetYear);
+  }
+
+  public void createSolarCity(
+      String cityName, String municipalityKey,
+      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
+  ) {
     JSONObject requestJson = new JSONObject();
     requestJson.put("cityName", cityName);
+    if (municipalityKey != null) {
+      requestJson.put("municipalityKey", municipalityKey);
+    }
     if (entireSolarPotentialOnRooftopsMWp != null && targetYear != null) {
       requestJson.put("entireSolarPotentialOnRooftopsMWp", entireSolarPotentialOnRooftopsMWp);
       requestJson.put("targetYear", targetYear);
