@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class Step {
+public class StepDefinitions {
 
   private final WireMockServer wireMockServer = new WireMockServer();
   private final SolarResponseBuilder solarResponseBuilder = new SolarResponseBuilder();

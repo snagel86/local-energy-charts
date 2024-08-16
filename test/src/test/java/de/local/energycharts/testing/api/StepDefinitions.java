@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
-public class Step {
+public class StepDefinitions {
 
   private final ApiClient apiClient = new ApiClient();
 
