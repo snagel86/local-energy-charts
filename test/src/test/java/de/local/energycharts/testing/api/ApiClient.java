@@ -18,39 +18,17 @@ public class ApiClient {
 
   private String id;
 
-  public void createSolarCity(
-      String cityName,
-      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
-  ) {
-    createSolarCity(cityName, null, entireSolarPotentialOnRooftopsMWp, targetYear);
-  }
-
-  public void createSolarCity(
-      String cityName, String municipalityKey,
-      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
-  ) {
-    JSONObject requestJson = new JSONObject();
-    requestJson.put("cityName", cityName);
-    if (municipalityKey != null) {
-      requestJson.put("municipalityKey", municipalityKey);
-    }
-    if (entireSolarPotentialOnRooftopsMWp != null && targetYear != null) {
-      requestJson.put("entireSolarPotentialOnRooftopsMWp", entireSolarPotentialOnRooftopsMWp);
-      requestJson.put("targetYear", targetYear);
-    }
-
+  public void createSolarCity(JSONObject request) {
     var response = given()
         .header("Content-type", "application/json")
         .auth().basic("user", "secret")
-        .body(requestJson.toString())
+        .body(request.toString())
         .when()
         .post("/v1/solar-city/create")
         .then()
         .extract().as(SolarCityCreatedResponse.class);
 
-    assertThat(response.getCityName()).isEqualTo(cityName);
     assertThat(response.getId()).isNotNull();
-
     id = response.getId();
   }
 

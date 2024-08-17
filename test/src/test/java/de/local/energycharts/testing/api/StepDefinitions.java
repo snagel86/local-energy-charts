@@ -21,39 +21,45 @@ import static org.hamcrest.Matchers.is;
 public class StepDefinitions {
 
   private final ApiClient apiClient = new ApiClient();
-
-  private String cityName;
-  private Double totalSolarPotentialMWp;
-  private Integer targetYear;
-  private String municipalityKey;
+  private final CreateSolarCityRequestBuilder createSolarCityRequestBuilder = new CreateSolarCityRequestBuilder();
   private Integer currentYear;
   private ValidatableResponse solarBuildingPieChart;
   private ValidatableResponse writtenMailResponse;
 
   @And("the total solar potential on rooftops in the city is {double} MWp")
-  public void setTotalSolarPotential(Double totalSolarPotentialMWp) {
-    this.totalSolarPotentialMWp = totalSolarPotentialMWp;
+  public void setTotalSolarPotential(Double entireSolarPotentialOnRooftopsMWp) {
+    createSolarCityRequestBuilder
+        .withEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp);
   }
 
   @And("the target year is {int}")
   public void setTargetYear(Integer targetYear) {
-    this.targetYear = targetYear;
+    createSolarCityRequestBuilder
+        .withTargetYear(targetYear);
   }
 
   @And("the Gemeindeschlüssel für {string} is {string}")
   public void setCityNameAndMunicipalityKey(String cityName, String municipalityKey) {
-    this.cityName = cityName;
-    this.municipalityKey = municipalityKey;
+    createSolarCityRequestBuilder
+        .withName(cityName)
+        .withMunicipalityKey(municipalityKey);
   }
 
   @When("all solar systems are downloaded from the Marktstammdatenregister")
   public void createSolarCity() {
-    apiClient.createSolarCity(cityName, municipalityKey, totalSolarPotentialMWp, targetYear);
+    apiClient.createSolarCity(
+        createSolarCityRequestBuilder
+            .build()
+    );
   }
 
   @When("all solar systems in {string} are downloaded from the Marktstammdatenregister")
   public void createSolarCity(String cityName) {
-    apiClient.createSolarCity(cityName, totalSolarPotentialMWp, targetYear);
+    apiClient.createSolarCity(
+        createSolarCityRequestBuilder
+            .withName(cityName)
+            .build()
+    );
   }
 
   @Then("the overview has a total of {int} installed solar systems with a capacity of {float} megawatt peak")
