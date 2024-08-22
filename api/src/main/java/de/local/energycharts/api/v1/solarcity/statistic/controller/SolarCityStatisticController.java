@@ -68,7 +68,9 @@ public class SolarCityStatisticController {
       Also shows the annual addition of solar installations,
       but downloads the data on-the-fly from the Marktstammdatenregister
       instead of using the process of a created solar city.
-      """)
+      """,
+      hidden = true
+  )
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "annual addition of solar installations in highcharts format.",
           content = {@Content(mediaType = "application/json",
