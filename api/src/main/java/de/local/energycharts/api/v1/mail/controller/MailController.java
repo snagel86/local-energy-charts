@@ -2,7 +2,6 @@ package de.local.energycharts.api.v1.mail.controller;
 
 import de.local.energycharts.api.v1.mail.model.MailRequest;
 import de.local.energycharts.api.v1.mail.service.MailApiService;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,7 +16,6 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-@Hidden
 public class MailController {
 
   private final MailApiService mailApiService;

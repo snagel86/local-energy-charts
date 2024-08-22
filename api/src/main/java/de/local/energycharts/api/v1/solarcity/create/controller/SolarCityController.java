@@ -24,7 +24,8 @@ public class SolarCityController {
   private final SolarCityApiService solarCityApiService;
 
   @Operation(summary = """
-      Creates a solar city based on the solar installations registered in the Marktstammdatenregister.
+      Creates a new or replaces an existing solar city based on the solar systems
+      registered in the Marktstammdatenregister.
       You can optionally enter the municipality key of the city,
       which you can find here: https://www.statistikportal.de/de/gemeindeverzeichnis.
       Alternatively, all available postal codes are resolved via Opendatasoft using the name of the city,
@@ -37,12 +38,12 @@ public class SolarCityController {
           content = {@Content(mediaType = "application/json",
               schema = @Schema(implementation = SolarCityCreatedResponse.class))})
   })
-  @PostMapping(value = "/solar-city/create", produces = "application/json")
-  public Mono<SolarCityCreatedResponse> createSolarCity(@RequestBody CreateSolarCityRequest request) {
-    return solarCityApiService.createSolarCity(request);
+  @PutMapping(value = "/solar-city/create", produces = "application/json")
+  public Mono<SolarCityCreatedResponse> createOrReplaceSolarCity(@RequestBody CreateSolarCityRequest request) {
+    return solarCityApiService.createOrUpdateSolarCity(request);
   }
 
-  @Operation(summary = "List all created solar cities.")
+  @Operation(summary = "Lists all created solar cities.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "List all created solar cities.",
           content = {@Content(mediaType = "application/json",

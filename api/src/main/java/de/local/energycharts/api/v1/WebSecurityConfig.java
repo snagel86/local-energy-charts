@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -44,7 +44,7 @@ public class WebSecurityConfig {
         .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests((requests) -> requests
-            .requestMatchers(antMatcher(POST, "/v1/solar-city/create")).hasRole("ADMIN")
+            .requestMatchers(antMatcher(PUT, "/v1/solar-city/create")).hasRole("ADMIN")
             .requestMatchers(antMatcher("/**")).permitAll()
             .anyRequest().authenticated()
         ).httpBasic(withDefaults()).build();

@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "create solar city",
+			"name": "create or replace a solar city",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -24,7 +24,7 @@
 						}
 					]
 				},
-				"method": "POST",
+				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -115,6 +115,29 @@
 							"key": "years",
 							"value": "20"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get annual addition of solar installations on-the-fly (highcharts format)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/solar-cities/{{name}}/statistics/annual-addition-of-solar-installations/highcharts/temporary",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"solar-cities",
+						"{{name}}",
+						"statistics",
+						"annual-addition-of-solar-installations",
+						"highcharts",
+						"temporary"
 					]
 				}
 			},
@@ -264,6 +287,11 @@
 		{
 			"key": "id",
 			"value": "66b1dd3c48b40c753d98278a"
+		},
+		{
+			"key": "name",
+			"value": "Köln",
+			"type": "string"
 		}
 	]
 }

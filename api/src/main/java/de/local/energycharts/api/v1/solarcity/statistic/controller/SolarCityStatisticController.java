@@ -27,7 +27,7 @@ public class SolarCityStatisticController {
   private final SolarCityStatisticApiService solarCityStatisticApiService;
   private final SolarCityStatisticHighchartsApiService solarCityStatisticHighchartsApiService;
 
-  @Operation(summary = "Statistical overview of a solar city.")
+  @Operation(summary = "Returns a statistical overview of a solar city.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "overview",
           content = {@Content(mediaType = "application/json",
@@ -40,8 +40,10 @@ public class SolarCityStatisticController {
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
-  @Operation(summary = "The column chart shows the annual addition of solar installations in a city. "
-      + "The response is optimised for Highcharts."
+  @Operation(summary = """
+      Returns a column chart showing the annual addition of solar installations in a city.
+      The response is optimised for Highcharts.
+      """
   )
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "annual addition of solar installations in highcharts format.",
@@ -62,7 +64,11 @@ public class SolarCityStatisticController {
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
-  @Operation(summary = "", hidden = true)
+  @Operation(summary = """
+      Also shows the annual addition of solar installations,
+      but downloads the data on-the-fly from the Marktstammdatenregister
+      instead of using the process of a created solar city.
+      """)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "annual addition of solar installations in highcharts format.",
           content = {@Content(mediaType = "application/json",
@@ -96,8 +102,12 @@ public class SolarCityStatisticController {
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
-  @Operation(summary = "The pie chart shows the distribution of solar installations on different buildings " +
-      "such as homes, apartment buildings, schools or industrial buildings. The response is optimised for Highcharts.")
+  @Operation(summary = """
+      Returns a pie chart showing the distribution of solar installations on different buildings
+      such as homes, apartment buildings, schools or industrial buildings.
+      The response is optimised for Highcharts.
+      """
+  )
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "building pie chart",
           content = {@Content(mediaType = "application/json",

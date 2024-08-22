@@ -5,7 +5,6 @@ import de.local.energycharts.api.v1.solarcity.create.model.SolarCityCreatedRespo
 import de.local.energycharts.api.v1.solarcity.create.model.SolarCityResponse;
 import de.local.energycharts.api.v1.solarcity.create.model.mapper.SolarCityCreatedMapper;
 import de.local.energycharts.api.v1.solarcity.create.model.mapper.SolarCityMapper;
-import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.service.SolarCityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class SolarCityApiService {
   private final SolarCityCreatedMapper solarCityCreatedMapper;
   private final SolarCityMapper solarCityMapper;
 
-  public Mono<SolarCityCreatedResponse> createSolarCity(@RequestBody CreateSolarCityRequest request) {
+  public Mono<SolarCityCreatedResponse> createOrUpdateSolarCity(@RequestBody CreateSolarCityRequest request) {
     if (request.getMunicipalityKey() != null) {
       return solarCityService.createOrUpdateSolarCity(
           request.getCityName(),
