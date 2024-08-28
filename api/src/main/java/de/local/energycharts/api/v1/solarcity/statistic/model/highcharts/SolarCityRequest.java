@@ -34,7 +34,7 @@ public class SolarCityRequest {
     if (eoSolarRoofPotential != null) {
       StringBuilder doubleNumber = new StringBuilder();
       Matcher matcher = Pattern
-          .compile("(-)?(([^\\\\d])(0)|[1-9][0-9]*)(.)([0-9]+)")
+          .compile("(\\d+[.]\\d+)|(\\d+)")
           .matcher(eoSolarRoofPotential.replace(",", "."));
 
       while (matcher.find()) {
