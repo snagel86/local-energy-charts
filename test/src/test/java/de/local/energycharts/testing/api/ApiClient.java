@@ -24,7 +24,7 @@ public class ApiClient {
         .auth().basic("user", "secret")
         .body(request.toString())
         .when()
-        .post("/v1/solar-city/create")
+        .put("/v1/solar-city/create")
         .then()
         .extract().as(SolarCityCreatedResponse.class);
 

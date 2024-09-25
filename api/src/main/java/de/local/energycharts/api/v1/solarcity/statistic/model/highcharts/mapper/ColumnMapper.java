@@ -1,7 +1,7 @@
 package de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper;
 
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.Column;
-import de.local.energycharts.solarcity.model.statistic.AdditionOfSolarInstallations;
+import de.local.energycharts.solarcity.model.statistic.AnnualSolarInstallations;
 import de.local.energycharts.solarcity.model.statistic.MonthlySolarInstallations;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,10 +22,10 @@ public interface ColumnMapper {
   @Mapping(target = "numberOfSolarSystems1To10kWp", source = "numberOfSolarSystems1To10kWp")
   @Mapping(target = "numberOfSolarSystems10To40kWp", source = "numberOfSolarSystems10To40kWp")
   @Mapping(target = "numberOfSolarSystemsFrom40kWp", source = "numberOfSolarSystemsFrom40kWp")
-  Column mapToColumn(AdditionOfSolarInstallations addition);
+  Column mapToColumn(AnnualSolarInstallations.Addition addition);
 
   @Named("getName")
-  default String getName(AdditionOfSolarInstallations addition) {
+  default String getName(AnnualSolarInstallations.Addition addition) {
     return addition.getYear().toString();
   }
 

@@ -2,7 +2,7 @@ package de.local.energycharts.infrastructure.solarcity.writer;
 
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
-import de.local.energycharts.solarcity.writer.SolarSystemsXlsWriter;
+import de.local.energycharts.solarcity.port.SolarSystemsXlsWriter;
 import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;

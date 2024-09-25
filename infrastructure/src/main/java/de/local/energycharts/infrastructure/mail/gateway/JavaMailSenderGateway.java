@@ -1,6 +1,6 @@
 package de.local.energycharts.infrastructure.mail.gateway;
 
-import de.local.energycharts.mail.gateway.MailSenderGateway;
+import de.local.energycharts.mail.port.MailSenderGateway;
 import de.local.energycharts.mail.model.Mail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

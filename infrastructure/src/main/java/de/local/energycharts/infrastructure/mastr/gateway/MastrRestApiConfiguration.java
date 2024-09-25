@@ -1,7 +1,7 @@
 package de.local.energycharts.infrastructure.mastr.gateway;
 
 import de.local.energycharts.infrastructure.mastr.model.mapper.SolarSystemMapper;
-import de.local.energycharts.solarcity.gateway.MastrGateway;
+import de.local.energycharts.solarcity.port.MastrGateway;
 import lombok.Data;
 import org.mapstruct.factory.Mappers;
 import org.springframework.boot.context.properties.ConfigurationProperties;

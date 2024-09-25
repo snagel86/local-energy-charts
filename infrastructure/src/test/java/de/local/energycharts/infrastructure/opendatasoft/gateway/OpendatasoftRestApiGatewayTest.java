@@ -1,7 +1,7 @@
 package de.local.energycharts.infrastructure.opendatasoft.gateway;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
+import de.local.energycharts.solarcity.port.OpendatasoftGateway;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

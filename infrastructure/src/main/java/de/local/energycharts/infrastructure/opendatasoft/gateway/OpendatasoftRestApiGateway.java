@@ -1,7 +1,7 @@
 package de.local.energycharts.infrastructure.opendatasoft.gateway;
 
 import de.local.energycharts.infrastructure.opendatasoft.model.Records;
-import de.local.energycharts.solarcity.gateway.OpendatasoftGateway;
+import de.local.energycharts.solarcity.port.OpendatasoftGateway;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,7 +3,7 @@ package de.local.energycharts.infrastructure.solarcity.repository;
 import de.local.energycharts.infrastructure.solarcity.model.MongoSolarCity;
 import de.local.energycharts.infrastructure.solarcity.model.mapper.MongoSolarCityMapper;
 import de.local.energycharts.solarcity.model.SolarCity;
-import de.local.energycharts.solarcity.repository.SolarCityRepository;
+import de.local.energycharts.solarcity.port.SolarCityRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

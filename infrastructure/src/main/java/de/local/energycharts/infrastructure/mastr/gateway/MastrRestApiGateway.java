@@ -2,7 +2,7 @@ package de.local.energycharts.infrastructure.mastr.gateway;
 
 import de.local.energycharts.infrastructure.mastr.model.Data;
 import de.local.energycharts.infrastructure.mastr.model.mapper.SolarSystemMapper;
-import de.local.energycharts.solarcity.gateway.MastrGateway;
+import de.local.energycharts.solarcity.port.MastrGateway;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

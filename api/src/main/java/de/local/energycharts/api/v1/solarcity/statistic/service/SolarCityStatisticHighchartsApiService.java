@@ -8,7 +8,9 @@ import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.MonthlySolarInstallationsChartMapper;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.SolarBuildingPieChartMapper;
 import de.local.energycharts.solarcity.model.SolarCity;
+import de.local.energycharts.solarcity.model.statistic.AnnualSolarInstallations;
 import de.local.energycharts.solarcity.service.SolarCityService;
+import de.local.energycharts.solarcity.service.SolarCityStatisticService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -20,6 +22,7 @@ import static de.local.energycharts.api.v1.solarcity.statistic.service.YearsFilt
 public class SolarCityStatisticHighchartsApiService {
 
   private final SolarCityService solarCityService;
+  private final SolarCityStatisticService solarCityStatisticService;
   private final ColumnMapper columnMapper;
   private final SolarBuildingPieChartMapper solarBuildingPieChartMapper;
   private final MonthlySolarInstallationsChartMapper monthlySolarInstallationsChartMapper;
@@ -29,7 +32,8 @@ public class SolarCityStatisticHighchartsApiService {
       int years,
       boolean previousSolarInstallationsOnly
   ) {
-    return solarCityService.getCachedSolarCity(id)
+    return solarCityStatisticService
+        .calculateAnnualSolarInstallations(id)
         .map(solarCity -> createColumnChartResponse(
             solarCity, previousSolarInstallationsOnly,
             years
@@ -45,33 +49,39 @@ public class SolarCityStatisticHighchartsApiService {
             name,
             request.getSolarRoofPotentialMWp(), request.getTargetYear()
         )
-        .map(solarCity -> createColumnChartResponse(solarCity, false, request.getYears()))
-        .map(this::throwErrorWhenEmpty);
+        .map(solarCity -> createColumnChartResponse(
+            solarCity.calculateAnnualSolarInstallations(),
+            false,
+            request.getYears())
+        ).map(this::throwErrorWhenEmpty);
+  }
+
+  public Mono<SolarBuildingPieChartResponse> createSolarBuildingPieChart(String id) {
+    return solarCityStatisticService.calculateSolarBuildingPieChart(id)
+        .map(solarBuildingPieChartMapper::mapToResponse);
+  }
+
+  public Mono<MonthlySolarInstallationsChartResponse> createMonthlySolarInstallationsChart(String id) {
+    return solarCityStatisticService.calculateMonthlySolarInstallations(id)
+        .map(monthlySolarInstallationsChartMapper::mapToResponse);
   }
 
   private AnnualAdditionOfSolarInstallationsChartResponse createColumnChartResponse(
-      SolarCity solarCity,
+      AnnualSolarInstallations solarInstallations,
       boolean previousSolarInstallationsOnly,
       int years
   ) {
-    var additionOfSolarInstallations = solarCity.calculateAnnualAdditionOfSolarInstallations();
-    var yearsFilter = createFilter(previousSolarInstallationsOnly, years, additionOfSolarInstallations);
+    var yearsFilter = createFilter(previousSolarInstallationsOnly, years, solarInstallations.getAdditions());
 
     // data
-    var response = AnnualAdditionOfSolarInstallationsChartResponse.builder()
-        .cityName(solarCity.getName())
-        .columns(additionOfSolarInstallations.stream()
+    return AnnualAdditionOfSolarInstallationsChartResponse.builder()
+        .cityName(solarInstallations.getCityName())
+        .columns(solarInstallations.getAdditions().stream()
             .filter(yearsFilter::filter)
             .map(columnMapper::mapToColumn).toList())
+        .rooftopSolarSystemsInOperation(solarInstallations.getRooftopSolarSystemsInOperation())
+        .installedRooftopMWpInOperation(solarInstallations.getInstalledRooftopMWpInOperation())
         .build();
-
-    // overview
-    var solarOverview = solarCity.calculateSolarCityOverview();
-    response
-        .setRooftopSolarSystemsInOperation(solarOverview.getRooftopSolarSystemsInOperation())
-        .setInstalledRooftopMWpInOperation(solarOverview.getInstalledRooftopMWpInOperation());
-
-    return response;
   }
 
   private AnnualAdditionOfSolarInstallationsChartResponse throwErrorWhenEmpty(AnnualAdditionOfSolarInstallationsChartResponse response) {
@@ -80,17 +90,5 @@ public class SolarCityStatisticHighchartsApiService {
     } else {
       return response;
     }
-  }
-
-  public Mono<SolarBuildingPieChartResponse> createSolarBuildingPieChart(String id) {
-    return solarCityService.getCachedSolarCity(id)
-        .map(SolarCity::calculateSolarBuildingPieChart)
-        .map(solarBuildingPieChartMapper::mapToResponse);
-  }
-
-  public Mono<MonthlySolarInstallationsChartResponse> createMonthlySolarInstallationsChart(String id) {
-    return solarCityService.getCachedSolarCity(id)
-        .map(SolarCity::calculateMonthlySolarInstallations)
-        .map(monthlySolarInstallationsChartMapper::mapToResponse);
   }
 }
