@@ -1,7 +1,7 @@
 package de.local.energycharts.api.v1.solarcity.statistic.controller;
 
 import de.local.energycharts.api.v1.solarcity.statistic.model.common.SolarCityOverviewResponse;
-import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.AnnualAdditionOfSolarInstallationsChartResponse;
+import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.AnnualSolarInstallationsChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.MonthlySolarInstallationsChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.SolarBuildingPieChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.SolarCityRequest;
@@ -24,8 +24,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class SolarCityStatisticController {
 
-  private final SolarCityStatisticApiService solarCityStatisticApiService;
-  private final SolarCityStatisticHighchartsApiService solarCityStatisticHighchartsApiService;
+  private final SolarCityStatisticApiService statisticApiService;
+  private final SolarCityStatisticHighchartsApiService statisticHighchartsApiService;
 
   @Operation(summary = "Returns a statistical overview of a solar city.")
   @ApiResponses(value = {
@@ -35,7 +35,7 @@ public class SolarCityStatisticController {
   })
   @GetMapping(value = "/{id}/statistics/overview", produces = "application/json")
   public Mono<ResponseEntity<SolarCityOverviewResponse>> getOverview(@PathVariable("id") String id) {
-    return solarCityStatisticApiService.createOverview(id)
+    return statisticApiService.createOverview(id)
         .map(ResponseEntity::ok)
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
@@ -48,15 +48,15 @@ public class SolarCityStatisticController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "annual addition of solar installations in highcharts format.",
           content = {@Content(mediaType = "application/json",
-              schema = @Schema(implementation = AnnualAdditionOfSolarInstallationsChartResponse.class))})
+              schema = @Schema(implementation = AnnualSolarInstallationsChartResponse.class))})
   })
   @GetMapping(value = "/{id}/statistics/annual-addition-of-solar-installations/highcharts", produces = "application/json")
-  public Mono<ResponseEntity<AnnualAdditionOfSolarInstallationsChartResponse>> getAnnualAdditionOfSolarInstallationsHighcharts(
+  public Mono<ResponseEntity<AnnualSolarInstallationsChartResponse>> getAnnualAdditionOfSolarInstallationsHighcharts(
       @PathVariable("id") String id,
       @RequestParam(name = "years", required = false, defaultValue = "20") int years,
       @RequestParam(name = "previousSolarInstallationsOnly", required = false) boolean previousSolarInstallationsOnly
   ) {
-    return solarCityStatisticHighchartsApiService.createAnnualAdditionOfSolarInstallationsChart(
+    return statisticHighchartsApiService.createAnnualSolarInstallationsChart(
             id,
             years,
             previousSolarInstallationsOnly
@@ -74,14 +74,14 @@ public class SolarCityStatisticController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "annual addition of solar installations in highcharts format.",
           content = {@Content(mediaType = "application/json",
-              schema = @Schema(implementation = AnnualAdditionOfSolarInstallationsChartResponse.class))})
+              schema = @Schema(implementation = AnnualSolarInstallationsChartResponse.class))})
   })
   @PostMapping(value = "/{name}/statistics/annual-addition-of-solar-installations/highcharts/temporary", produces = "application/json")
-  public Mono<ResponseEntity<AnnualAdditionOfSolarInstallationsChartResponse>> createTemporaryAnnualAdditionOfSolarInstallations(
+  public Mono<ResponseEntity<AnnualSolarInstallationsChartResponse>> createTemporaryAnnualAdditionOfSolarInstallations(
       @PathVariable("name") String name,
       @RequestBody SolarCityRequest request
   ) {
-    return solarCityStatisticHighchartsApiService.createTemporaryAnnualAdditionOfSolarInstallationsChart(
+    return statisticHighchartsApiService.createTemporaryAnnualSolarInstallationsChart(
             name.trim(),
             request
         ).map(ResponseEntity::ok)
@@ -98,7 +98,7 @@ public class SolarCityStatisticController {
   public Mono<ResponseEntity<MonthlySolarInstallationsChartResponse>> getMonthlySolarInstallationsChart(
       @PathVariable("id") String id
   ) {
-    return solarCityStatisticHighchartsApiService
+    return statisticHighchartsApiService
         .createMonthlySolarInstallationsChart(id)
         .map(ResponseEntity::ok)
         .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -119,7 +119,7 @@ public class SolarCityStatisticController {
   public Mono<ResponseEntity<SolarBuildingPieChartResponse>> getSolarBuildingPieChart(
       @PathVariable("id") String id
   ) {
-    return solarCityStatisticHighchartsApiService
+    return statisticHighchartsApiService
         .createSolarBuildingPieChart(id)
         .map(ResponseEntity::ok)
         .defaultIfEmpty(ResponseEntity.notFound().build());

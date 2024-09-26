@@ -33,7 +33,7 @@ class SolarCityUpdateWatchdogServiceTest {
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt am Main")
         .setId("1")
-        .setUpdated(Time.now().minus(4, HOURS));
+        .setUpdated(Time.now().minus(23, HOURS));
     var koeln = SolarCity.createNewSolarCity("Köln")
         .setId("4")
         .setUpdated(Time.now().minus(25, HOURS));

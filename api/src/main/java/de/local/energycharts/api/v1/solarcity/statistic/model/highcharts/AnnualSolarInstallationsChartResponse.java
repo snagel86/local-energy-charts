@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Builder
 @Accessors(chain = true)
-public class AnnualAdditionOfSolarInstallationsChartResponse {
+public class AnnualSolarInstallationsChartResponse {
 
   private String cityName;
   private List<Column> columns;

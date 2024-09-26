@@ -45,7 +45,7 @@ class MonthlySolarInstallationsCalculatorTest {
 
     var result =
         new MonthlySolarInstallationsCalculator(allSolarSystems)
-            .calculatorMonthlyInstallations();
+            .calculateMonthlyInstallations();
 
     assertThat(result.getAddition(2023, NOVEMBER))
         .hasUpTo1kWpSolarSystems(417)

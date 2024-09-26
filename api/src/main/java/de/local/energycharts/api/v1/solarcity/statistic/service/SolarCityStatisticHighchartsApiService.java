@@ -1,13 +1,12 @@
 package de.local.energycharts.api.v1.solarcity.statistic.service;
 
-import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.AnnualAdditionOfSolarInstallationsChartResponse;
+import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.AnnualSolarInstallationsChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.MonthlySolarInstallationsChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.SolarBuildingPieChartResponse;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.SolarCityRequest;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.ColumnMapper;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.MonthlySolarInstallationsChartMapper;
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.SolarBuildingPieChartMapper;
-import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.statistic.AnnualSolarInstallations;
 import de.local.energycharts.solarcity.service.SolarCityService;
 import de.local.energycharts.solarcity.service.SolarCityStatisticService;
@@ -27,7 +26,7 @@ public class SolarCityStatisticHighchartsApiService {
   private final SolarBuildingPieChartMapper solarBuildingPieChartMapper;
   private final MonthlySolarInstallationsChartMapper monthlySolarInstallationsChartMapper;
 
-  public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createAnnualAdditionOfSolarInstallationsChart(
+  public Mono<AnnualSolarInstallationsChartResponse> createAnnualSolarInstallationsChart(
       String id,
       int years,
       boolean previousSolarInstallationsOnly
@@ -40,7 +39,7 @@ public class SolarCityStatisticHighchartsApiService {
         ));
   }
 
-  public Mono<AnnualAdditionOfSolarInstallationsChartResponse> createTemporaryAnnualAdditionOfSolarInstallationsChart(
+  public Mono<AnnualSolarInstallationsChartResponse> createTemporaryAnnualSolarInstallationsChart(
       String name,
       SolarCityRequest request
   ) {
@@ -66,7 +65,7 @@ public class SolarCityStatisticHighchartsApiService {
         .map(monthlySolarInstallationsChartMapper::mapToResponse);
   }
 
-  private AnnualAdditionOfSolarInstallationsChartResponse createColumnChartResponse(
+  private AnnualSolarInstallationsChartResponse createColumnChartResponse(
       AnnualSolarInstallations solarInstallations,
       boolean previousSolarInstallationsOnly,
       int years
@@ -74,7 +73,7 @@ public class SolarCityStatisticHighchartsApiService {
     var yearsFilter = createFilter(previousSolarInstallationsOnly, years, solarInstallations.getAdditions());
 
     // data
-    return AnnualAdditionOfSolarInstallationsChartResponse.builder()
+    return AnnualSolarInstallationsChartResponse.builder()
         .cityName(solarInstallations.getCityName())
         .columns(solarInstallations.getAdditions().stream()
             .filter(yearsFilter::filter)
@@ -84,7 +83,7 @@ public class SolarCityStatisticHighchartsApiService {
         .build();
   }
 
-  private AnnualAdditionOfSolarInstallationsChartResponse throwErrorWhenEmpty(AnnualAdditionOfSolarInstallationsChartResponse response) {
+  private AnnualSolarInstallationsChartResponse throwErrorWhenEmpty(AnnualSolarInstallationsChartResponse response) {
     if (response.isEmpty()) {
       throw new IllegalStateException("city does not exist!");
     } else {

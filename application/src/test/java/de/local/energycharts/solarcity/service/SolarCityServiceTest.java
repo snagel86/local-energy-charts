@@ -1,14 +1,15 @@
 package de.local.energycharts.solarcity.service;
 
-import de.local.energycharts.solarcity.port.MastrGateway;
-import de.local.energycharts.solarcity.port.OpendatasoftGateway;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
+import de.local.energycharts.solarcity.port.MastrGateway;
+import de.local.energycharts.solarcity.port.OpendatasoftGateway;
 import de.local.energycharts.solarcity.port.SolarCityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,6 +21,7 @@ import static de.local.energycharts.solarcity.model.SolarCity.createNewSolarCity
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,7 +70,7 @@ class SolarCityServiceTest {
 
     SolarCity solarCity = solarCityService.createOrUpdateSolarCity(
         "Frankfurt",
-        null, null
+        null, null, null
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
@@ -97,7 +99,7 @@ class SolarCityServiceTest {
 
     SolarCity solarCity = solarCityService.createOrUpdateSolarCity(
         "Frankfurt",
-        null, null
+        null, null, null
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
@@ -186,14 +188,20 @@ class SolarCityServiceTest {
 
   @Test
   void update_all_solar_cities() {
-    var koeln = SolarCity.createNewSolarCity("Köln").setId("1");
-    var frankfurt = SolarCity.createNewSolarCity("Frankfurt").setId("4");
+    var solarCityService = Mockito.spy(new SolarCityService(
+        mastrGateway,
+        opendatasoftGateway,
+        new SolarCityCacheService(solarCityRepository),
+        solarCityRepository
+    ));
+    var koeln = SolarCity.createNewSolarCity("Köln", "05315000").setId("1");
+    var frankfurt = SolarCity.createNewSolarCity("Frankfurt", "06412000").setId("4");
     when(solarCityRepository.findAll())
         .thenReturn(Flux.just(koeln, frankfurt));
-    when(solarCityService.updateSolarCity(koeln))
-        .thenReturn(Mono.error(new IllegalStateException()));
-    when(solarCityService.updateSolarCity(frankfurt))
-        .thenReturn(Mono.just(frankfurt));
+    doReturn(Mono.error(new IllegalStateException()))
+        .when(solarCityService).updateSolarCity(koeln);
+    doReturn(Mono.just(frankfurt))
+        .when(solarCityService).updateSolarCity(frankfurt);
 
     assertThat(
         solarCityService.updateAllSolarCities()

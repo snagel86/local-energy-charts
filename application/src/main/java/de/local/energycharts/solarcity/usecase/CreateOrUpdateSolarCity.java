@@ -7,11 +7,6 @@ public interface CreateOrUpdateSolarCity {
 
   Mono<SolarCity> createOrUpdateSolarCity(
       String name,
-      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
-  );
-
-  Mono<SolarCity> createOrUpdateSolarCity(
-      String name,
       String municipalityKey,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   );

@@ -32,15 +32,10 @@ public class SolarCity {
   private Set<SolarSystem> solarSystems;
 
   public static SolarCity createNewSolarCity(String name) {
-    return new SolarCity()
-        .setName(name)
-        .setCreated(now());
+    return createNewSolarCity(name, null);
   }
 
-  public static SolarCity createNewSolarCity(
-      String name,
-      String municipalityKey
-  ) {
+  public static SolarCity createNewSolarCity(String name, String municipalityKey) {
     return new SolarCity()
         .setName(name)
         .setMunicipalityKey(municipalityKey)
@@ -59,7 +54,7 @@ public class SolarCity {
 
   public MonthlySolarInstallations calculateMonthlySolarInstallations() {
     return new MonthlySolarInstallationsCalculator(solarSystems)
-        .calculatorMonthlyInstallations();
+        .calculateMonthlyInstallations();
   }
 
   public AnnualSolarInstallations calculateAnnualSolarInstallations() {

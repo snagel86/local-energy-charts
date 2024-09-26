@@ -16,7 +16,7 @@ public class MonthlySolarInstallationsCalculator {
 
   private final Set<SolarSystem> solarSystems;
 
-  public MonthlySolarInstallations calculatorMonthlyInstallations() {
+  public MonthlySolarInstallations calculateMonthlyInstallations() {
     var additions = new ArrayList<MonthlySolarInstallations.Addition>();
 
     solarSystems.stream()

@@ -21,16 +21,9 @@ public class SolarCityApiService {
   private final SolarCityMapper solarCityMapper;
 
   public Mono<SolarCityCreatedResponse> createOrUpdateSolarCity(@RequestBody CreateSolarCityRequest request) {
-    if (request.getMunicipalityKey() != null) {
-      return solarCityService.createOrUpdateSolarCity(
-          request.getCityName(),
-          request.getMunicipalityKey(),
-          request.getEntireSolarPotentialOnRooftopsMWp(), request.getTargetYear()
-      ).map(solarCityCreatedMapper::mapToResponse);
-    }
-
     return solarCityService.createOrUpdateSolarCity(
         request.getCityName(),
+        request.getMunicipalityKey(),
         request.getEntireSolarPotentialOnRooftopsMWp(), request.getTargetYear()
     ).map(solarCityCreatedMapper::mapToResponse);
   }
