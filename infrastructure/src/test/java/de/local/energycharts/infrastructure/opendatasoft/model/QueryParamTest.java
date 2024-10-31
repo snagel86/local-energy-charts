@@ -2,7 +2,7 @@ package de.local.energycharts.infrastructure.opendatasoft.model;
 
 import org.junit.jupiter.api.Test;
 
-import static de.local.energycharts.infrastructure.opendatasoft.model.QueryParam.createBy;
+import static de.local.energycharts.infrastructure.adapter.opendatasoft.model.QueryParam.createBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class QueryParamTest {

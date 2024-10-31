@@ -11,8 +11,7 @@ buildscript {
     }
 }
 
-include 'main'
-include 'api'
 include 'application'
+include 'core'
 include 'infrastructure'
 include 'test'

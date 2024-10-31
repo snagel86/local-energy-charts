@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(':application')
+    implementation project(':core')
 
     implementation 'org.springframework.data:spring-data-mongodb'
     implementation 'io.github.kaiso.relmongo:relmongo:4.0.0'

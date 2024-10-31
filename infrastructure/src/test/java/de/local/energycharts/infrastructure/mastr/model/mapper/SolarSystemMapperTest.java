@@ -2,9 +2,10 @@ package de.local.energycharts.infrastructure.mastr.model.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.local.energycharts.infrastructure.adapter.mastr.model.mapper.SolarSystemMapper;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.model.SolarSystem.Status;
-import de.local.energycharts.infrastructure.mastr.model.EinheitJson;
+import de.local.energycharts.infrastructure.adapter.mastr.model.EinheitJson;
 
 import java.time.Instant;
 import java.time.LocalDate;

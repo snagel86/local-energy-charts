@@ -47,4 +47,4 @@ out/
 data
 
 ### Production Configuration ###
-main/src/main/resources/application-prod.properties
+application/src/main/resources/application-prod.properties

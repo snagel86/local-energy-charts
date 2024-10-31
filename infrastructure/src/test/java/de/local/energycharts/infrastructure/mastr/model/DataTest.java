@@ -1,5 +1,6 @@
 package de.local.energycharts.infrastructure.mastr.model;
 
+import de.local.energycharts.infrastructure.adapter.mastr.model.Data;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

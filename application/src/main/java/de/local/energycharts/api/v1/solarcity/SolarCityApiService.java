@@ -1,0 +1,39 @@
+package de.local.energycharts.api.v1.solarcity;
+
+import de.local.energycharts.api.v1.solarcity.model.CreateSolarCityRequest;
+import de.local.energycharts.api.v1.solarcity.model.SolarCityCreatedResponse;
+import de.local.energycharts.api.v1.solarcity.model.SolarCityResponse;
+import de.local.energycharts.api.v1.solarcity.model.mapper.SolarCityCreatedMapper;
+import de.local.energycharts.api.v1.solarcity.model.mapper.SolarCityMapper;
+import de.local.energycharts.solarcity.ports.in.AdministrateSolarCity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@RequiredArgsConstructor
+public class SolarCityApiService {
+
+  private final AdministrateSolarCity administrateSolarCity;
+  private final SolarCityCreatedMapper solarCityCreatedMapper;
+  private final SolarCityMapper solarCityMapper;
+
+  public Mono<SolarCityCreatedResponse> createOrUpdateSolarCity(@RequestBody CreateSolarCityRequest request) {
+    return administrateSolarCity.createOrUpdate(
+        request.getCityName(),
+        request.getMunicipalityKey(),
+        request.getEntireSolarPotentialOnRooftopsMWp(), request.getTargetYear()
+    ).map(solarCityCreatedMapper::mapToResponse);
+  }
+
+  public Flux<SolarCityResponse> getAllSolarCities() {
+    return administrateSolarCity.getAll()
+        .map(solarCityMapper::mapToResponse);
+  }
+
+  public Flux<Integer> getAllPostcodes(String solarCityName) {
+    return administrateSolarCity.getAllPostcodes(solarCityName);
+  }
+}
