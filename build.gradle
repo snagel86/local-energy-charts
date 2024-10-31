@@ -1,7 +1,6 @@
 plugins {
     id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
-    id 'web-minify'
 }
 
 ext {
@@ -11,7 +10,7 @@ ext {
 
 subprojects {
     group = 'de.local.energy.charts'
-    version = '3.0.0'
+    version = '3.0.1'
 
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
@@ -56,54 +55,14 @@ jar {
     enabled = false
 }
 
-/**
- * see 'Webflow, Highcharts & build the Website' in README
- */
-webMinify {
-    script {
-        // JavaScripts from webflow
-        js {
-            inDir = file("$projectDir/web/localenergycharts.webflow/js/webflow.js")
-            outDir = file("$projectDir/web/build/js")
-        }
-
-        // JavaScript to request the API of the application
-        js {
-            inDir = file("$projectDir/web/js/localenergycharts.js")
-            outDir = file("$projectDir/web/build/js")
-        }
-    }
-}
-
 tasks.register('configureBaseApiUrl') {
     doLast {
         if (project.hasProperty("baseApiUrl")) {
-            def localEnergyChartsJS = new File("$projectDir/web/build/js/localenergycharts.min.js")
+            def localEnergyChartsJS = new File("$projectDir/application/src/main/resources/static/js/localenergycharts.js")
             def text = localEnergyChartsJS.text
             text = (text =~ /http:\/\/localhost:8080/).replaceFirst(project.getProperty("baseApiUrl"))
             localEnergyChartsJS.write(text)
         }
     }
 }
-tasks.named('configureBaseApiUrl').configure { dependsOn('jsMinify') }
 tasks.named('build').configure { dependsOn('configureBaseApiUrl') }
-
-task cleanWebBuild(type: Delete) {
-    delete 'web/build'
-}
-tasks.named('clean').configure { dependsOn('cleanWebBuild') }
-
-task copyWebflowContents(type: Copy) {
-    from('web/localenergycharts.webflow/') {
-        include '**/*.html'
-        filter { line -> line.replaceAll('js/localenergycharts.js', 'js/localenergycharts.min.js') }
-        filter { line -> line.replaceAll('js/webflow.js', 'js/webflow.min.js') }
-    }
-    from('web/localenergycharts.webflow/') {
-        exclude '**/*.html'
-    }
-
-    into 'web/build'
-    exclude 'js/'
-}
-tasks.named('build').configure { dependsOn('copyWebflowContents') }
