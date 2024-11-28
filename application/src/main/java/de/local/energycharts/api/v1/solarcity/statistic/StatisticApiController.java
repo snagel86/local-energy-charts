@@ -23,9 +23,9 @@ import java.io.File;
 @RestController
 @RequestMapping("/v1/solar-cities")
 @RequiredArgsConstructor
-public class SolarCityStatisticApiController {
+public class StatisticApiController {
 
-  private final SolarCityStatisticApiService statisticApiService;
+  private final StatisticApiService statisticApiService;
 
   @Operation(summary = "Returns a statistical overview of a solar city.")
   @ApiResponses(value = {

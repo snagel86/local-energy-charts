@@ -1,4 +1,4 @@
-package de.local.energycharts.api.v1.solarcity.statistic.service;
+package de.local.energycharts.api.v1.solarcity.statistic;
 
 import de.local.energycharts.solarcity.model.Time;
 import org.junit.jupiter.api.Test;

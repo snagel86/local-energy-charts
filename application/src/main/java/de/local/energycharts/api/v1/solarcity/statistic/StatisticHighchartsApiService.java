@@ -18,7 +18,7 @@ import static de.local.energycharts.api.v1.solarcity.statistic.YearsFilter.creat
 
 @Service
 @RequiredArgsConstructor
-public class SolarCityStatisticHighchartsApiService {
+public class StatisticHighchartsApiService {
 
   private final CalculateStatistic calculateStatistic;
   private final CalculateStatisticTemporary calculateStatisticTemporary;

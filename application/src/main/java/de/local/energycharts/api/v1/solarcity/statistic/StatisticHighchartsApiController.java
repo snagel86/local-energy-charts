@@ -21,9 +21,9 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/v1/solar-cities")
 @RequiredArgsConstructor
-public class SolarCityStatisticHighchartsApiController {
+public class StatisticHighchartsApiController {
 
-  private final SolarCityStatisticHighchartsApiService statisticHighchartsApiService;
+  private final StatisticHighchartsApiService statisticHighchartsApiService;
 
   @Operation(summary = """
       Returns a column chart showing the annual addition of solar installations in a city.

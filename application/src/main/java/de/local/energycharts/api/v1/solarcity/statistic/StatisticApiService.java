@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 
 @Service
 @RequiredArgsConstructor
-public class SolarCityStatisticApiService {
+public class StatisticApiService {
 
   private final CalculateStatistic calculateStatistic;
   private final CreateSolarXls createSolarXls;
