@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.jmolecules.ddd.annotation.Entity;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.time.ZoneId;
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.PERMANENTLY_SHUT_DOWN;
 
+@Entity
 @Data
 @Accessors(chain = true)
 @Builder

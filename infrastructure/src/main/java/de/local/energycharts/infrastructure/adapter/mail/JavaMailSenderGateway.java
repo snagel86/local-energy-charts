@@ -3,10 +3,12 @@ package de.local.energycharts.infrastructure.adapter.mail;
 import de.local.energycharts.mail.ports.out.MailSenderGateway;
 import de.local.energycharts.mail.model.Mail;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@SecondaryAdapter
 @Service
 @RequiredArgsConstructor
 public class JavaMailSenderGateway implements MailSenderGateway {

@@ -3,6 +3,7 @@ package de.local.energycharts.infrastructure.adapter.opendatasoft;
 import de.local.energycharts.infrastructure.adapter.opendatasoft.model.Records;
 import de.local.energycharts.solarcity.ports.out.OpendatasoftGateway;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,6 +16,7 @@ import static de.local.energycharts.infrastructure.adapter.opendatasoft.model.Qu
 import static de.local.energycharts.infrastructure.adapter.opendatasoft.model.Records.ROWS;
 import static reactor.util.retry.Retry.backoff;
 
+@SecondaryAdapter
 @RequiredArgsConstructor
 public class OpendatasoftRestApiGateway implements OpendatasoftGateway {
 

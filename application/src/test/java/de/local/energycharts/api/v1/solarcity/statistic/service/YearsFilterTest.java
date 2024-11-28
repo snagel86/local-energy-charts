@@ -3,8 +3,8 @@ package de.local.energycharts.api.v1.solarcity.statistic.service;
 import de.local.energycharts.solarcity.model.Time;
 import org.junit.jupiter.api.Test;
 
-import static de.local.energycharts.api.v1.statistic.YearsFilter.createFilter;
-import static de.local.energycharts.statistic.model.AnnualSolarInstallations.Addition;
+import static de.local.energycharts.api.v1.solarcity.statistic.YearsFilter.createFilter;
+import static de.local.energycharts.solarcity.model.AnnualSolarInstallations.Addition;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 

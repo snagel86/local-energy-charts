@@ -5,6 +5,7 @@ import de.local.energycharts.infrastructure.adapter.mastr.model.mapper.SolarSyst
 import de.local.energycharts.solarcity.ports.out.MastrGateway;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import static de.local.energycharts.infrastructure.adapter.mastr.model.Data.PAGE_SIZE;
 import static reactor.util.retry.Retry.backoff;
 
+@SecondaryAdapter
 @RequiredArgsConstructor
 public class MastrRestApiGateway implements MastrGateway {
 

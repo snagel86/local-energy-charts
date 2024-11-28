@@ -1,9 +1,12 @@
 package de.local.energycharts.solarcity.model;
 
+import org.jmolecules.ddd.annotation.Entity;
+
 import java.time.*;
 
 import static java.lang.String.format;
 
+@Entity
 public class Time {
 
   private static Instant frozenNow = null;

@@ -2,11 +2,12 @@ package de.local.energycharts.infrastructure.adapter.solarcity;
 
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
-import de.local.energycharts.statistic.ports.out.SolarSystemsXlsWriter;
+import de.local.energycharts.solarcity.ports.out.SolarSystemsXlsWriter;
 import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -20,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Comparator.comparing;
 
+@SecondaryAdapter
 @Component
 public class ApachePoiSolarSystemsXlsWriter implements SolarSystemsXlsWriter {
 

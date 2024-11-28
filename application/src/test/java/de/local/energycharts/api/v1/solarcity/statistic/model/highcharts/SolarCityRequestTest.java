@@ -1,6 +1,5 @@
 package de.local.energycharts.api.v1.solarcity.statistic.model.highcharts;
 
-import de.local.energycharts.api.v1.statistic.model.highcharts.SolarCityRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

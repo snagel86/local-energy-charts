@@ -1,5 +1,6 @@
 package de.local.energycharts.solarcity.usecase;
 
+import de.local.energycharts.solarcity.SolarCityCache;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.ports.out.SolarCityRepository;
 import org.junit.jupiter.api.Test;

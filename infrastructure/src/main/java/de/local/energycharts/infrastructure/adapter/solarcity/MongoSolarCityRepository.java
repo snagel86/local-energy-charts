@@ -5,6 +5,7 @@ import de.local.energycharts.infrastructure.adapter.solarcity.document.mapper.Mo
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.ports.out.SolarCityRepository;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,6 +21,7 @@ import static de.local.energycharts.solarcity.model.Time.now;
 import static java.math.RoundingMode.HALF_UP;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
+@SecondaryAdapter
 @Repository
 @RequiredArgsConstructor
 public class MongoSolarCityRepository implements SolarCityRepository {
