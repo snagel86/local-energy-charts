@@ -29,7 +29,7 @@ class UpdateWatchdogTest {
   private MailSenderGateway notificationMailSender;
 
   @Test
-  void send_error_notification_if_no_update_within_24_hours() {
+  void send_error_notification_when_no_update_within_24_hours() {
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
     var frankfurt = SolarCity.createNewSolarCity("Frankfurt am Main")
         .setId("1")
@@ -39,7 +39,7 @@ class UpdateWatchdogTest {
         .setUpdated(Time.now().minus(25, HOURS));
     when(solarCityRepository.findAll()).thenReturn(Flux.just(koeln, frankfurt));
 
-    assertThat(updateWatchdog.sendWhenNoUpdateWithin24Hours().collectList().block())
+    assertThat(updateWatchdog.whenNoUpdateWithin24Hours().collectList().block())
         .containsOnly(koeln);
     verify(notificationMailSender, times(1)).sendMail(any(Mail.class));
   }

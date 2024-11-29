@@ -9,7 +9,6 @@ import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.
 import de.local.energycharts.api.v1.solarcity.statistic.model.highcharts.mapper.SolarBuildingPieChartMapper;
 import de.local.energycharts.solarcity.model.AnnualSolarInstallations;
 import de.local.energycharts.solarcity.ports.in.CalculateStatistic;
-import de.local.energycharts.solarcity.ports.in.CalculateStatisticTemporary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -21,7 +20,6 @@ import static de.local.energycharts.api.v1.solarcity.statistic.YearsFilter.creat
 public class StatisticHighchartsApiService {
 
   private final CalculateStatistic calculateStatistic;
-  private final CalculateStatisticTemporary calculateStatisticTemporary;
 
   private final ColumnMapper columnMapper;
   private final SolarBuildingPieChartMapper solarBuildingPieChartMapper;
@@ -44,7 +42,7 @@ public class StatisticHighchartsApiService {
       String name,
       SolarCityRequest request
   ) {
-    return calculateStatisticTemporary.annualSolarInstallations(
+    return calculateStatistic.annualSolarInstallationsTemporary(
             name,
             request.getSolarRoofPotentialMWp(), request.getTargetYear()
         ).map(annualStatistic -> createColumnChartResponse(

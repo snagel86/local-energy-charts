@@ -18,11 +18,24 @@ public class StatisticCalculation implements
     CreateSolarXls {
 
   private final SolarCityCache solarCityCache;
+  private final Administration solarCityAdministration;
   private final SolarSystemsXlsWriter solarSystemsXlsWriter;
 
   public Mono<AnnualSolarInstallations> annualSolarInstallations(String id) {
     return solarCityCache
         .get(id)
+        .map(SolarCity::calculateAnnualSolarInstallations);
+  }
+
+  public Mono<AnnualSolarInstallations> annualSolarInstallationsTemporary(
+      String name,
+      Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
+  ) {
+    return solarCityAdministration
+        .createTemporary(
+            name,
+            entireSolarPotentialOnRooftopsMWp, targetYear
+        )
         .map(SolarCity::calculateAnnualSolarInstallations);
   }
 

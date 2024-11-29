@@ -7,5 +7,5 @@ import reactor.core.publisher.Flux;
 @PrimaryPort
 public interface SendErrorNotification {
 
-  Flux<SolarCity> sendWhenNoUpdateWithin24Hours();
+  Flux<SolarCity> whenNoUpdateWithin24Hours();
 }

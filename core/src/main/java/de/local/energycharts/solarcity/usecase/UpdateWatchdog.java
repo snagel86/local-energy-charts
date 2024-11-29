@@ -21,7 +21,7 @@ public class UpdateWatchdog implements SendErrorNotification {
   private final MailSenderGateway notificationMailSender;
   private final SolarCityRepository solarCityRepository;
 
-  public Flux<SolarCity> sendWhenNoUpdateWithin24Hours() {
+  public Flux<SolarCity> whenNoUpdateWithin24Hours() {
     return solarCityRepository.findAll()
         .filter(solarCity -> solarCity.wasNotUpdatedWithin(24, HOURS))
         .map(solarCity -> {

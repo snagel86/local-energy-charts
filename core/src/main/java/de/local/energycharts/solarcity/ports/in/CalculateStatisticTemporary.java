@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 @PrimaryPort
 public interface CalculateStatisticTemporary {
 
-  Mono<AnnualSolarInstallations> annualSolarInstallations(
+  Mono<AnnualSolarInstallations> annualSolarInstallationsTemporary(
       String name,
       Double entireSolarPotentialOnRooftopsMWp, Integer targetYear
   );
