@@ -20,7 +20,6 @@ import static de.local.energycharts.api.v1.solarcity.statistic.YearsFilter.creat
 public class StatisticHighchartsApiService {
 
   private final CalculateStatistic calculateStatistic;
-
   private final ColumnMapper columnMapper;
   private final SolarBuildingPieChartMapper solarBuildingPieChartMapper;
   private final MonthlySolarInstallationsChartMapper monthlySolarInstallationsChartMapper;
@@ -43,14 +42,13 @@ public class StatisticHighchartsApiService {
       SolarCityRequest request
   ) {
     return calculateStatistic.annualSolarInstallationsTemporary(
-            name,
-            request.getSolarRoofPotentialMWp(), request.getTargetYear()
-        ).map(annualStatistic -> createColumnChartResponse(
-            annualStatistic,
-            false,
-            request.getYears())
-        )
-        .map(this::throwErrorWhenEmpty);
+        name,
+        request.getSolarRoofPotentialMWp(), request.getTargetYear()
+    ).map(annualStatistic -> createColumnChartResponse(
+        annualStatistic,
+        false,
+        request.getYears()
+    )).map(this::throwErrorWhenEmpty);
   }
 
   public Mono<SolarBuildingPieChartResponse> createSolarBuildingPieChart(String id) {

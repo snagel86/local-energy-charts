@@ -13,7 +13,7 @@ public class SolarCityUpdateWatchdogScheduler {
 
   @Scheduled(cron = "0 0 2 * * *")
   public void watch() {
-    sendErrorNotification.whenNoUpdateWithin24Hours()
+    sendErrorNotification.noUpdateWithin24Hours()
         .subscribe();
   }
 }

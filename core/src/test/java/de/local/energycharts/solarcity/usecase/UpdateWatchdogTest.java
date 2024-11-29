@@ -39,7 +39,7 @@ class UpdateWatchdogTest {
         .setUpdated(Time.now().minus(25, HOURS));
     when(solarCityRepository.findAll()).thenReturn(Flux.just(koeln, frankfurt));
 
-    assertThat(updateWatchdog.whenNoUpdateWithin24Hours().collectList().block())
+    assertThat(updateWatchdog.noUpdateWithin24Hours().collectList().block())
         .containsOnly(koeln);
     verify(notificationMailSender, times(1)).sendMail(any(Mail.class));
   }
