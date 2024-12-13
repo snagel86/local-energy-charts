@@ -121,10 +121,10 @@ public class AnnualFutureSolarInstallationsCalculator {
   }
 
   Double calculateYetToBeInstalledMWp() {
-    return solarCity.getEntireSolarPotentialOnRooftopsMWp() - calculateInstalledMWpInOperation();
+    return solarCity.getEntireSolarPotentialOnRooftopsMWp() - calculateInstalledActiveMWp();
   }
 
-  Double calculateInstalledMWpInOperation() {
+  Double calculateInstalledActiveMWp() {
     return solarCity.getSolarSystems().stream()
         .filter(SolarSystem::isActive)
         // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential

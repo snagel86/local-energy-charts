@@ -1,6 +1,5 @@
 package de.local.energycharts.solarcity.calculator;
 
-import de.local.energycharts.solarcity.calculator.AnnualFutureSolarInstallationsCalculator;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.model.SolarSystem;
 import de.local.energycharts.solarcity.model.Time;
@@ -109,7 +108,7 @@ class FutureAnnualSolarInstallationsCalculatorTest {
         null
     );
 
-    assertThat(calculator.calculateInstalledMWpInOperation())
+    assertThat(calculator.calculateInstalledActiveMWp())
         .isEqualTo(0.035);
   }
 
