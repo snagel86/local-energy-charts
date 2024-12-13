@@ -19,8 +19,8 @@ public class AnnualSolarInstallations {
 
   private String cityName;
   private List<Addition> additions;
-  private Long rooftopSolarSystemsInOperation;
-  private Double installedRooftopMWpInOperation;
+  private Long rooftopSolarSystems;
+  private Double installedRooftopMWp;
 
   @Data
   @Accessors(chain = true)

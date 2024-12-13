@@ -74,8 +74,8 @@ public class StatisticHighchartsApiService {
         .columns(solarInstallations.getAdditions().stream()
             .filter(yearsFilter::filter)
             .map(columnMapper::mapToColumn).toList())
-        .rooftopSolarSystemsInOperation(solarInstallations.getRooftopSolarSystemsInOperation())
-        .installedRooftopMWpInOperation(solarInstallations.getInstalledRooftopMWpInOperation())
+        .rooftopSolarSystems(solarInstallations.getRooftopSolarSystems())
+        .installedRooftopMWp(solarInstallations.getInstalledRooftopMWp())
         .build();
   }
 
