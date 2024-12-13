@@ -113,8 +113,8 @@ LocalEnergyCharts.getSolarOverview = function (id) {
 
         success: function (response) {
             $('#used-solar-potential-percent').text(formatNumber(response.usedRoofSolarPotentialPercent, 1) + ' %')
-            $('#rooftop-solar-systems-in-operation').text(formatNumber(response.rooftopSolarSystemsInOperation));
-            $('#installed-rooftop-mwp-in-operation').text(formatNumber(response.installedRooftopMWpInOperation));
+            $('#rooftop-solar-systems').text(formatNumber(response.rooftopSolarSystems));
+            $('#installed-rooftop-mwp').text(formatNumber(response.installedRooftopMWp));
             $('#entire-solar-potential-on-rooftops-mwp').text(formatNumber(response.entireSolarPotentialOnRooftopsMWp));
             $('#updated').text(new Date(response.updated).toLocaleDateString());
         }
@@ -185,8 +185,8 @@ LocalEnergyCharts.getYourCityFormAnnualAdditionOfSolarInstallationsChart = funct
     });
 
     function updateAndShowInfoText(response) {
-        $('#rooftop-solar-systems-in-operation').text(formatNumber(response.rooftopSolarSystemsInOperation));
-        $('#installed-rooftop-mwp-in-operation').text(formatNumber(response.installedRooftopMWpInOperation, 1));
+        $('#rooftop-solar-systems').text(formatNumber(response.rooftopSolarSystems));
+        $('#installed-rooftop-mwp').text(formatNumber(response.installedRooftopMWp, 1));
         $('#your-city-solar-paragraph').show();
     }
 

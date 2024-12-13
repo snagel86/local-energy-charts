@@ -20,15 +20,15 @@ Feature: annual addition of solar installations (with highcharts)
       | 60528 |
 
     And that for the postcode 60314, the following solar systems are registered in the Marktstammdatenregister
-      | Id | Ort       | Plz   | EnergietraegerName       | Nettonennleistung | InbetriebnahmeDatum | BetriebsStatusName | DatumLetzteAktualisierung |
-      | 1  | Frankfurt | 60314 | Solare Strahlungsenergie | 20.0              | 2020-01-01          | In Betrieb         | 2020-01-01T00:00:00Z      |
-      | 2  | Frankfurt | 60314 | Solare Strahlungsenergie | 40.0              | 2020-01-01          | In Betrieb         | 2020-01-01T00:00:00Z      |
+      | Id | Ort       | Plz   | Nettonennleistung | Inbetriebnahme | BetriebsStatus | DatumLetzteAktualisierung |
+      | 1  | Frankfurt | 60314 | 20.0              | 2020-01-01     | In Betrieb     | 2020-01-01T00:00:00Z      |
+      | 2  | Frankfurt | 60314 | 40.0              | 2020-01-01     | In Betrieb     | 2020-01-01T00:00:00Z      |
 
     And that for the postcode 60528, the following solar systems are registered in the Marktstammdatenregister
-      | Id | Ort       | Plz   | EnergietraegerName       | Nettonennleistung | InbetriebnahmeDatum | BetriebsStatusName    | DatumLetzteAktualisierung |
-      | 3  | Frankfurt | 60528 | Solare Strahlungsenergie | 40.0              | 2018-01-01          | Permanent stillgelegt | 2022-01-01T00:00:00Z      |
-      | 4  | Frankfurt | 60528 | Solare Strahlungsenergie | 10.0              | 2022-01-01          | In Betrieb            | 2022-01-01T00:00:00Z      |
-      | 5  | Frankfurt | 60528 | Solare Strahlungsenergie | 40.0              | 2022-01-01          | In Betrieb            | 2022-01-01T00:00:00Z      |
+      | Id | Ort       | Plz   | Nettonennleistung | Inbetriebnahme | BetriebsStatus        | DatumLetzteAktualisierung |
+      | 3  | Frankfurt | 60528 | 40.0              | 2018-01-01     | Permanent stillgelegt | 2022-01-01T00:00:00Z      |
+      | 4  | Frankfurt | 60528 | 10.0              | 2022-01-01     | In Betrieb            | 2022-01-01T00:00:00Z      |
+      | 5  | Frankfurt | 60528 | 40.0              | 2022-01-01     | In Betrieb            | 2022-01-01T00:00:00Z      |
 
     When all solar systems in 'Frankfurt' are downloaded from the Marktstammdatenregister
 
@@ -63,19 +63,19 @@ Feature: annual addition of solar installations (with highcharts)
   since they were installed at the corresponding point in time and are therefore relevant for the average.
 
     Given is, that for the Gemeindeschlüssel '06412000', the following solar systems are registered in the Marktstammdatenregister
-      | Id | Ort       | Plz   | EnergietraegerName       | Nettonennleistung | InbetriebnahmeDatum | BetriebsStatusName    | DatumLetzteAktualisierung |
-      | 1  | Frankfurt | 60314 | Solare Strahlungsenergie | 25.0              | 2020-01-01          | In Betrieb            | 2020-01-01T00:00:00Z      |
-      | 2  | Frankfurt | 60314 | Solare Strahlungsenergie | 25.0              | 2022-01-01          | In Betrieb            | 2020-01-01T00:00:00Z      |
-      | 3  | Frankfurt | 60528 | Solare Strahlungsenergie | 40.0              | 2018-01-01          | Permanent stillgelegt | 2020-01-01T00:00:00Z      |
-      | 4  | Frankfurt | 60528 | Solare Strahlungsenergie | 25.0              | 2020-01-01          | In Betrieb            | 2020-01-01T00:00:00Z      |
-      | 5  | Frankfurt | 60528 | Solare Strahlungsenergie | 25.0              | 2022-01-01          | In Betrieb            | 2022-01-01T00:00:00Z      |
+      | Id | Ort       | Plz   | Nettonennleistung | Inbetriebnahme | BetriebsStatus        | DatumLetzteAktualisierung |
+      | 1  | Frankfurt | 60314 | 25.0              | 2020-01-01     | In Betrieb            | 2020-01-01T00:00:00Z      |
+      | 2  | Frankfurt | 60314 | 25.0              | 2022-01-01     | In Betrieb            | 2020-01-01T00:00:00Z      |
+      | 3  | Frankfurt | 60528 | 40.0              | 2018-01-01     | Permanent stillgelegt | 2020-01-01T00:00:00Z      |
+      | 4  | Frankfurt | 60528 | 25.0              | 2020-01-01     | In Betrieb            | 2020-01-01T00:00:00Z      |
+      | 5  | Frankfurt | 60528 | 25.0              | 2022-01-01     | In Betrieb            | 2022-01-01T00:00:00Z      |
 
-    And the Gemeindeschlüssel für 'Frankfurt' is '06412000'
+    And the Gemeindeschlüssel for 'Frankfurt' is '06412000'
     And the total solar potential on rooftops in the city is 100.0 MWp
     And the target year is 2030
+    And now frozen at '2022-01-01'
 
     When all solar systems are downloaded from the Marktstammdatenregister
-    And now frozen at '2022-01-01'
 
     Then the calculated highchart has a total of 100.04 MWp and contains the following values
       | year | MWp   | number of solar systems |
@@ -95,6 +95,38 @@ Feature: annual addition of solar installations (with highcharts)
 
 
   Scenario:
+  Solar installations in planning whose commissioning date is still in the future are considered active,
+  as they have already been installed.
+  So active solar installations are solar installations
+  that are in operation or in planning if the commissioning date is in the future.
+
+    Given is, that for the Gemeindeschlüssel '06412000', the following solar systems are registered in the Marktstammdatenregister
+      | Id | Ort       | Plz   | Nettonennleistung | Inbetriebnahme | BetriebsStatus | DatumLetzteAktualisierung |
+      | 1  | Frankfurt | 60314 | 25.0              | 2024-12-01     | In Betrieb     | 2024-12-14T00:00:00Z      |
+      | 2  | Frankfurt | 60314 | 25.0              | 2024-12-01     | In Betrieb     | 2024-12-14T00:00:00Z      |
+      | 4  | Frankfurt | 60528 | 25.0              | 2024-12-01     | In Betrieb     | 2024-12-14T00:00:00Z      |
+      | 5  | Frankfurt | 60528 | 25.0              | 2024-12-15     | In Planung     | 2024-12-14T00:00:00Z      |
+
+    And the Gemeindeschlüssel for 'Frankfurt' is '06412000'
+    And the total solar potential on rooftops in the city is 1.0 MWp
+    And the target year is 2030
+    And now frozen at '2024-12-14'
+
+    When all solar systems are downloaded from the Marktstammdatenregister
+
+    Then the calculated highchart has a total of 1.000 MWp and contains the following values
+      | year | MWp   | number of solar systems |
+      | 2024 | 0.100 | 4                       |
+      | 2025 | 0.100 | 4                       |
+      | 2026 | 0.120 | 4                       |
+      | 2027 | 0.160 | 6                       |
+      | 2028 | 0.180 | 7                       |
+      | 2029 | 0.190 | 7                       |
+      | 2030 | 0.150 | 5                       |
+    And the future available rooftop solar potential is 0.900 MWp
+
+
+  Scenario:
   Since Balkonkraftwerke are also registered in the Marktstammdatenregister,
   they are to be taken into account and visualized in the highchart
   in order to observe the additions here as well.
@@ -104,16 +136,15 @@ Feature: annual addition of solar installations (with highcharts)
   So neither for the average calculation for the necessary number of solar installations per year,
   nor for the solar potential on roofs available in the future.
 
-    Given is, that for the postcode search for 'Frankfurt', the following postcodes are stored in Opendatasoft
-      | 60314 |
-    And that in 2022 for postcode 60314, 1000 Balkonkraftwerke (with 0.6 kWp)
+    Given is, that the Gemeindeschlüssel for 'Frankfurt' is '06412000'
+    And that in 2022 in 'Frankfurt' with Gemeindeschlüssel '06412000', 1000 Balkonkraftwerke (with 0.6 kWp)
     And 400 solar systems on apartment buildings (with 25.0 kWp)
     And 100 on schools (with 100.0 kWp) are registered in the Marktstammdatenregister
     And the total solar potential on rooftops in the city is 1000.00 MWp
     And the target year is 2030
-
-    When all solar systems in 'Frankfurt' are downloaded from the Marktstammdatenregister
     And now frozen at '2022-01-01'
+
+    When all solar systems are downloaded from the Marktstammdatenregister
 
     Then the calculated highchart has a total of 1000.60 MWp and contains the following values
       | year | MWp    | number of solar systems |

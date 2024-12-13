@@ -1,6 +1,7 @@
 package de.local.energycharts.testing.api;
 
-import org.json.JSONObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 public class CreateSolarCityRequestBuilder {
 
@@ -29,17 +30,18 @@ public class CreateSolarCityRequestBuilder {
     return this;
   }
 
-  public JSONObject build(){
-    JSONObject requestJson = new JSONObject();
+  public JsonObject build() {
+    var jsonBuilder = Json.createObjectBuilder();
 
-    requestJson.put("cityName", name);
+    jsonBuilder.add("cityName", name);
     if (municipalityKey != null) {
-      requestJson.put("municipalityKey", municipalityKey);
+      jsonBuilder.add("municipalityKey", municipalityKey);
     }
     if (entireSolarPotentialOnRooftopsMWp != null && targetYear != null) {
-      requestJson.put("entireSolarPotentialOnRooftopsMWp", entireSolarPotentialOnRooftopsMWp);
-      requestJson.put("targetYear", targetYear);
+      jsonBuilder
+          .add("entireSolarPotentialOnRooftopsMWp", entireSolarPotentialOnRooftopsMWp)
+          .add("targetYear", targetYear);
     }
-    return requestJson;
+    return jsonBuilder.build();
   }
 }

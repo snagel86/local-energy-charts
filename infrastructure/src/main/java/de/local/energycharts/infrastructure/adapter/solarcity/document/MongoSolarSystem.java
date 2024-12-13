@@ -25,7 +25,9 @@ public class MongoSolarSystem implements Serializable {
 
   public enum Status {
     IN_OPERATION,
+    IN_PLANNING,
     PERMANENTLY_SHUT_DOWN,
+    TEMPORARILY_SHUT_DOWN,
     NONE
   }
 }

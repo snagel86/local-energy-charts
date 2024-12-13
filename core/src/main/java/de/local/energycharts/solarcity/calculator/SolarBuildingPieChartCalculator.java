@@ -36,7 +36,7 @@ public class SolarBuildingPieChartCalculator {
       Double max_kWp
   ) {
     var solarSystemsOfSlice = solarSystems.stream()
-        .filter(SolarSystem::isInOperation)
+        .filter(SolarSystem::isActive)
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > min_kWp)
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= max_kWp)
         .toList();

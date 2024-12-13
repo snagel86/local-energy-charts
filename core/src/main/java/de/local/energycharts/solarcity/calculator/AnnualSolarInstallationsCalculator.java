@@ -28,8 +28,8 @@ public class AnnualSolarInstallationsCalculator {
     return AnnualSolarInstallations.builder()
         .cityName(solarCity.getName())
         .additions(additions.stream().sorted().toList())
-        .installedRooftopMWpInOperation(overviewCalculator.calculateInstalledRooftopMWpInOperation())
-        .rooftopSolarSystemsInOperation(overviewCalculator.calculateRooftopSolarSystemsInOperation())
+        .installedRooftopMWpInOperation(overviewCalculator.calculateInstalledRooftopMWp())
+        .rooftopSolarSystemsInOperation(overviewCalculator.countActiveRooftopSolarSystems())
         .build();
   }
 

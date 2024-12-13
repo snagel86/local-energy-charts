@@ -1,7 +1,9 @@
 package de.local.energycharts.testing.mastr;
 
 import io.cucumber.datatable.DataTable;
-import org.json.JSONObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,11 +21,46 @@ public class SolarResponseBuilder {
 
   private DataTable dataTable;
   private Integer year;
-  private Integer postcode;
-  private final Map<Integer, List<JSONObject>> datas = new HashMap<>();
+  private String city;
+  private final Map<Integer, List<JsonObject>> datas = new HashMap<>();
   private Integer lastSolarSystemId = 1;
   private Integer currentPage = 1;
   public static final Integer PAGE_SIZE = 5000;
+
+  public List<JsonObject> build() {
+    if (dataTable != null) {
+      return buildFromDataTable();
+    }
+    return buildFromAddedDatas();
+  }
+
+  private List<JsonObject> buildFromDataTable() {
+    var jsonDataBuilder = Json.createArrayBuilder();
+
+    dataTable.entries()
+        .forEach(row -> jsonDataBuilder.add(createSolarSystem(row)));
+
+    return singletonList(Json.createObjectBuilder()
+        .add("Data", jsonDataBuilder).build()
+    );
+  }
+
+  private List<JsonObject> buildFromAddedDatas() {
+    List<JsonObject> responses = new ArrayList<>();
+    final var total = datas.values().stream().mapToInt(List::size).sum();
+
+    datas.forEach((page, data) -> {
+      var jsonDataBuilder = Json.createArrayBuilder();
+      data.forEach(jsonDataBuilder::add);
+
+      responses.add(Json.createObjectBuilder()
+          .add("Data", jsonDataBuilder.build())
+          .add("Total", total)
+          .build());
+    });
+
+    return responses;
+  }
 
   public SolarResponseBuilder from(DataTable dataTable) {
     this.dataTable = dataTable;
@@ -35,8 +72,8 @@ public class SolarResponseBuilder {
     return this;
   }
 
-  public SolarResponseBuilder withPostcode(int postcode) {
-    this.postcode = postcode;
+  public SolarResponseBuilder withCity(String city) {
+    this.city = city;
     return this;
   }
 
@@ -71,56 +108,7 @@ public class SolarResponseBuilder {
     return this;
   }
 
-  public List<JSONObject> build() {
-    if (dataTable != null) {
-      return buildFromDataTable();
-    }
-    return buildFromAddedDatas();
-  }
-
-  private List<JSONObject> buildFromDataTable() {
-    JSONObject response = new JSONObject();
-    response.put("Data", createData(dataTable));
-    return singletonList(response);
-  }
-
-  private List<JSONObject> buildFromAddedDatas() {
-    List<JSONObject> responses = new ArrayList<>();
-    final var total = datas.values().stream().mapToInt(List::size).sum();
-
-    datas.forEach((page, data) -> {
-      JSONObject response = new JSONObject();
-      response.put("Data", data);
-      response.put("Total", total);
-      responses.add(response);
-    });
-
-    return responses;
-  }
-
-  private List<JSONObject> createData(DataTable dataTable) {
-    List<JSONObject> data = new ArrayList<>();
-
-    dataTable.entries().forEach(row -> data.add(createSolarSystem(row)));
-    return data;
-  }
-
-  private JSONObject createSolarSystem(Map<String, String> row) {
-    JSONObject solarSystem = new JSONObject();
-
-    solarSystem.put("Id", row.get("Id"));
-    solarSystem.put("Ort", row.get("Ort"));
-    solarSystem.put("Plz", row.get("Plz"));
-    solarSystem.put("EnergietraegerName", row.get("EnergietraegerName"));
-    solarSystem.put("Nettonennleistung", row.get("Nettonennleistung"));
-    solarSystem.put("InbetriebnahmeDatum", convertToMastrDate(row.get("InbetriebnahmeDatum")));
-    solarSystem.put("BetriebsStatusName", row.get("BetriebsStatusName"));
-    solarSystem.put("DatumLetzteAktualisierung", convertToMastrDate(row.get("DatumLetzteAktualisierung")));
-
-    return solarSystem;
-  }
-
-  private void addSolarSystem(JSONObject solarSystem) {
+  private void addSolarSystem(JsonObject solarSystem) {
     if (datas.get(currentPage) != null && datas.get(currentPage).size() >= PAGE_SIZE) {
       currentPage++;
     }
@@ -132,19 +120,28 @@ public class SolarResponseBuilder {
     datas.get(currentPage).add(solarSystem);
   }
 
-  private JSONObject createSolarSystem(double installedNetPowerkWp) {
-    JSONObject solarSystem = new JSONObject();
+  private JsonObject createSolarSystem(double installedNetPowerkWp) {
+    return Json.createObjectBuilder()
+        .add("Id", lastSolarSystemId++)
+        .add("Ort", city)
+        .add("EnergietraegerName", "Solare Strahlungsenergie")
+        .add("Nettonennleistung", installedNetPowerkWp)
+        .add("InbetriebnahmeDatum", convertToMastrDate(year))
+        .add("BetriebsStatusName", "In Betrieb")
+        .add("DatumLetzteAktualisierung", convertToMastrDate(year))
+        .build();
+  }
 
-    solarSystem.put("Id", lastSolarSystemId++);
-    solarSystem.put("Ort", "Frankfurt");
-    solarSystem.put("Plz", postcode);
-    solarSystem.put("EnergietraegerName", "Solare Strahlungsenergie");
-    solarSystem.put("Nettonennleistung", installedNetPowerkWp);
-    solarSystem.put("InbetriebnahmeDatum", convertToMastrDate(year));
-    solarSystem.put("BetriebsStatusName", "In Betrieb");
-    solarSystem.put("DatumLetzteAktualisierung", convertToMastrDate(year));
-
-    return solarSystem;
+  private JsonObjectBuilder createSolarSystem(Map<String, String> row) {
+    return Json.createObjectBuilder()
+        .add("Id", row.get("Id"))
+        .add("Ort", row.get("Ort"))
+        .add("Plz", row.get("Plz"))
+        .add("EnergietraegerName", "Solare Strahlungsenergie")
+        .add("Nettonennleistung", row.get("Nettonennleistung"))
+        .add("InbetriebnahmeDatum", convertToMastrDate(row.get("Inbetriebnahme")))
+        .add("BetriebsStatusName", row.get("BetriebsStatus"))
+        .add("DatumLetzteAktualisierung", convertToMastrDate(row.get("DatumLetzteAktualisierung")));
   }
 
   private String convertToMastrDate(int year) {

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
-import static de.local.energycharts.solarcity.model.SolarSystem.Status.PERMANENTLY_SHUT_DOWN;
+import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_PLANNING;
 
 @Entity
 @Data
@@ -20,7 +20,7 @@ import static de.local.energycharts.solarcity.model.SolarSystem.Status.PERMANENT
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SolarSystem  {
+public class SolarSystem {
 
   private String id;
   private LocalDate commissioning;
@@ -34,7 +34,9 @@ public class SolarSystem  {
 
   public enum Status {
     IN_OPERATION,
+    IN_PLANNING,
     PERMANENTLY_SHUT_DOWN,
+    TEMPORARILY_SHUT_DOWN,
     NONE
   }
 
@@ -63,11 +65,12 @@ public class SolarSystem  {
     return !(commissioning.getYear() == now.getYear() && commissioning.getMonth() == now.getMonth());
   }
 
-  public boolean isInOperation() {
-    return status.equals(IN_OPERATION);
+  public boolean isActive() {
+    return status.equals(IN_OPERATION) ||
+        (status.equals(IN_PLANNING) && commissioning.isAfter(Time.currentDate()));
   }
 
-  public boolean isPermanentlyShutDown() {
-    return status.equals(PERMANENTLY_SHUT_DOWN);
+  public boolean isNotActive() {
+    return !isActive();
   }
 }

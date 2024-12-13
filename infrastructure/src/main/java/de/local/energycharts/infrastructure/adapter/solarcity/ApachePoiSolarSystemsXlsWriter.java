@@ -120,11 +120,11 @@ public class ApachePoiSolarSystemsXlsWriter implements SolarSystemsXlsWriter {
     }
 
     private String getStatus(SolarSystem solarSystem) {
-        if (solarSystem.isInOperation()) {
-            return "In Betrieb";
+        if (solarSystem.isActive()) {
+            return "Aktiv";
         }
-        if (solarSystem.isPermanentlyShutDown()) {
-            return "Endgültig stillgelegt";
+        if (solarSystem.isNotActive()) {
+            return "Stillgelegt";
         }
         return "";
     }

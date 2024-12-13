@@ -1,7 +1,7 @@
 package de.local.energycharts.testing.opendatasoft;
 
 import io.cucumber.java.After;
-import org.json.JSONObject;
+import jakarta.json.JsonObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
@@ -17,7 +17,7 @@ public class WireMockServer {
    * @param cityName The name of the city to which Opendatasoft should respond with the following post codes.
    * @param response The response from the Opendatasoft to simulate.
    */
-  public void stubGetPostcodes(String cityName, JSONObject response) {
+  public void stubGetPostcodes(String cityName, JsonObject response) {
     configureFor("localhost", PORT);
     stubFor(get(urlPathMatching(
             "/api/records/1.0/search/"

@@ -18,6 +18,13 @@ public class Time {
     return Instant.now();
   }
 
+  public static LocalDate currentDate() {
+    if (frozenNow != null) {
+      return LocalDate.ofInstant(frozenNow, ZoneId.systemDefault());
+    }
+    return LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+  }
+
   public static void freezeNowAt(Instant time) {
     Time.frozenNow = time;
   }

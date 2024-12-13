@@ -22,14 +22,14 @@ public class OverviewCalculator {
   }
 
   public Overview calculateSolarCityOverview() {
-    var installedRooftopMWpInOperation = calculateInstalledRooftopMWpInOperation();
+    var installedRooftopMWpInOperation = calculateInstalledRooftopMWp();
     var averageRoofSolarMWp = calculateAverageRoofSolarMWp();
 
     return Overview.builder()
-        .rooftopSolarSystemsInOperation(calculateRooftopSolarSystemsInOperation())
-        .installedRooftopMWpInOperation(installedRooftopMWpInOperation)
-        .balkonSolarSystemsInOperation(calculateBalkonSolarSystemsInOperation())
-        .installedBalkonMWpInOperation(calculateInstalledBalkonMWpInOperation())
+        .rooftopSolarSystems(countActiveRooftopSolarSystems())
+        .installedRooftopMWp(installedRooftopMWpInOperation)
+        .balkonSolarSystems(countBalkonSolarSystems())
+        .installedBalkonMWp(calculateInstalledBalkonMWpInOperation())
         .usedRoofSolarPotentialPercent(
             entireSolarPotentialOnRooftopsMWp != null ?
                 installedRooftopMWpInOperation / entireSolarPotentialOnRooftopsMWp * 100.0 : -1.0
@@ -45,26 +45,26 @@ public class OverviewCalculator {
         .build();
   }
 
-  long calculateRooftopSolarSystemsInOperation() {
+  long countActiveRooftopSolarSystems() {
     return solarSystems.stream()
-        .filter(SolarSystem::isInOperation)
+        .filter(SolarSystem::isActive)
         // filter out Balkonkraftwerke
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
         .count();
   }
 
-  Double calculateInstalledRooftopMWpInOperation() {
+  Double calculateInstalledRooftopMWp() {
     return solarSystems.stream()
-        .filter(SolarSystem::isInOperation)
+        .filter(SolarSystem::isActive)
         // filter out Balkonkraftwerke
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
         .mapToDouble(SolarSystem::getInstalledNetPowerkWp)
         .sum() / 1000.0; // kWp -> MWp
   }
 
-  private long calculateBalkonSolarSystemsInOperation() {
+  private long countBalkonSolarSystems() {
     return solarSystems.stream()
-        .filter(SolarSystem::isInOperation)
+        .filter(SolarSystem::isActive)
         // Balkonkraftwerke only
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= 1.0)
         .count();
@@ -72,7 +72,7 @@ public class OverviewCalculator {
 
   private Double calculateInstalledBalkonMWpInOperation() {
     return solarSystems.stream()
-        .filter(SolarSystem::isInOperation)
+        .filter(SolarSystem::isActive)
         // Balkonkraftwerke only
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() <= 1.0)
         .mapToDouble(SolarSystem::getInstalledNetPowerkWp)

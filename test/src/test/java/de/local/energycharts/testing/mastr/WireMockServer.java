@@ -1,7 +1,7 @@
 package de.local.energycharts.testing.mastr;
 
 import io.cucumber.java.After;
-import org.json.JSONObject;
+import jakarta.json.JsonObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static de.local.energycharts.testing.mastr.SolarResponseBuilder.PAGE_SIZE;
@@ -18,7 +18,7 @@ public class WireMockServer {
    * @param postcode The postcode to which the Marktstammdatenregister should respond with the following response.
    * @param response The response from the Marktstammdatenregister to simulate.
    */
-  public void stubGetSolarSystems(int postcode, JSONObject response, Integer page) {
+  public void stubGetSolarSystems(int postcode, JsonObject response, Integer page) {
     configureFor("localhost", PORT);
     stubFor(get(urlPathMatching(
             "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"
@@ -33,7 +33,7 @@ public class WireMockServer {
     );
   }
 
-  public void stubGetSolarSystems(String municipalityKey, JSONObject response, Integer page) {
+  public void stubGetSolarSystems(String municipalityKey, JsonObject response, Integer page) {
     configureFor("localhost", PORT);
     stubFor(get(urlPathMatching(
             "/MaStR/Einheit/EinheitJson/GetVerkleinerteOeffentlicheEinheitStromerzeugung/"

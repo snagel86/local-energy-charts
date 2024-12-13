@@ -29,13 +29,13 @@ class OverviewCalculatorTest {
     );
 
     var overview = Overview.builder()
-        .installedRooftopMWpInOperation(20.0)
+        .installedRooftopMWp(20.0)
         .usedRoofSolarPotentialPercent(20.0 / 1000.0 * 100)
-        .balkonSolarSystemsInOperation(833L)
-        .installedBalkonMWpInOperation(0.5)
+        .balkonSolarSystems(833L)
+        .installedBalkonMWp(0.5)
         .entireSolarPotentialOnRooftopsMWp(1000.0)
         .targetYear(2030)
-        .rooftopSolarSystemsInOperation(1300L)
+        .rooftopSolarSystems(1300L)
         .averageRoofSolarSystemMWp(0.02)
         .roofSolarSystemsToBeInstalledByTheTargetYear((int) (1300 / 0.02))
         .updated(updated)

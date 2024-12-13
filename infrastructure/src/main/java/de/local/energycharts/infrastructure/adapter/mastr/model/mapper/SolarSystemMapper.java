@@ -58,8 +58,14 @@ public interface SolarSystemMapper {
     if (status != null && status.equalsIgnoreCase("In Betrieb")) {
       return Status.IN_OPERATION;
     }
+    if (status != null && status.equalsIgnoreCase("In Planung")) {
+      return Status.IN_PLANNING;
+    }
     if (status != null && status.equalsIgnoreCase("Endgültig stillgelegt")) {
       return Status.PERMANENTLY_SHUT_DOWN;
+    }
+    if (status != null && status.equalsIgnoreCase("Vorübergehend stillgelegt")) {
+      return Status.TEMPORARILY_SHUT_DOWN;
     }
     return Status.NONE;
   }

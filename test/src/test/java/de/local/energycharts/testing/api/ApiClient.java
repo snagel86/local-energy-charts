@@ -2,7 +2,8 @@ package de.local.energycharts.testing.api;
 
 import de.local.energycharts.testing.api.model.SolarCityCreatedResponse;
 import io.restassured.response.ValidatableResponse;
-import org.json.JSONObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 import java.time.Instant;
 
@@ -18,7 +19,7 @@ public class ApiClient {
 
   private String id;
 
-  public void createSolarCity(JSONObject request) {
+  public void createSolarCity(JsonObject request) {
     var response = given()
         .header("Content-type", "application/json")
         .auth().basic("user", "secret")
@@ -57,10 +58,10 @@ public class ApiClient {
       String from,
       String to
   ) {
-    JSONObject requestJson = new JSONObject();
-    requestJson.put("message", message);
-    requestJson.put("from", from);
-    requestJson.put("to", to);
+    var requestJson = Json.createObjectBuilder()
+        .add("message", message)
+        .add("from", from)
+        .add("to", to).build();
 
     return given()
         .header("Content-type", "application/json")
@@ -71,8 +72,8 @@ public class ApiClient {
   }
 
   public void freezeNowAt(Instant now) {
-    JSONObject requestJson = new JSONObject();
-    requestJson.put("now", now);
+    var requestJson = Json.createObjectBuilder()
+        .add("now", now.toString()).build();
 
     given()
         .header("Content-type", "application/json")

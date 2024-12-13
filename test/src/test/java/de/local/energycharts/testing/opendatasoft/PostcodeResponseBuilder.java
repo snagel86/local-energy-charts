@@ -1,43 +1,28 @@
 package de.local.energycharts.testing.opendatasoft;
 
-import org.json.JSONObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostcodeResponseBuilder {
 
-  private final List<JSONObject> records = new ArrayList<>();
   private List<Integer> postcodes;
 
-  public PostcodeResponseBuilder withPostcodes(List<Integer> postcodes){
+  public PostcodeResponseBuilder withPostcodes(List<Integer> postcodes) {
     this.postcodes = postcodes;
     return this;
   }
 
-  public JSONObject build() {
-    JSONObject response = new JSONObject();
+  public JsonObject build() {
+    var jsonPostcodeBuilder = Json.createArrayBuilder();
+    postcodes.forEach(postcode -> jsonPostcodeBuilder
+        .add(Json.createObjectBuilder()
+            .add("fields", Json.createObjectBuilder()
+                .add("plz_code", postcode))
+            .build()));
 
-    createRecords();
-    response.put("records", records);
-    return response;
-  }
-
-  private void createRecords() {
-    postcodes.forEach(postcode -> records.add(createRecord(postcode)));
-  }
-
-  private JSONObject createRecord(int postcode) {
-    JSONObject record = new JSONObject();
-
-    record.put("fields", createFields(postcode));
-    return record;
-  }
-
-  private JSONObject createFields(int postcode) {
-    JSONObject fields = new JSONObject();
-
-    fields.put("plz_code", String.valueOf(postcode));
-    return fields;
+    return Json.createObjectBuilder()
+        .add("records", jsonPostcodeBuilder).build();
   }
 }

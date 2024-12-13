@@ -38,7 +38,7 @@ public class StepDefinitions {
         .withTargetYear(targetYear);
   }
 
-  @And("the Gemeindeschlüssel für {string} is {string}")
+  @And("(is, that )the Gemeindeschlüssel for {string} is {string}")
   public void setCityNameAndMunicipalityKey(String cityName, String municipalityKey) {
     createSolarCityRequestBuilder
         .withName(cityName)

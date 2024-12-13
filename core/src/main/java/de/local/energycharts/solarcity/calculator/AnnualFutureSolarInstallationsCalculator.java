@@ -126,7 +126,7 @@ public class AnnualFutureSolarInstallationsCalculator {
 
   Double calculateInstalledMWpInOperation() {
     return solarCity.getSolarSystems().stream()
-        .filter(SolarSystem::isInOperation)
+        .filter(SolarSystem::isActive)
         // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)
         .mapToDouble(SolarSystem::getInstalledNetPowerkWp)

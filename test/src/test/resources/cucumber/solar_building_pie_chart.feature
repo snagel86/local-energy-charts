@@ -8,9 +8,8 @@ Feature: solar building pie chart
 
   This test is also a performance test.
 
-    Given is, that for the postcode search for 'Frankfurt', the following postcodes are stored in Opendatasoft
-      | 60314 |
-    And that in 2022 for postcode 60314, 4000 homes (with 5.0 kWp)
+    Given is, that the Gemeindeschlüssel for 'Frankfurt' is '06412000'
+    And that in 2022 in 'Frankfurt' with Gemeindeschlüssel '06412000', 4000 homes (with 5.0 kWp)
     And 1200 solar systems on apartment buildings (with 25.0 kWp)
     And 460 solar systems on commercial buildings (with 100.0 kWp)
     And 40 on schools (with 100.0 kWp) are registered in the Marktstammdatenregister

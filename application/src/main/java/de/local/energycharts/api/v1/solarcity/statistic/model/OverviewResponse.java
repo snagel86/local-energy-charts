@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class OverviewResponse {
 
-  private Long rooftopSolarSystemsInOperation;
-  private Double installedRooftopMWpInOperation;
-  private Long balkonSolarSystemsInOperation;
-  private Double installedBalkonMWpInOperation;
+  private Long rooftopSolarSystems;
+  private Double installedRooftopMWp;
+  private Long balkonSolarSystems;
+  private Double installedBalkonMWp;
   private Double entireSolarPotentialOnRooftopsMWp;
   private Integer targetYear;
   private Double averageRoofSolarSystemMWp;
@@ -19,8 +19,8 @@ public class OverviewResponse {
   private Double usedRoofSolarPotentialPercent;
   private Instant updated;
 
-  public Double getInstalledRooftopMWpInOperation() {
-    return BigDecimal.valueOf(installedRooftopMWpInOperation)
+  public Double getInstalledRooftopMWp() {
+    return BigDecimal.valueOf(installedRooftopMWp)
         .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
   }
 
@@ -34,8 +34,8 @@ public class OverviewResponse {
         .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
   }
 
-  public Double getInstalledBalkonMWpInOperation() {
-    return BigDecimal.valueOf(installedBalkonMWpInOperation)
+  public Double getInstalledBalkonMWp() {
+    return BigDecimal.valueOf(installedBalkonMWp)
         .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
   }
 }
