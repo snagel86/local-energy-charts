@@ -67,10 +67,10 @@ Please start the application in test mode as follows, and run the tests.
     ./gradlew clean bootRun --args='--spring.profiles.active=test' 
     ./gradlew cucumberCli
 
-## Webflow, Highcharts & build the Website ##
+## Webflow, Highcharts & Website ##
 
 The website is developed, designed and previewed with [Webflow](https://webflow.com/). 
-Html, CSS and JavaScript are then downloaded and saved in the web folder.
+Html, CSS and JavaScript are then downloaded and saved in the application/../resources/static folder.
 
 The charts are realised with [Highcharts](https://www.highcharts.com/). 
 When the web application is started productively, a base API URL can be configured as follows.
