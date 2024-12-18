@@ -24,7 +24,7 @@ class SolarCityTest {
 
   @Test
   void calculate_annual_addition_of_solar_installations() {
-    Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
+    Time.freezeNowAt(2022);
     var solarSystems = new SolarBuilder()
         .withYear(2022)
         .addBalkonkraftwerksWith06kWp(833)   // =  0.5 MWp
