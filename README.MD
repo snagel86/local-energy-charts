@@ -10,6 +10,9 @@ Please visit:
 
 https://pv-frankfurt.de/
 
+## Architecture ##
+![architecture](architecture.png)
+
 ## Open API ##
 
 This application comes with an [OpenAPI](https://pv-frankfurt.de/openapi.html) that allows you to easily create a new solar overview for cities.
@@ -39,22 +42,14 @@ Then request e.g.:
 
     GET /v1/solar-cities/<id>/statistics/annual-addition-of-solar-installations/highcharts
 
-## Architecture ##
-![architecture](architecture.png)
-
 ## Getting Started Yourself ##
-If you want to host the application yourself, please install Java version 21, Docker with Docker Compose.
-
-Configure your path to the web folder in application.yaml
-
-    spring.web.resources.static-locations=file:/<path>/local-energy-charts/web/
-
-and run the following commands. 
+If you want to host the application yourself, please install Java version 21, Docker with Docker Compose
+and run the following commands.
 
     docker compose up -d
     ./gradlew bootRun
 
-Create a [solar city](#usage-), try the api with [postman](LocalEnergyCharts.postman_collection.json) and visit: http://localhost:8080.
+Create a new solar city, try the api with [postman](LocalEnergyCharts.postman_collection.json) and visit: http://localhost:8080.
 
 ## Testing ##
 
