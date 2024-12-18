@@ -13,6 +13,8 @@ import java.time.ZoneId;
 
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_PLANNING;
+import static de.local.energycharts.solarcity.model.Time.currentDate;
+import static de.local.energycharts.solarcity.model.Time.now;
 
 @Entity
 @Data
@@ -54,20 +56,20 @@ public class SolarSystem {
 
   private boolean isWithinTheLastTwelveMonth() {
     var aYearAgo = LocalDate
-        .ofInstant(Time.now(), ZoneId.systemDefault())
+        .ofInstant(now(), ZoneId.systemDefault())
         .minusYears(1);
     return (commissioning.withDayOfMonth(1).isAfter(aYearAgo.withDayOfMonth(1))
         || commissioning.withDayOfMonth(1).isEqual(aYearAgo.withDayOfMonth(1)));
   }
 
   private boolean butNotThisMonth() {
-    var now = LocalDate.ofInstant(Time.now(), ZoneId.systemDefault());
+    var now = LocalDate.ofInstant(now(), ZoneId.systemDefault());
     return !(commissioning.getYear() == now.getYear() && commissioning.getMonth() == now.getMonth());
   }
 
   public boolean isActive() {
     return status.equals(IN_OPERATION) ||
-        (status.equals(IN_PLANNING) && commissioning.isAfter(Time.currentDate()));
+        (status.equals(IN_PLANNING) && commissioning.isAfter(currentDate()));
   }
 
   public boolean isNotActive() {
