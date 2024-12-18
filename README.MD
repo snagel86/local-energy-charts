@@ -6,13 +6,6 @@ Since local reports on greenhouse gas emissions are often unavailable, or delaye
 
 The data basis is provided by the [Marktstammdatenregister](https://www.marktstammdatenregister.de/MaStR), where all electricity generation plants are registered.
 
-You can find the feature documentation at the following links:
-
-* [annual addition of solar installations](test/src/test/resources/cucumber/annual_addition_of_solar_installations.feature) 
-* [solar overview](test/src/test/resources/cucumber/solar_systems_overview.feature) 
-* [action: now we need roofs!](test/src/test/resources/cucumber/now_we_need_roofs.feature) 
-* [solar building pie chart](test/src/test/resources/cucumber/solar_building_pie_chart.feature) 
-
 Please visit:
 
 https://pv-frankfurt.de/
@@ -65,9 +58,13 @@ Create a [solar city](#usage-), try the api with [postman](LocalEnergyCharts.pos
 
 ## Testing ##
 
-To test the application, and at the same time document it, [Cucumber](https://cucumber.io/) was used. Documentation and tests can be found in the following module.
+This application is developed behavior-driven with [Cucumber](https://cucumber.io/). Cucumber reads executable specifications and validates the running application. 
+All use cases are documented and simultaneously tested via the [RESTful API](https://pv-frankfurt.de/openapi.html).
 
-    test/src/test/resources/cucumber
+* [annual addition of solar installations](test/src/test/resources/cucumber/annual_addition_of_solar_installations.feature)
+* [solar overview](test/src/test/resources/cucumber/solar_systems_overview.feature)
+* [action: now we need roofs!](test/src/test/resources/cucumber/now_we_need_roofs.feature)
+* [solar building pie chart](test/src/test/resources/cucumber/solar_building_pie_chart.feature)
 
 Please start the application in test mode as follows, and run the tests.
 
@@ -81,11 +78,7 @@ The website is developed, designed and previewed with [Webflow](https://webflow.
 Html, CSS and JavaScript are then downloaded and saved in the web folder.
 
 The charts are realised with [Highcharts](https://www.highcharts.com/). 
-For this, there are additional JavaScripts to request the API of this application in order to provide data for the Highcharts. 
-See in the folder web/js/ e.g. [localenergycharts.js](web/js/localenergycharts.js).
-
-Root for the website is the folder web/build, which is configured in the application.properties in main and is built with Gradle. 
-All JavaScripts and CSS files are minified. During the build, localenergycharts.js can be configured by setting the parameter baseApiUrl.
+When the web application is started productively, a base API URL can be configured as follows.
 
     ./gradlew clean build -PbaseApiUrl="https://pv-frankfurt.de
 
