@@ -145,22 +145,21 @@ a {
 
 .navigation {
   background-color: #fff;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  box-shadow: 0 1px rgba(0, 0, 0, .13);
+  box-shadow: 0 1px #00000021;
 }
 
 .nav-link {
   padding: 26px 17px;
   transition: box-shadow .5s, color .3s;
-  box-shadow: inset 0 3px rgba(0, 0, 0, 0);
+  box-shadow: inset 0 3px #0000;
 }
 
 .nav-link:hover {
-  box-shadow: inset 0 3px rgba(181, 181, 181, .5);
+  box-shadow: inset 0 3px #b5b5b580;
 }
 
 .nav-link.w--current {
@@ -180,7 +179,7 @@ a {
 .section.main {
   outline-offset: 0px;
   color: #fff;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: #0000;
   background-image: url('../images/solar-310031_1920.png');
   background-position: 0 0;
   background-size: auto;
@@ -205,6 +204,9 @@ a {
 .section.main.textshadow {
   color: #fff;
   text-shadow: 1px 1px 1px #333;
+  background-image: url('../images/black-solar.jpg');
+  background-position: 0 0;
+  background-size: cover;
   margin-top: auto;
 }
 
@@ -273,7 +275,7 @@ a {
 
 .page-link {
   color: #489fd9;
-  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  border-bottom: 1px solid #0000;
   text-decoration: none;
   transition: color .3s, border .3s;
 }
@@ -289,7 +291,7 @@ a {
 
 .page-link.in-footer:hover {
   color: #d2d7d9;
-  border-bottom-color: rgba(0, 0, 0, 0);
+  border-bottom-color: #0000;
 }
 
 .brand-link {
@@ -399,7 +401,7 @@ a {
 
 .paragraph.main {
   color: #fff;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: #0000;
   font-weight: 500;
 }
 
@@ -499,6 +501,16 @@ a {
   text-shadow: none;
 }
 
+.container.writeform {
+  background-color: #fff;
+  padding: 20px;
+}
+
+.container.mail {
+  color: #fff;
+  text-shadow: 1px 1px 1px #333;
+}
+
 .crowdfundingimage {
   width: 55%;
   margin-top: 15px;
@@ -528,6 +540,9 @@ a {
 }
 
 .mailing {
+  background-image: url('../images/mail-1048452_1920.jpg');
+  background-position: 0 0;
+  background-size: cover;
   margin-top: auto;
   padding-top: 70px;
   padding-bottom: 70px;
@@ -583,7 +598,7 @@ a {
 }
 
 .main {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: #0000;
   margin-bottom: 70px;
 }
 
@@ -675,6 +690,25 @@ a {
   color: #fff;
 }
 
+.loadercontainer {
+  justify-content: center;
+  animation: 2s linear infinite spin;
+  display: flex;
+  position: fixed;
+}
+
+.loader {
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: 20em;
+  height: 20em;
+}
+
+.loadercontainerdiv {
+  justify-content: center;
+  display: flex;
+}
+
 @media screen and (min-width: 1440px) {
   .koelnbody {
     max-width: 830px;
@@ -688,11 +722,11 @@ a {
   }
 
   .nav-link:hover {
-    box-shadow: inset 0 3px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 3px #0000;
   }
 
   .nav-link.w--current {
-    box-shadow: inset 0 1px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 1px #0000;
   }
 
   .nav-link.menu {
@@ -745,6 +779,10 @@ a {
     margin-bottom: 20px;
   }
 
+  .mailing {
+    background-position: 50%;
+  }
+
   .yellowgreenbutton.first {
     margin-top: 10px;
   }
@@ -785,7 +823,8 @@ a {
   }
 
   .section.main.textshadow {
-    background-position: 0 0;
+    background-position: 50% 0;
+    background-size: cover;
   }
 
   .section.footer {
@@ -850,6 +889,10 @@ a {
     padding-right: 10px;
   }
 
+  .container.writeform {
+    background-color: #fff;
+  }
+
   .solaroverviewcolumnwrapper {
     flex-direction: column-reverse;
     display: flex;
@@ -898,7 +941,7 @@ a {
   }
 
   .section.main.textshadow {
-    background-position: 35% 7%;
+    background-position: 50% 0;
     display: block;
   }
 
@@ -936,7 +979,7 @@ a {
   }
 
   .checkbox-label {
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    text-shadow: 0 1px 1px #0003;
   }
 
   .checkbox-label.koeln {
@@ -972,6 +1015,10 @@ a {
     position: relative;
   }
 
+  .mailing {
+    background-position: 50%;
+  }
+
   .logo {
     width: 71%;
     display: block;
@@ -988,7 +1035,7 @@ a {
   }
 
   .text-span {
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    text-shadow: 0 1px 1px #0003;
   }
 }
 
