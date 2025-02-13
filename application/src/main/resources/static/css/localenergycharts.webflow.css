@@ -709,6 +709,11 @@ a {
   display: flex;
 }
 
+.code-embed {
+  color: #333;
+  text-shadow: none;
+}
+
 @media screen and (min-width: 1440px) {
   .koelnbody {
     max-width: 830px;
@@ -1016,7 +1021,7 @@ a {
   }
 
   .mailing {
-    background-position: 50%;
+    background-position: 50% 0;
   }
 
   .logo {
