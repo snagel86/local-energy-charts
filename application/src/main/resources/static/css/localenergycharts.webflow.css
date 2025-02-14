@@ -543,6 +543,7 @@ a {
   background-image: url('../images/mail-1048452_1920.jpg');
   background-position: 0 0;
   background-size: cover;
+  background-attachment: scroll;
   margin-top: auto;
   padding-top: 70px;
   padding-bottom: 70px;
@@ -1022,6 +1023,8 @@ a {
 
   .mailing {
     background-position: 45% 0;
+    background-size: auto;
+    background-attachment: fixed;
   }
 
   .logo {
