@@ -204,7 +204,7 @@ a {
 .section.main.textshadow {
   color: #fff;
   text-shadow: 1px 1px 1px #333;
-  background-image: url('../images/black-solar.jpg');
+  background-image: url('../images/solar-black.jpg');
   background-position: 0 0;
   background-size: cover;
   margin-top: auto;
