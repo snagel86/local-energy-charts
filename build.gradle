@@ -4,13 +4,13 @@ plugins {
 }
 
 ext {
-    springBootVersion = '3.3.2'
+    springBootVersion = '3.4.3'
     openApiVersion = '2.0.4'
 }
 
 subprojects {
     group = 'de.local.energy.charts'
-    version = '3.2.3'
+    version = '3.3.0'
 
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'

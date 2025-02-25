@@ -27,7 +27,7 @@ public class ApachePoiSolarSystemsXlsWriter implements SolarSystemsXlsWriter {
 
     private Workbook workbook;
     private Sheet sheet;
-    private final NumberFormat numberFormat = NumberFormat.getInstance(new Locale("de", "DE"));
+    private final NumberFormat numberFormat = NumberFormat.getInstance(Locale.GERMAN);
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private final Short fontSize = 12;
     private final String fontName = "Arial";
