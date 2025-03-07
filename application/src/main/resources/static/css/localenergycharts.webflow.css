@@ -559,7 +559,15 @@ a {
   display: grid;
 }
 
-.greenbutton, .success-message-3 {
+.greenbutton {
+  background-color: #409703;
+}
+
+.greenbutton:hover {
+  background-color: #6fbd39;
+}
+
+.success-message-3 {
   background-color: #409703;
 }
 
