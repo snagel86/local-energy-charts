@@ -14,7 +14,7 @@ import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERAT
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.PERMANENTLY_SHUT_DOWN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FutureAnnualSolarInstallationsCalculatorTest {
+class AnnualFutureSolarInstallationsCalculatorTest {
 
   @Test
   void return_empty_list_when_target_year_less_than_3_years_in_future() {

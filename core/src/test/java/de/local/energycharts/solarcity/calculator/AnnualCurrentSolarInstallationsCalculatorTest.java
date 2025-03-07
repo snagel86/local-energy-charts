@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CurrentAnnualSolarInstallationsCalculatorTest {
+class AnnualCurrentSolarInstallationsCalculatorTest {
 
   @Test
   void test_categorization_of_solar_systems() {
