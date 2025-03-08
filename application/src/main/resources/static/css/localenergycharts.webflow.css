@@ -356,6 +356,7 @@ a {
 
 .yourcity-submit-button {
   background-color: #409703;
+  transition: all .2s;
 }
 
 .error-message {
@@ -561,10 +562,11 @@ a {
 
 .greenbutton {
   background-color: #409703;
+  transition: all .2s;
 }
 
 .greenbutton:hover {
-  background-color: #6fbd39;
+  background-color: #66c027;
 }
 
 .success-message-3 {
