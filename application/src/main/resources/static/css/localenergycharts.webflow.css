@@ -360,6 +360,7 @@ a {
 }
 
 .error-message {
+  text-shadow: none;
   background-color: #b90808;
 }
 
@@ -564,10 +565,6 @@ a {
   background-color: #66c027;
 }
 
-.success-message-3 {
-  background-color: #409703;
-}
-
 .div-block-5 {
   color: #fff;
 }
@@ -701,6 +698,11 @@ a {
   grid-column-gap: 16px;
   grid-row-gap: 16px;
   display: flex;
+}
+
+.success-message {
+  text-shadow: none;
+  background-color: #409703;
 }
 
 @media screen and (min-width: 1440px) {
