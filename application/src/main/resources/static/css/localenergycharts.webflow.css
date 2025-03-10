@@ -196,11 +196,6 @@ a {
   padding-bottom: 0;
 }
 
-.section.main.iframecities.lueneburg {
-  color: #7a7a7a;
-  background-image: none;
-}
-
 .section.main.textshadow {
   color: #fff;
   text-shadow: 1px 1px 1px #333;
@@ -392,15 +387,6 @@ a {
   line-height: 1.4em;
 }
 
-.paragraph.muenchen {
-  color: #011633;
-  font-family: Roboto, sans-serif;
-}
-
-.paragraph.lueneburg {
-  outline-color: #7a7a7a;
-}
-
 .paragraph.main {
   color: #fff;
   background-color: #0000;
@@ -440,11 +426,6 @@ a {
   line-height: 26px;
 }
 
-.checkbox-label.muenchen {
-  color: #011633;
-  text-shadow: none;
-}
-
 .checkbox {
   outline-offset: 0px;
   text-align: left;
@@ -480,27 +461,14 @@ a {
   text-shadow: none;
 }
 
-.checkbox.muenchen {
-  border-color: #011633;
-  outline-color: #fff;
-}
-
 .checkbox.koeln {
   border-color: #666;
-}
-
-.checkbox.lueneburg {
-  border-color: #7a7a7a;
 }
 
 .checkbox-field {
   align-items: center;
   font-weight: 500;
   display: flex;
-}
-
-.checkbox-field.lueneburg, .checkbox-field.munchen {
-  text-shadow: none;
 }
 
 .container.mail {
@@ -664,10 +632,6 @@ a {
 .errormessagelink {
   color: #fff;
   display: inline;
-}
-
-.lueneburg {
-  color: #7a7a7a;
 }
 
 .text-span-2 {
@@ -1030,11 +994,6 @@ a {
 
   .field-label, .field-label-2, .field-label-3, .field-label-4, .field-label-5, .field-label-6, .field-label-7, .field-label-8, .field-label-9, .field-label-10, .field-label-11, .field-label-12, .field-label-13, .field-label-14 {
     display: none;
-  }
-
-  .formgrid {
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
   }
 }
 
