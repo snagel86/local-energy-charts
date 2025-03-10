@@ -502,11 +502,6 @@ a {
   text-shadow: none;
 }
 
-.container.writeform {
-  background-color: #fff;
-  padding: 20px;
-}
-
 .container.mail {
   color: #fff;
   text-shadow: 1px 1px 1px #333;
@@ -543,7 +538,7 @@ a {
 .mailing {
   background-image: url('../images/mail-1048452_1920.jpg');
   background-position: 0 0;
-  background-size: cover;
+  background-size: auto;
   background-attachment: scroll;
   margin-top: auto;
   padding-top: 70px;
@@ -583,9 +578,10 @@ a {
 
 .yellowgreenbutton {
   color: #000;
+  text-shadow: none;
   background-color: #cde846;
   border: 1px #000;
-  margin-top: 15px;
+  margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
   font-weight: 500;
@@ -596,11 +592,6 @@ a {
 .yellowgreenbutton:hover {
   background-color: #e1f57d;
   transform: translate(0);
-}
-
-.yellowgreenbutton.first {
-  text-shadow: none;
-  margin-top: 0;
 }
 
 .logo {
@@ -701,28 +692,15 @@ a {
   color: #fff;
 }
 
-.loadercontainer {
-  justify-content: center;
-  animation: 2s linear infinite spin;
-  display: flex;
-  position: fixed;
-}
-
-.loader {
-  border: 1px solid #000;
-  border-radius: 50%;
-  width: 20em;
-  height: 20em;
-}
-
-.loadercontainerdiv {
-  justify-content: center;
-  display: flex;
-}
-
 .code-embed {
   color: #333;
   text-shadow: none;
+}
+
+.buttonbar {
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  display: flex;
 }
 
 @media screen and (min-width: 1440px) {
@@ -797,10 +775,6 @@ a {
 
   .mailing {
     background-position: 50%;
-  }
-
-  .yellowgreenbutton.first {
-    margin-top: 10px;
   }
 
   .koelnbody {
@@ -903,10 +877,6 @@ a {
   .container {
     padding-left: 10px;
     padding-right: 10px;
-  }
-
-  .container.writeform {
-    background-color: #fff;
   }
 
   .solaroverviewcolumnwrapper {
