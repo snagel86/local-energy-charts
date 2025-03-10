@@ -75,20 +75,6 @@ const highchartsStyle = {
             columnColor: '#012b4a',
             currentColumnColor: '#ee7338',
             futureColumnColor: '#66a62c',
-        },
-        muenchen: {
-            titleStyle: {color: '#011633', fontFamily: 'Roboto, sans-serif', fontSize: '18px', fontWeight: 'bold'},
-            style: {color: '#011633', fontFamily: 'Roboto, sans-serif', fontSize: '16px'},
-            columnColor: '#a3d869',
-            currentColumnColor: '#ee7338',
-            futureColumnColor: '#ffc80c',
-        },
-        lueneburg: {
-            titleStyle: {color: '#7a7a7a', fontFamily: 'PT Serif, sans-serif', fontSize: '18px', fontWeight: 'bold'},
-            style: {color: '#7a7a7a', fontFamily: 'PT Serif, sans-serif', fontSize: '16px'},
-            columnColor: '#012b4a',
-            currentColumnColor: '#ee7338',
-            futureColumnColor: '#f9c647',
         }
     },
     buildingPieChart: {
@@ -223,12 +209,6 @@ function createAnnualAdditionOfSolarInstallationsChart(response) {
     if (response.cityName === 'Köln') {
         description = translations.koeln.annualAdditionChart;
         style = highchartsStyle.annualAdditionChart.koeln;
-    }
-    if (response.cityName === 'Lüneburg') {
-        style = highchartsStyle.annualAdditionChart.lueneburg;
-    }
-    if (response.cityName === 'München') {
-        style = highchartsStyle.annualAdditionChart.muenchen;
     }
 
     Highcharts.chart('solar-city-annual-addition-of-solar-installations', {
