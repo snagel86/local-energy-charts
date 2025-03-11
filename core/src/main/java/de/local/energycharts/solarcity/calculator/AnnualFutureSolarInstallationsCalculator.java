@@ -71,23 +71,23 @@ public class AnnualFutureSolarInstallationsCalculator {
   ) {
     var futureAdditions = new ArrayList<Addition>();
     double highestLastAnnualInstalledMWp = getHighestLastAnnualInstalledMWp();
-    double yetToBeInstalledMWp = calculateYetToBeInstalledMWp();
+    double availableRooftopSolarPotentialMWp = calculateAvailableRooftopSolarPotentialMWp();
     double totalAreaUnderDistribution = annualFutureDistribution.values().stream().mapToDouble(d -> d).sum();
-    double averageMWpOfAllSolarInstallations = calculateAverageRoofSolarMWp();
+    double averageRooftopSolarSystemMWp = calculateAverageRooftopSolarSystemMWp();
 
     annualFutureDistribution.forEach((year, annualValue) -> {
 
-          var totalInstallMWp = annualValue *
+          var totalInstalledMWp = annualValue *
               //                     subtract complete offset
-              (yetToBeInstalledMWp - (highestLastAnnualInstalledMWp * (annualFutureDistribution.size())))
+              (availableRooftopSolarPotentialMWp - (highestLastAnnualInstalledMWp * (annualFutureDistribution.size())))
               / totalAreaUnderDistribution
               + highestLastAnnualInstalledMWp; // offset
-          var numberOfSolarSystems = (int) (totalInstallMWp / averageMWpOfAllSolarInstallations);
+          var numberOfSolarSystems = (int) (totalInstalledMWp / averageRooftopSolarSystemMWp);
 
           futureAdditions.add(
               Addition.builder()
                   .year(year)
-                  .totalInstalledMWp(totalInstallMWp)
+                  .totalInstalledMWp(totalInstalledMWp)
                   .numberOfSolarSystems(numberOfSolarSystems)
                   .build()
           );
@@ -120,7 +120,7 @@ public class AnnualFutureSolarInstallationsCalculator {
         .orElse(0.0);
   }
 
-  Double calculateYetToBeInstalledMWp() {
+  Double calculateAvailableRooftopSolarPotentialMWp() {
     return solarCity.getEntireSolarPotentialOnRooftopsMWp() - calculateInstalledActiveMWp();
   }
 
@@ -133,7 +133,7 @@ public class AnnualFutureSolarInstallationsCalculator {
         .sum() / 1000.0; // kWp -> MWp
   }
 
-  Double calculateAverageRoofSolarMWp() {
+  Double calculateAverageRooftopSolarSystemMWp() {
     return solarCity.getSolarSystems().stream()
         // filter out Balkonkraftwerke, as they must be subtracted from rooftop solar potential
         .filter(solarSystem -> solarSystem.getInstalledNetPowerkWp() > 1.0)

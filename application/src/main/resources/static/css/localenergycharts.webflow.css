@@ -473,7 +473,6 @@ a {
 
 .container.mail {
   color: #fff;
-  text-shadow: 1px 1px 1px #333;
 }
 
 .crowdfundingimage {
@@ -505,6 +504,7 @@ a {
 }
 
 .mailing {
+  text-shadow: 1px 1px 1px #333;
   background-image: url('../images/mail-1048452_1920.jpg');
   background-position: 0 0;
   background-size: auto;
@@ -525,6 +525,7 @@ a {
 }
 
 .greenbutton {
+  text-shadow: none;
   background-color: #409703;
   transition: all .2s;
 }
@@ -582,6 +583,7 @@ a {
 }
 
 .textarea {
+  text-shadow: none;
   min-height: 11em;
 }
 
@@ -655,7 +657,6 @@ a {
 
 .code-embed {
   color: #333;
-  text-shadow: none;
 }
 
 .buttonbar {
@@ -667,6 +668,10 @@ a {
 .success-message {
   text-shadow: none;
   background-color: #409703;
+}
+
+.textfield {
+  text-shadow: none;
 }
 
 @media screen and (min-width: 1440px) {
@@ -992,7 +997,7 @@ a {
     text-shadow: 0 1px 1px #0003;
   }
 
-  .field-label, .field-label-2, .field-label-3, .field-label-4, .field-label-5, .field-label-6, .field-label-7, .field-label-8, .field-label-9, .field-label-10, .field-label-11, .field-label-12, .field-label-13, .field-label-14 {
+  .field-label, .field-label-2, .field-label-3, .field-label-4, .field-label-5, .field-label-6, .field-label-7, .field-label-8, .field-label-9, .field-label-10, .field-label-11, .field-label-12, .field-label-13, .field-label-14, .field-label-15, .field-label-16, .field-label-17, .field-label-18, .field-label-19, .field-label-20 {
     display: none;
   }
 }

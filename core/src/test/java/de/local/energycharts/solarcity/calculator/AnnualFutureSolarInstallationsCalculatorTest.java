@@ -80,7 +80,7 @@ class AnnualFutureSolarInstallationsCalculatorTest {
   }
 
   @Test
-  void calculate_yet_to_be_installed_MWp_on_rooftops() {
+  void calculate_available_rooftop_solar_potential() {
     // must not be taken into account because no roof solar.
     var balkonkraftwerk = SolarSystem.builder().installedNetPowerkWp(1.0).status(IN_OPERATION).build();
     // roof solar.
@@ -92,7 +92,7 @@ class AnnualFutureSolarInstallationsCalculatorTest {
             .setSolarSystems(solarSystems),
         null
     );
-    assertThat(calculator.calculateYetToBeInstalledMWp())
+    assertThat(calculator.calculateAvailableRooftopSolarPotentialMWp())
         .isEqualTo(99.901); // 100 MW - 99.0 kW = 100 MW - 0.099 MW = 99.901 MW
   }
 
@@ -113,7 +113,7 @@ class AnnualFutureSolarInstallationsCalculatorTest {
   }
 
   @Test
-  void calculate_average_MWp_of_all_solar_installations() {
+  void calculate_average_rooftop_solar_system() {
     var solarSystem1 = SolarSystem.builder().installedNetPowerkWp(10.0).build();
     var solarSystem2 = SolarSystem.builder().installedNetPowerkWp(20.0).build();
     var solarSystem3 = SolarSystem.builder().installedNetPowerkWp(5.0).build();
@@ -125,7 +125,7 @@ class AnnualFutureSolarInstallationsCalculatorTest {
         null
     );
 
-    assertThat(calculator.calculateAverageRoofSolarMWp())
+    assertThat(calculator.calculateAverageRooftopSolarSystemMWp())
         .isEqualTo(0.015);
   }
 }
