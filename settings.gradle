@@ -5,10 +5,6 @@ buildscript {
         mavenLocal()
         mavenCentral()
     }
-    dependencies {
-        // plugin dependencies
-        classpath 'de.snagel:web-minify:1.0-SNAPSHOT'
-    }
 }
 
 include 'application'

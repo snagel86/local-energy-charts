@@ -49,7 +49,9 @@ and run the following commands.
     docker compose up -d
     ./gradlew bootRun
 
-Create a new solar city, try the api with [postman](LocalEnergyCharts.postman_collection.json) and visit: http://localhost:8080.
+Create a new solar city and try the api with [postman](LocalEnergyCharts.postman_collection.json).
+
+Set 'solarCityId' in index.html and visit: http://localhost:8080.
 
 ## Testing ##
 
