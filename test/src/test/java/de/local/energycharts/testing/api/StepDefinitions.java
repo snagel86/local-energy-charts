@@ -66,8 +66,8 @@ public class StepDefinitions {
   public void getOverview(int totalSolarInstallations, float totalInstalledMWp) {
     apiClient.getOverview()
         .body(
-            "rooftopSolarSystemsInOperation", is(totalSolarInstallations),
-            "installedRooftopMWpInOperation", is(totalInstalledMWp)
+            "rooftopSolarSystems", is(totalSolarInstallations),
+            "installedRooftopMWp", is(totalInstalledMWp)
         );
   }
 
