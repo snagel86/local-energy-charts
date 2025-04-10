@@ -10,7 +10,7 @@ ext {
 
 subprojects {
     group = 'de.local.energy.charts'
-    version = '3.6.0'
+    version = '3.6.1'
 
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
@@ -59,7 +59,7 @@ jar {
 tasks.register('configureBaseApiUrl') {
     doLast {
         if (project.hasProperty("baseApiUrl")) {
-            def localEnergyChartsJS = new File("$projectDir/application/src/main/resources/static/js/localenergycharts.js")
+            def localEnergyChartsJS = new File("$projectDir/webapp/application/src/main/resources/static/js/localenergycharts.js")
             def text = localEnergyChartsJS.text
             text = (text =~ /http:\/\/localhost:8080/).replaceFirst(project.getProperty("baseApiUrl"))
             localEnergyChartsJS.write(text)
