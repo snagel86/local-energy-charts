@@ -11,7 +11,7 @@ Please visit:
 https://pv-frankfurt.de/
 
 ## Architecture ##
-![architecture](architecture.png)
+![architecture](doc/architecture.png)
 
 ## Open API ##
 
@@ -49,11 +49,12 @@ and run the following commands.
     docker compose up -d
     ./gradlew bootRun
 
-Create a new solar city and try the api with [postman](LocalEnergyCharts.postman_collection.json).
+Create a new solar city and try the api with [postman](webapp/LocalEnergyCharts.postman_collection.json).
 
 Set 'solarCityId' in index.html and visit: http://localhost:8080.
 
 ## Testing ##
+![test-infrastructure](doc/test-infrastructure.png)
 
 This application is developed behavior-driven with [Cucumber](https://cucumber.io/). Cucumber reads executable specifications and validates the running application. 
 All use cases are documented and simultaneously tested via the [RESTful API](https://pv-frankfurt.de/openapi.html).

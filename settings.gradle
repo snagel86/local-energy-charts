@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-include 'application'
-include 'core'
-include 'infrastructure'
+include 'webapp:application'
+include 'webapp:core'
+include 'webapp:infrastructure'
 include 'test'
