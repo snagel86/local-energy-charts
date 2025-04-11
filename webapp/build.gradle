@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+ext {
+    springBootVersion = '3.4.3'
+    openApiVersion = '2.0.4'
+}
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+        }
+    }
+
+    dependencies {
+        implementation 'org.jmolecules:jmolecules-ddd:1.10.0'
+        implementation 'org.jmolecules:jmolecules-hexagonal-architecture:1.10.0'
+        implementation 'org.springframework:spring-context'
+        implementation 'io.projectreactor:reactor-core'
+        implementation 'com.google.guava:guava:33.2.1-jre'
+        implementation 'org.slf4j:slf4j-api:2.0.13'
+
+        testImplementation 'org.springframework.boot:spring-boot-test'
+        testImplementation 'io.projectreactor:reactor-test'
+    }
+}
+
+tasks.register('configureBaseApiUrl') {
+    doLast {
+        if (project.hasProperty("baseApiUrl")) {
+            def localEnergyChartsJS = new File("$projectDir/application/src/main/resources/static/js/localenergycharts.js")
+            def text = localEnergyChartsJS.text
+            text = (text =~ /http:\/\/localhost:8080/).replaceFirst(project.getProperty("baseApiUrl"))
+            localEnergyChartsJS.write(text)
+        }
+    }
+}
+tasks.named('build').configure { dependsOn('configureBaseApiUrl') }
+
+jar {
+    enabled = false
+}
