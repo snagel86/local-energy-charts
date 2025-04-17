@@ -498,7 +498,7 @@ a {
 .mailing {
   text-shadow: -1px 1px 1px #333;
   background-image: url('../images/mailing-background.jpg');
-  background-position: 0%;
+  background-position: 0 0;
   background-size: cover;
   background-attachment: fixed;
   margin-top: auto;
@@ -730,10 +730,6 @@ a {
   .crowdfundingimage {
     width: 60%;
     margin-bottom: 20px;
-  }
-
-  .mailing {
-    background-position: 50%;
   }
 
   .koelnbody {
