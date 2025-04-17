@@ -195,7 +195,7 @@ a {
 
 .section.main.textshadow {
   color: #fff;
-  text-shadow: 1px 1px 1px #333;
+  text-shadow: -1px 1px 1px #333;
   background-image: url('../images/blue-solar.jpg');
   background-position: 0 0;
   background-size: cover;
@@ -496,11 +496,11 @@ a {
 }
 
 .mailing {
-  text-shadow: 1px 1px 1px #333;
-  background-image: url('../images/mail-1048452_1920.jpg');
-  background-position: 0 0;
-  background-size: auto;
-  background-attachment: scroll;
+  text-shadow: -1px 1px 1px #333;
+  background-image: url('../images/mailing-background.jpg');
+  background-position: 0%;
+  background-size: cover;
+  background-attachment: fixed;
   margin-top: auto;
   padding-top: 70px;
   padding-bottom: 70px;
@@ -887,6 +887,7 @@ a {
   }
 
   .section.main.textshadow {
+    background-position: 0 0;
     display: block;
   }
 
@@ -951,12 +952,6 @@ a {
 
   .solaroverviewcolumn {
     position: relative;
-  }
-
-  .mailing {
-    background-position: 45% 0;
-    background-size: auto;
-    background-attachment: fixed;
   }
 
   .logo {
