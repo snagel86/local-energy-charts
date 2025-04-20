@@ -196,9 +196,11 @@ a {
 .section.main.textshadow {
   color: #fff;
   text-shadow: -1px 1px 1px #333;
+  -webkit-text-fill-color: inherit;
   background-image: url('../images/blue-solar.jpg');
   background-position: 0 0;
   background-size: cover;
+  background-clip: border-box;
   margin-top: auto;
 }
 
@@ -948,6 +950,10 @@ a {
 
   .solaroverviewcolumn {
     position: relative;
+  }
+
+  .mailing {
+    background-position: 50% 0;
   }
 
   .logo {
