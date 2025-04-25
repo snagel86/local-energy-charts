@@ -4,7 +4,7 @@ plugins {
 
 subprojects {
     group = 'de.local.energy.charts'
-    version = '3.6.3'
+    version = '3.6.4'
 
     apply plugin: 'java'
 

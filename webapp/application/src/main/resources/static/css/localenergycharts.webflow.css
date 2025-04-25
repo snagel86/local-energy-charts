@@ -1,3 +1,11 @@
+@font-face {
+  font-family: Candara;
+  src: url('../fonts/CANDARA.ttf') format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --medium-sea-green: #4dbd90;
   --cornflower-blue: #489fd9;
@@ -950,10 +958,6 @@ a {
 
   .solaroverviewcolumn {
     position: relative;
-  }
-
-  .mailing {
-    background-position: 50% 0;
   }
 
   .logo {
