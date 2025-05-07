@@ -6,6 +6,27 @@
   font-display: swap;
 }
 
+.section.main.iframecities.lueneburg {
+  color: #7a7a7a;
+  background-image: none;
+}
+
+.paragraph.lueneburg {
+  outline-color: #7a7a7a;
+}
+
+.checkbox.lueneburg {
+  border-color: #7a7a7a;
+}
+
+.checkbox-field.lueneburg, .checkbox-field.munchen {
+  text-shadow: none;
+}
+
+.lueneburg {
+  color: #7a7a7a;
+}
+
 :root {
   --medium-sea-green: #4dbd90;
   --cornflower-blue: #489fd9;
