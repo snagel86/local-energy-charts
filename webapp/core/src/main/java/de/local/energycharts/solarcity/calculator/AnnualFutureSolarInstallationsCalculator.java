@@ -20,7 +20,7 @@ import static java.util.Comparator.comparing;
 public class AnnualFutureSolarInstallationsCalculator {
 
   private final SolarCity solarCity;
-  private final List<Addition> additionsDoneYet;
+  private final List<Addition> currentAdditions;
 
   public List<Addition> calculateAnnualAdditions() {
     if (solarCity.getTargetYear() < currentYear() + 3) {
@@ -104,7 +104,7 @@ public class AnnualFutureSolarInstallationsCalculator {
   }
 
   Double getAnnualInstalledMWpFromPreviousYear() {
-    return additionsDoneYet.stream()
+    return currentAdditions.stream()
         .filter(addition -> !addition.getYear().equals(currentYear()))
         .sorted(comparing(Addition::getYear).reversed())
         .mapToDouble(Addition::getTotalInstalledMWp)
@@ -113,7 +113,7 @@ public class AnnualFutureSolarInstallationsCalculator {
   }
 
   Double getAnnualInstalledMWpFromCurrentYear() {
-    return additionsDoneYet.stream()
+    return currentAdditions.stream()
         .filter(addition -> addition.getYear().equals(currentYear()))
         .mapToDouble(Addition::getTotalInstalledMWp)
         .findFirst()

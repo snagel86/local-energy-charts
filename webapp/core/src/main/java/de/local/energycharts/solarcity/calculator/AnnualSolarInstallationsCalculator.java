@@ -44,11 +44,11 @@ public class AnnualSolarInstallationsCalculator {
   }
 
   private List<Addition> calculateFutureAdditions(
-      List<Addition> additionsDoneYet
+      List<Addition> currentAdditions
   ) {
     return new AnnualFutureSolarInstallationsCalculator(
         solarCity,
-        additionsDoneYet
+        currentAdditions
     ).calculateAnnualAdditions();
   }
 }

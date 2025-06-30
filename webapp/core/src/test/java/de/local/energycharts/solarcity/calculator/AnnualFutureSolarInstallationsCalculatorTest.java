@@ -35,8 +35,8 @@ class AnnualFutureSolarInstallationsCalculatorTest {
     var addition2022 = Addition.builder()
         .year(2022)
         .totalInstalledMWp(10.4).build();
-    var additionsDoneYet = List.of(addition2019, addition2022);
-    var calculator = new AnnualFutureSolarInstallationsCalculator(null, additionsDoneYet);
+    var currentAdditions = List.of(addition2019, addition2022);
+    var calculator = new AnnualFutureSolarInstallationsCalculator(null, currentAdditions);
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
 
     assertThat(calculator.getAnnualInstalledMWpFromPreviousYear())
@@ -51,8 +51,8 @@ class AnnualFutureSolarInstallationsCalculatorTest {
     var addition2022 = Addition.builder()
         .year(2022)
         .totalInstalledMWp(10.4).build();
-    var additionsDoneYet = List.of(addition2019, addition2022);
-    var calculator = new AnnualFutureSolarInstallationsCalculator(null, additionsDoneYet);
+    var currentAdditions = List.of(addition2019, addition2022);
+    var calculator = new AnnualFutureSolarInstallationsCalculator(null, currentAdditions);
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
 
     assertThat(calculator.getAnnualInstalledMWpFromCurrentYear())
@@ -67,8 +67,8 @@ class AnnualFutureSolarInstallationsCalculatorTest {
     var addition2022 = Addition.builder()
         .year(2022)
         .totalInstalledMWp(5.4).build();
-    var additionsDoneYet = List.of(addition2021, addition2022);
-    var calculator = new AnnualFutureSolarInstallationsCalculator(null, additionsDoneYet);
+    var currentAdditions = List.of(addition2021, addition2022);
+    var calculator = new AnnualFutureSolarInstallationsCalculator(null, currentAdditions);
     Time.freezeNowAt(Instant.parse("2022-01-01T00:00:00.00Z"));
 
     assertThat(calculator.getHighestLastAnnualInstalledMWp())
