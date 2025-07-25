@@ -82,9 +82,9 @@ class AnnualFutureSolarInstallationsCalculatorTest {
   @Test
   void calculate_available_rooftop_solar_potential() {
     // must not be taken into account because no roof solar.
-    var balkonkraftwerk = SolarSystem.builder().installedNetPowerkWp(1.0).status(IN_OPERATION).build();
+    var balkonkraftwerk = SolarSystem.builder().id("1").installedNetPowerkWp(1.0).status(IN_OPERATION).build();
     // roof solar.
-    var school = SolarSystem.builder().installedNetPowerkWp(99.0).status(IN_OPERATION).build();
+    var school = SolarSystem.builder().id("2").installedNetPowerkWp(99.0).status(IN_OPERATION).build();
     var solarSystems = Set.of(balkonkraftwerk, school);
     var calculator = new AnnualFutureSolarInstallationsCalculator(
         new SolarCity()
@@ -98,10 +98,10 @@ class AnnualFutureSolarInstallationsCalculatorTest {
 
   @Test
   void calculate_installed_MWp_in_operation() {
-    var solarSystem1 = SolarSystem.builder().installedNetPowerkWp(10.0).status(IN_OPERATION).build();
-    var solarSystem2 = SolarSystem.builder().installedNetPowerkWp(20.0).status(IN_OPERATION).build();
-    var solarSystem3 = SolarSystem.builder().installedNetPowerkWp(5.0).status(IN_OPERATION).build();
-    var solarSystem4 = SolarSystem.builder().installedNetPowerkWp(25.0).status(PERMANENTLY_SHUT_DOWN).build();
+    var solarSystem1 = SolarSystem.builder().id("1").installedNetPowerkWp(10.0).status(IN_OPERATION).build();
+    var solarSystem2 = SolarSystem.builder().id("2").installedNetPowerkWp(20.0).status(IN_OPERATION).build();
+    var solarSystem3 = SolarSystem.builder().id("3").installedNetPowerkWp(5.0).status(IN_OPERATION).build();
+    var solarSystem4 = SolarSystem.builder().id("4").installedNetPowerkWp(25.0).status(PERMANENTLY_SHUT_DOWN).build();
     var solarSystems = Set.of(solarSystem1, solarSystem2, solarSystem3, solarSystem4);
     var calculator = new AnnualFutureSolarInstallationsCalculator(
         new SolarCity().setSolarSystems(solarSystems),
@@ -114,10 +114,10 @@ class AnnualFutureSolarInstallationsCalculatorTest {
 
   @Test
   void calculate_average_rooftop_solar_system() {
-    var solarSystem1 = SolarSystem.builder().installedNetPowerkWp(10.0).build();
-    var solarSystem2 = SolarSystem.builder().installedNetPowerkWp(20.0).build();
-    var solarSystem3 = SolarSystem.builder().installedNetPowerkWp(5.0).build();
-    var solarSystem4 = SolarSystem.builder().installedNetPowerkWp(25.0).build();
+    var solarSystem1 = SolarSystem.builder().id("1").installedNetPowerkWp(10.0).build();
+    var solarSystem2 = SolarSystem.builder().id("2").installedNetPowerkWp(20.0).build();
+    var solarSystem3 = SolarSystem.builder().id("3").installedNetPowerkWp(5.0).build();
+    var solarSystem4 = SolarSystem.builder().id("4").installedNetPowerkWp(25.0).build();
     var solarSystems = Set.of(solarSystem1, solarSystem2, solarSystem3, solarSystem4);
 
     var calculator = new AnnualFutureSolarInstallationsCalculator(

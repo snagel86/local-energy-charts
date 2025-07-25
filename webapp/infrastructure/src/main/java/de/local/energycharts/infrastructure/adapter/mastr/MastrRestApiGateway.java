@@ -2,8 +2,8 @@ package de.local.energycharts.infrastructure.adapter.mastr;
 
 import de.local.energycharts.infrastructure.adapter.mastr.model.Data;
 import de.local.energycharts.infrastructure.adapter.mastr.model.mapper.SolarSystemMapper;
-import de.local.energycharts.solarcity.ports.out.MastrGateway;
 import de.local.energycharts.solarcity.model.SolarSystem;
+import de.local.energycharts.solarcity.ports.out.MastrGateway;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.slf4j.Logger;
@@ -14,8 +14,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.time.LocalDate;
 
 import static de.local.energycharts.infrastructure.adapter.mastr.model.Data.PAGE_SIZE;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static reactor.util.retry.Retry.backoff;
 
 @SecondaryAdapter
@@ -31,9 +33,16 @@ public class MastrRestApiGateway implements MastrGateway {
     return getAllSolarSystems(mastrFilter);
   }
 
-  public Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey) {
-    var mastrFilter = "Gemeindeschlüssel~eq~'" + municipalityKey + "'~and~Energieträger~eq~'2495'";
-    return getAllSolarSystems(mastrFilter);
+  public Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey, LocalDate lastUpdate) {
+    var mastrFilter = new StringBuilder();
+
+    mastrFilter.append("Gemeindeschlüssel~eq~'").append(municipalityKey)
+        .append("'~and~Energieträger~eq~'2495'");
+    if (lastUpdate != null) {
+      mastrFilter.append("~and~Letzte Aktualisierung~gt~'")
+          .append(lastUpdate.format(ofPattern("dd.MM.yyyy"))).append("'");
+    }
+    return getAllSolarSystems(mastrFilter.toString());
   }
 
   private Flux<SolarSystem> getAllSolarSystems(String mastrFilter) {

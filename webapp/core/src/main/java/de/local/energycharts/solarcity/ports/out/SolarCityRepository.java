@@ -17,4 +17,6 @@ public interface SolarCityRepository {
   Mono<SolarCity> findByName(String name);
 
   Flux<SolarCity> findAll();
+
+  void deleteById(String id);
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 import static java.time.Instant.now;
 import static java.util.stream.Collectors.toSet;
 
@@ -44,17 +46,25 @@ public class Administration implements AdministrateSolarCity {
   ) {
     return solarCityRepository.findByName(name)
         .defaultIfEmpty(SolarCity.createNewSolarCity(name, municipalityKey))
+        .flatMap(solarCity -> mastrGateway.getSolarSystemsByMunicipalityKey(
+                    municipalityKey,
+                    createLastUpdateIfUpdateCase(solarCity)
+                ).collect(toSet())
+                .map(solarCity::addSolarSystems)
+                .flatMap(solarCityRepository::save)
+
+        ).flatMap(solarCityCache::reset)
+        // update params
         .map(solarCity -> solarCity
             .setUpdated(now())
             .setMunicipalityKey(municipalityKey)
             .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
             .setTargetYear(targetYear)
-        )
-        .flatMap(solarCity -> mastrGateway.getSolarSystemsByMunicipalityKey(municipalityKey)
-            .collect(toSet())
-            .map(solarCity::setSolarSystems)
-            .flatMap(solarCityRepository::save)
-        ).flatMap(solarCityCache::reset);
+        );
+  }
+
+  private LocalDate createLastUpdateIfUpdateCase(SolarCity solarCity) {
+    return solarCity.getUpdated() != null ? LocalDate.now().minusDays(1) : null;
   }
 
   private Mono<SolarCity> createOrUpdateByPostcodes(
@@ -63,18 +73,19 @@ public class Administration implements AdministrateSolarCity {
   ) {
     return solarCityRepository.findByName(name)
         .defaultIfEmpty(SolarCity.createNewSolarCity(name))
+        .flatMap(solarCity -> opendatasoftGateway.getPostcodes(name)
+            .flatMap(mastrGateway::getSolarSystemsByPostcode)
+            .collect(toSet())
+            .map(solarCity::addSolarSystems)
+            .flatMap(solarCityRepository::save)
+        )
+        .flatMap(solarCityCache::reset)
+        // update params
         .map(solarCity -> solarCity
             .setUpdated(now())
             .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
             .setTargetYear(targetYear)
-        )
-        .flatMap(solarCity -> opendatasoftGateway.getPostcodes(name)
-            .flatMap(mastrGateway::getSolarSystemsByPostcode)
-            .collect(toSet())
-            .map(solarCity::setSolarSystems)
-            .flatMap(solarCityRepository::save)
-        )
-        .flatMap(solarCityCache::reset);
+        );
   }
 
   public Mono<SolarCity> createTemporary(
@@ -96,7 +107,7 @@ public class Administration implements AdministrateSolarCity {
     ).flatMap(solarCity -> opendatasoftGateway.getPostcodes(name)
         .flatMap(mastrGateway::getSolarSystemsByPostcode)
         .collect(toSet())
-        .map(solarCity::setSolarSystems)
+        .map(solarCity::addSolarSystems)
         .flatMap(solarCityCache::cacheByName)
     );
   }
@@ -111,9 +122,11 @@ public class Administration implements AdministrateSolarCity {
   }
 
   private Mono<SolarCity> updateByMunicipalityKey(SolarCity solarCity) {
-    return mastrGateway.getSolarSystemsByMunicipalityKey(solarCity.getMunicipalityKey())
-        .collect(toSet())
-        .map(solarCity::setSolarSystems)
+    return mastrGateway.getSolarSystemsByMunicipalityKey(
+            solarCity.getMunicipalityKey(),
+            createLastUpdateIfUpdateCase(solarCity)
+        ).collect(toSet())
+        .map(solarCity::addSolarSystems)
         .flatMap(solarCityRepository::save)
         .flatMap(solarCityCache::reset);
   }
@@ -122,7 +135,7 @@ public class Administration implements AdministrateSolarCity {
     return opendatasoftGateway.getPostcodes(solarCity.getName())
         .flatMap(mastrGateway::getSolarSystemsByPostcode)
         .collect(toSet())
-        .map(solarCity::setSolarSystems)
+        .map(solarCity::addSolarSystems)
         .flatMap(solarCityRepository::save)
         .flatMap(solarCityCache::reset);
   }
@@ -141,5 +154,9 @@ public class Administration implements AdministrateSolarCity {
 
   public Flux<SolarCity> getAll() {
     return solarCityRepository.findAll();
+  }
+
+  public void delete(String id) {
+    solarCityRepository.deleteById(id);
   }
 }

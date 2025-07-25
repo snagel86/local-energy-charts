@@ -2,14 +2,15 @@ package de.local.energycharts.solarcity.model;
 
 import de.local.energycharts.solarcity.calculator.AnnualSolarInstallationsCalculator;
 import de.local.energycharts.solarcity.calculator.MonthlySolarInstallationsCalculator;
-import de.local.energycharts.solarcity.calculator.SolarBuildingPieChartCalculator;
 import de.local.energycharts.solarcity.calculator.OverviewCalculator;
+import de.local.energycharts.solarcity.calculator.SolarBuildingPieChartCalculator;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.jmolecules.ddd.annotation.AggregateRoot;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -58,6 +59,14 @@ public class SolarCity {
   public AnnualSolarInstallations calculateAnnualSolarInstallations() {
     return new AnnualSolarInstallationsCalculator(this)
         .calculateAnnualSolarInstallations();
+  }
+
+  public SolarCity addSolarSystems(Set<SolarSystem> solarSystems) {
+    if (this.solarSystems == null) {
+      this.solarSystems = new HashSet<>();
+    }
+    this.solarSystems.addAll(solarSystems);
+    return this;
   }
 
   public Set<SolarSystem> getAllSolarSystems() {

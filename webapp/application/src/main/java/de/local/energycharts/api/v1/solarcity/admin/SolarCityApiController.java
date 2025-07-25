@@ -65,4 +65,10 @@ public class SolarCityApiController {
   public Flux<Integer> getAllPostcodes(@PathVariable("id") String id) {
     return solarCityApiService.getAllPostcodes(id);
   }
+
+  @Operation(hidden = true)
+  @DeleteMapping(value = "/solar-cities/{id}", produces = "application/json")
+  public void delete(@PathVariable("id") String id) {
+    solarCityApiService.delete(id);
+  }
 }

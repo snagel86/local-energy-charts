@@ -19,4 +19,6 @@ public interface AdministrateSolarCity {
   Flux<SolarCity> getAll();
 
   Flux<SolarCity> updateAll();
+
+  void delete(String id);
 }

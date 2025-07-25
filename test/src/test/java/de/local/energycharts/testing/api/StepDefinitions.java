@@ -3,6 +3,7 @@ package de.local.energycharts.testing.api;
 import de.local.energycharts.testing.api.model.Column;
 import de.local.energycharts.testing.api.model.ColumnChartResponse;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -170,5 +171,10 @@ public class StepDefinitions {
     var today = LocalDate.parse(date);
     currentYear = today.getYear();
     apiClient.freezeNowAt(today.atStartOfDay().toInstant(UTC));
+  }
+
+  @After
+  public void cleanup() {
+    apiClient.deleteSolarCity();
   }
 }

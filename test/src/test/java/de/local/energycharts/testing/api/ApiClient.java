@@ -33,6 +33,15 @@ public class ApiClient {
     id = response.getId();
   }
 
+  public void deleteSolarCity() {
+    given()
+        .header("Content-type", "application/json")
+        .auth().basic("user", "secret")
+        .when()
+        .delete("/v1/solar-cities/" + id)
+        .then().statusCode(200);
+  }
+
   public ValidatableResponse getOverview() {
     return when().get("/v1/solar-cities/" + id + "/statistics/overview").then();
   }

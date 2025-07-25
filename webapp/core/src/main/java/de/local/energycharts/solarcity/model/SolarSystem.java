@@ -10,6 +10,7 @@ import org.jmolecules.ddd.annotation.Entity;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Objects;
 
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_OPERATION;
 import static de.local.energycharts.solarcity.model.SolarSystem.Status.IN_PLANNING;
@@ -74,5 +75,17 @@ public class SolarSystem {
 
   public boolean isNotActive() {
     return !isActive();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    SolarSystem that = (SolarSystem) o;
+    return Objects.equals(id, that.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
   }
 }

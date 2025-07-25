@@ -16,9 +16,10 @@ class MonthlySolarInstallationsCalculatorTest {
   @Test
   void calculate_monthly_solar_installations() {
     Time.freezeNowAt(LocalDate.of(2024, JANUARY, 1));
+    var solarBuilder = new SolarBuilder();
     var allSolarSystems = new HashSet<SolarSystem>();
 
-    allSolarSystems.addAll(new SolarBuilder()
+    allSolarSystems.addAll(solarBuilder
         .withYear(2023)
         .withMonth(NOVEMBER)
         .addBalkonkraftwerksWith06kWp(417)
@@ -26,7 +27,7 @@ class MonthlySolarInstallationsCalculatorTest {
         .addApartmentBuildingsWith25kWp(50)
         .addSchoolsWith100kWp(25).build()
     );
-    allSolarSystems.addAll(new SolarBuilder()
+    allSolarSystems.addAll(solarBuilder
         .withYear(2023)
         .withMonth(DECEMBER)
         .addBalkonkraftwerksWith06kWp(833)
@@ -34,7 +35,7 @@ class MonthlySolarInstallationsCalculatorTest {
         .addApartmentBuildingsWith25kWp(100)
         .addSchoolsWith100kWp(50).build()
     );
-    allSolarSystems.addAll(new SolarBuilder()
+    allSolarSystems.addAll(solarBuilder
         .withYear(2024)
         .withMonth(JANUARY)
         .addBalkonkraftwerksWith06kWp(1250)

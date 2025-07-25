@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -119,7 +120,7 @@ class AdministrationTest {
 
     when(solarCityRepository.findByName("Frankfurt"))
         .thenReturn(Mono.just(frankfurt));
-    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000"))
+    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000", null))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("1").status(IN_OPERATION).build(),
             SolarSystem.builder().id("2").status(IN_OPERATION).build()
@@ -140,7 +141,7 @@ class AdministrationTest {
 
   @Test
   void update_an_existing_solar_city_by_municipality_key() {
-    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000"))
+    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000", LocalDate.now().minusDays(1)))
         .thenReturn(Flux.fromIterable(List.of(
             SolarSystem.builder().id("1").status(IN_OPERATION).build(),
             SolarSystem.builder().id("2").status(IN_OPERATION).build()

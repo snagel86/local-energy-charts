@@ -85,4 +85,8 @@ public class MongoSolarCityRepository implements SolarCityRepository {
             .find(query, MongoSolarCity.class))
     );
   }
+
+  public void deleteById(String id) {
+    mongoTemplate.remove(mongoTemplate.findById(id, MongoSolarCity.class));
+  }
 }
