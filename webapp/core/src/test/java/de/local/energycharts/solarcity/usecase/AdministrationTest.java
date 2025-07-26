@@ -141,11 +141,13 @@ class AdministrationTest {
 
   @Test
   void update_an_existing_solar_city_by_municipality_key() {
-    when(mastrGateway.getSolarSystemsByMunicipalityKey("06412000", LocalDate.now().minusDays(1)))
-        .thenReturn(Flux.fromIterable(List.of(
-            SolarSystem.builder().id("1").status(IN_OPERATION).build(),
-            SolarSystem.builder().id("2").status(IN_OPERATION).build()
-        )));
+    when(mastrGateway.getSolarSystemsByMunicipalityKey(
+        "06412000",
+        LocalDate.now().minusDays(3))
+    ).thenReturn(Flux.fromIterable(List.of(
+        SolarSystem.builder().id("1").status(IN_OPERATION).build(),
+        SolarSystem.builder().id("2").status(IN_OPERATION).build()
+    )));
     when(solarCityRepository.save(any(SolarCity.class)))
         .thenAnswer(invocation -> Mono.just(invocation.getArguments()[0]));
     when(solarCityCache.reset(any(SolarCity.class)))

@@ -64,17 +64,13 @@ public class SolarCity {
   }
 
   public SolarCity addSolarSystems(Set<SolarSystem> solarSystems) {
-    if (this.solarSystems == null) {
-      this.solarSystems = new HashSet<>();
+    if (this.solarSystems == null || solarSystems.isEmpty()) {
+      this.solarSystems = solarSystems;
     }
-    this.solarSystems.addAll(solarSystems);
 
+    // convert to Map because put() replaces/updates values, add() from Set does not.
     var map = this.solarSystems.stream().collect(toMap(SolarSystem::getId, identity()));
-    solarSystems.forEach(solarSystem -> {
-      if (map.containsKey(solarSystem.getId())) {
-        map.put(solarSystem.getId(), solarSystem);
-      }
-    });
+    solarSystems.forEach(solarSystem -> map.put(solarSystem.getId(), solarSystem));
     this.solarSystems = new HashSet<>(map.values());
     return this;
   }

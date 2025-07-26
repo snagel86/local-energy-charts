@@ -12,8 +12,7 @@ import static java.time.Month.JANUARY;
 public class SolarBuilder {
 
   private final Set<SolarSystem> solarSystems = new HashSet<>();
-  private Integer lastSolarSystemId = 1;
-
+  private Integer id = 0;
   private Integer year = 2022;
   private Month month = JANUARY;
 
@@ -75,7 +74,7 @@ public class SolarBuilder {
 
   private SolarSystem createSolarSystem(double installedNetPowerkWp) {
     return new SolarSystem()
-        .setId(String.valueOf(lastSolarSystemId++))
+        .setId(String.valueOf(id++))
         .setStatus(IN_OPERATION)
         .setInstalledNetPowerkWp(installedNetPowerkWp)
         .setCommissioning(LocalDate.of(year, month, 1));
@@ -83,7 +82,7 @@ public class SolarBuilder {
 
   private SolarSystem createSolarSystem(double installedNetPowerkWp, SolarSystem.Status status) {
     return new SolarSystem()
-        .setId(String.valueOf(lastSolarSystemId++))
+        .setId(String.valueOf(id++))
         .setStatus(status)
         .setInstalledNetPowerkWp(installedNetPowerkWp)
         .setCommissioning(LocalDate.of(year, 1, 1));

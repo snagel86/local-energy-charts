@@ -115,6 +115,7 @@ class SolarCityTest {
     assertThat(frankfurt.getSolarSystems()).hasSize(150);
     assertThat(frankfurt.calculateSolarCityOverview().getInstalledRooftopMWp()).isEqualTo(15.0);
 
+
     solarSystems = new SolarBuilder()  // new instance to reset id assignment
         .withYear(2025)
         .addApartmentBuildingsWith25kWp(40)
