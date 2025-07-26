@@ -101,4 +101,30 @@ class SolarCityTest {
             + permanentlyShutDownMWp
     ));
   }
+
+  @Test
+  void add_all_solar_systems() {
+    var solarSystems = new SolarBuilder()
+        .withYear(2025)
+        .addApartmentBuildingsWith25kWp(100)
+        .addSchoolsWith250kWp(50)
+        .build();
+
+    var frankfurt = SolarCity.createNewSolarCity("Frankfurt");
+    frankfurt.addSolarSystems(solarSystems);
+    assertThat(frankfurt.getSolarSystems()).hasSize(150);
+    assertThat(frankfurt.calculateSolarCityOverview().getInstalledRooftopMWp()).isEqualTo(15.0);
+
+    solarSystems = new SolarBuilder()  // new instance to reset id assignment
+        .withYear(2025)
+        .addApartmentBuildingsWith25kWp(40)
+        .addSchoolsWith250kWp(10)
+        .build();
+
+    frankfurt.addSolarSystems(solarSystems);
+    // size must be the same, because the id will be overwritten/updated.
+    assertThat(frankfurt.getSolarSystems()).hasSize(150);
+    // installed capacity on the rooftops must be different because the setup of solar systems has changed.
+    assertThat(frankfurt.calculateSolarCityOverview().getInstalledRooftopMWp()).isEqualTo(17.25);
+  }
 }

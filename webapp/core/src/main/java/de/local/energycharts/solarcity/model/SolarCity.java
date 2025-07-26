@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 import static de.local.energycharts.solarcity.model.Time.now;
+import static java.util.function.UnaryOperator.identity;
+import static java.util.stream.Collectors.toMap;
 
 @AggregateRoot
 @Data
@@ -66,6 +68,14 @@ public class SolarCity {
       this.solarSystems = new HashSet<>();
     }
     this.solarSystems.addAll(solarSystems);
+
+    var map = this.solarSystems.stream().collect(toMap(SolarSystem::getId, identity()));
+    solarSystems.forEach(solarSystem -> {
+      if (map.containsKey(solarSystem.getId())) {
+        map.put(solarSystem.getId(), solarSystem);
+      }
+    });
+    this.solarSystems = new HashSet<>(map.values());
     return this;
   }
 

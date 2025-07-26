@@ -55,13 +55,6 @@ public class MongoSolarCityRepository implements SolarCityRepository {
 
   public Mono<SolarCity> findByName(String name) {
     var query = new Query();
-    query.fields().include(
-        "id",
-        "name",
-        "municipalityKey",
-        "created", "updated",
-        "entireSolarPotentialOnRooftopsMWp", "targetYear"
-    );
     query.addCriteria(where("name").is(name));
     var solarCity = mongoTemplate.findOne(query, MongoSolarCity.class);
     if (solarCity != null) {
