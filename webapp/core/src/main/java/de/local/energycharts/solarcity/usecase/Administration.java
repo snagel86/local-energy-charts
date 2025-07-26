@@ -48,7 +48,7 @@ public class Administration implements AdministrateSolarCity {
         .defaultIfEmpty(SolarCity.createNewSolarCity(name, municipalityKey))
         .flatMap(solarCity -> mastrGateway.getSolarSystemsByMunicipalityKey(
                     municipalityKey,
-                    createLastUpdateIfUpdateCase(solarCity)
+                    createLastUpdate(solarCity)
                 ).collect(toSet())
                 .map(solarCity::addSolarSystems)
         )
@@ -62,8 +62,10 @@ public class Administration implements AdministrateSolarCity {
         .flatMap(solarCityCache::reset);
   }
 
-  private LocalDate createLastUpdateIfUpdateCase(SolarCity solarCity) {
-    return solarCity.getUpdated() != null ? LocalDate.now().minusDays(1) : null;
+  private LocalDate createLastUpdate(SolarCity solarCity) {
+    return solarCity.getUpdated() != null ?
+        LocalDate.now().minusDays(3)
+        : null;
   }
 
   private Mono<SolarCity> createOrUpdateByPostcodes(
@@ -122,7 +124,7 @@ public class Administration implements AdministrateSolarCity {
   private Mono<SolarCity> updateByMunicipalityKey(SolarCity solarCity) {
     return mastrGateway.getSolarSystemsByMunicipalityKey(
             solarCity.getMunicipalityKey(),
-            createLastUpdateIfUpdateCase(solarCity)
+            createLastUpdate(solarCity)
         ).collect(toSet())
         .map(solarCity::addSolarSystems)
         .flatMap(solarCityRepository::save)
