@@ -64,22 +64,16 @@ public class MongoSolarCityRepository implements SolarCityRepository {
   }
 
   public Flux<SolarCity> findAll() {
-    var query = new Query();
-    query.fields().include(
-        "id",
-        "name",
-        "municipalityKey",
-        "created", "updated",
-        "entireSolarPotentialOnRooftopsMWp", "targetYear"
-    );
-
-    return Flux.fromIterable(solarCityMapper
-        .mapToDomainModels(mongoTemplate
-            .find(query, MongoSolarCity.class))
-    );
+    return Flux.fromIterable(
+        solarCityMapper.mapToDomainModels(
+            mongoTemplate.findAll(MongoSolarCity.class)
+        ));
   }
 
   public void deleteById(String id) {
-    mongoTemplate.remove(mongoTemplate.findById(id, MongoSolarCity.class));
+    var solarCity = mongoTemplate.findById(id, MongoSolarCity.class);
+    if (solarCity != null) {
+      mongoTemplate.remove(solarCity);
+    }
   }
 }
