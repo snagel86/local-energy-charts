@@ -1,10 +1,10 @@
 package de.local.energycharts.solarcity.usecase;
 
-import de.local.energycharts.solarcity.ports.out.SolarCityCache;
 import de.local.energycharts.solarcity.model.SolarCity;
 import de.local.energycharts.solarcity.ports.in.AdministrateSolarCity;
 import de.local.energycharts.solarcity.ports.out.MastrGateway;
 import de.local.energycharts.solarcity.ports.out.OpendatasoftGateway;
+import de.local.energycharts.solarcity.ports.out.SolarCityCache;
 import de.local.energycharts.solarcity.ports.out.SolarCityRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -51,16 +51,15 @@ public class Administration implements AdministrateSolarCity {
                     createLastUpdateIfUpdateCase(solarCity)
                 ).collect(toSet())
                 .map(solarCity::addSolarSystems)
-                .flatMap(solarCityRepository::save)
-
-        ).flatMap(solarCityCache::reset)
+        )
         // update params
         .map(solarCity -> solarCity
             .setUpdated(now())
             .setMunicipalityKey(municipalityKey)
             .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
             .setTargetYear(targetYear)
-        );
+        ).flatMap(solarCityRepository::save)
+        .flatMap(solarCityCache::reset);
   }
 
   private LocalDate createLastUpdateIfUpdateCase(SolarCity solarCity) {
@@ -77,15 +76,14 @@ public class Administration implements AdministrateSolarCity {
             .flatMap(mastrGateway::getSolarSystemsByPostcode)
             .collect(toSet())
             .map(solarCity::addSolarSystems)
-            .flatMap(solarCityRepository::save)
         )
-        .flatMap(solarCityCache::reset)
         // update params
         .map(solarCity -> solarCity
             .setUpdated(now())
             .setEntireSolarPotentialOnRooftopsMWp(entireSolarPotentialOnRooftopsMWp)
             .setTargetYear(targetYear)
-        );
+        ).flatMap(solarCityRepository::save)
+        .flatMap(solarCityCache::reset);
   }
 
   public Mono<SolarCity> createTemporary(

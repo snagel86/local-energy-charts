@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -45,6 +46,7 @@ public class WebSecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests((requests) -> requests
             .requestMatchers(antMatcher(PUT, "/v1/solar-city/create")).hasRole("ADMIN")
+            .requestMatchers(antMatcher(DELETE, "/v1/solar-cities/{id}")).hasRole("ADMIN")
             .requestMatchers(antMatcher("/**")).permitAll()
             .anyRequest().authenticated()
         ).httpBasic(withDefaults()).build();

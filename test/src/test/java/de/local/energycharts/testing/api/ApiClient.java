@@ -34,6 +34,10 @@ public class ApiClient {
   }
 
   public void deleteSolarCity() {
+    if (id == null) {
+      return;
+    }
+
     given()
         .header("Content-type", "application/json")
         .auth().basic("user", "secret")

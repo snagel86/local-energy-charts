@@ -37,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 2100.0,\n    \"targetYear\": 2035\n}"
+					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 1006.0,\n    \"targetYear\": 2035\n}"
 				},
 				"url": {
 					"raw": "{{host}}/v1/solar-city/create",
@@ -48,6 +48,53 @@
 						"v1",
 						"solar-city",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a solar city",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "secret",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjpzZWNyZXQ="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 1006.0,\n    \"targetYear\": 2035\n}"
+				},
+				"url": {
+					"raw": "{{host}}/v1/solar-cities/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"solar-cities",
+						"{{id}}"
 					]
 				}
 			},

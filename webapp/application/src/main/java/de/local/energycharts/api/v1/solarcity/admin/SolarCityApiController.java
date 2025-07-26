@@ -41,7 +41,7 @@ public class SolarCityApiController {
   })
   @PutMapping(value = "/solar-city/create", produces = "application/json")
   public Mono<SolarCityCreatedResponse> createOrReplaceSolarCity(@RequestBody CreateSolarCityRequest request) {
-    return solarCityApiService.createOrUpdateSolarCity(request);
+    return solarCityApiService.createOrUpdate(request);
   }
 
   @Operation(summary = "Lists all created solar cities.")
@@ -52,7 +52,7 @@ public class SolarCityApiController {
   })
   @GetMapping(value = "/solar-cities/all", produces = "application/json")
   public Flux<SolarCityResponse> getAllSolarCities() {
-    return solarCityApiService.getAllSolarCities();
+    return solarCityApiService.getAll();
   }
 
   @Operation(summary = "Checks the resolved post-codes via Opendatasoft by the given name of the created solar city.")

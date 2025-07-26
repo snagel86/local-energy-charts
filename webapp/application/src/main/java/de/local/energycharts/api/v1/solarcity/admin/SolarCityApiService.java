@@ -20,7 +20,7 @@ public class SolarCityApiService {
   private final SolarCityCreatedMapper solarCityCreatedMapper;
   private final SolarCityMapper solarCityMapper;
 
-  public Mono<SolarCityCreatedResponse> createOrUpdateSolarCity(@RequestBody CreateSolarCityRequest request) {
+  public Mono<SolarCityCreatedResponse> createOrUpdate(@RequestBody CreateSolarCityRequest request) {
     return administrateSolarCity.createOrUpdate(
         request.getCityName(),
         request.getMunicipalityKey(),
@@ -28,7 +28,7 @@ public class SolarCityApiService {
     ).map(solarCityCreatedMapper::mapToResponse);
   }
 
-  public Flux<SolarCityResponse> getAllSolarCities() {
+  public Flux<SolarCityResponse> getAll() {
     return administrateSolarCity.getAll()
         .map(solarCityMapper::mapToResponse);
   }
