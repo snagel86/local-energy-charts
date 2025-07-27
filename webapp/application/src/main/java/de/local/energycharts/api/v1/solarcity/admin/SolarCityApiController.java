@@ -40,8 +40,14 @@ public class SolarCityApiController {
               schema = @Schema(implementation = SolarCityCreatedResponse.class))})
   })
   @PutMapping(value = "/solar-city/create", produces = "application/json")
-  public Mono<SolarCityCreatedResponse> createOrReplaceSolarCity(@RequestBody CreateSolarCityRequest request) {
+  public Mono<SolarCityCreatedResponse> createOrReplace(@RequestBody CreateSolarCityRequest request) {
     return solarCityApiService.createOrUpdate(request);
+  }
+
+  @Operation(hidden = true)
+  @PutMapping(value = "/solar-cities/update-all", produces = "application/json")
+  public Flux<SolarCityCreatedResponse> updateAll() {
+    return solarCityApiService.updateAll();
   }
 
   @Operation(summary = "Lists all created solar cities.")
@@ -51,7 +57,7 @@ public class SolarCityApiController {
               schema = @Schema(implementation = SolarCityResponse[].class))})
   })
   @GetMapping(value = "/solar-cities/all", produces = "application/json")
-  public Flux<SolarCityResponse> getAllSolarCities() {
+  public Flux<SolarCityResponse> getAll() {
     return solarCityApiService.getAll();
   }
 

@@ -28,6 +28,11 @@ public class SolarCityApiService {
     ).map(solarCityCreatedMapper::mapToResponse);
   }
 
+  public Flux<SolarCityCreatedResponse> updateAll() {
+    return administrateSolarCity.updateAll()
+        .map(solarCityCreatedMapper::mapToResponse);
+  }
+
   public Flux<SolarCityResponse> getAll() {
     return administrateSolarCity.getAll()
         .map(solarCityMapper::mapToResponse);

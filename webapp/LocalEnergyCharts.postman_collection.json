@@ -54,6 +54,53 @@
 			"response": []
 		},
 		{
+			"name": "update all solar cities",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "secret",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjpzZWNyZXQ="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cityName\": \"Frankfurt am Main\",\n    \"municipalityKey\": \"06412000\",\n    \"entireSolarPotentialOnRooftopsMWp\": 1006.0,\n    \"targetYear\": 2035\n}"
+				},
+				"url": {
+					"raw": "{{host}}/v1/solar-cities/update-all",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"solar-cities",
+						"update-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "delete a solar city",
 			"request": {
 				"auth": {
