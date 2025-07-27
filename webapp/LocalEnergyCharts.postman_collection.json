@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "create or replace a solar city",
+			"name": "create or update a solar city",
 			"request": {
 				"auth": {
 					"type": "basic",

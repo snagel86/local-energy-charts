@@ -5,7 +5,7 @@ import lombok.Data;
 
 
 @Data
-public class CreateSolarCityRequest {
+public class CreateRequest {
 
   @NotBlank
   private String cityName;

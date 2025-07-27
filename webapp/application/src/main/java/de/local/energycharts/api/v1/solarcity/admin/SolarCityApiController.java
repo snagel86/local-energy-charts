@@ -1,7 +1,7 @@
 package de.local.energycharts.api.v1.solarcity.admin;
 
-import de.local.energycharts.api.v1.solarcity.admin.model.CreateSolarCityRequest;
-import de.local.energycharts.api.v1.solarcity.admin.model.SolarCityCreatedResponse;
+import de.local.energycharts.api.v1.solarcity.admin.model.CreateRequest;
+import de.local.energycharts.api.v1.solarcity.admin.model.CreatedResponse;
 import de.local.energycharts.api.v1.solarcity.admin.model.SolarCityResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,16 +37,16 @@ public class SolarCityApiController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Responds with statistics how many solar systems are already installed.",
           content = {@Content(mediaType = "application/json",
-              schema = @Schema(implementation = SolarCityCreatedResponse.class))})
+              schema = @Schema(implementation = CreatedResponse.class))})
   })
   @PutMapping(value = "/solar-city/create", produces = "application/json")
-  public Mono<SolarCityCreatedResponse> createOrReplace(@RequestBody CreateSolarCityRequest request) {
+  public Mono<CreatedResponse> createOrUpdate(@RequestBody CreateRequest request) {
     return solarCityApiService.createOrUpdate(request);
   }
 
   @Operation(hidden = true)
   @PutMapping(value = "/solar-cities/update-all", produces = "application/json")
-  public Flux<SolarCityCreatedResponse> updateAll() {
+  public Flux<CreatedResponse> updateAll() {
     return solarCityApiService.updateAll();
   }
 

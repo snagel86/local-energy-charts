@@ -1,7 +1,7 @@
 package de.local.energycharts.api.v1.solarcity.admin;
 
-import de.local.energycharts.api.v1.solarcity.admin.model.CreateSolarCityRequest;
-import de.local.energycharts.api.v1.solarcity.admin.model.SolarCityCreatedResponse;
+import de.local.energycharts.api.v1.solarcity.admin.model.CreateRequest;
+import de.local.energycharts.api.v1.solarcity.admin.model.CreatedResponse;
 import de.local.energycharts.api.v1.solarcity.admin.model.SolarCityResponse;
 import de.local.energycharts.api.v1.solarcity.admin.model.mapper.SolarCityCreatedMapper;
 import de.local.energycharts.api.v1.solarcity.admin.model.mapper.SolarCityMapper;
@@ -20,7 +20,7 @@ public class SolarCityApiService {
   private final SolarCityCreatedMapper solarCityCreatedMapper;
   private final SolarCityMapper solarCityMapper;
 
-  public Mono<SolarCityCreatedResponse> createOrUpdate(@RequestBody CreateSolarCityRequest request) {
+  public Mono<CreatedResponse> createOrUpdate(@RequestBody CreateRequest request) {
     return administrateSolarCity.createOrUpdate(
         request.getCityName(),
         request.getMunicipalityKey(),
@@ -28,7 +28,7 @@ public class SolarCityApiService {
     ).map(solarCityCreatedMapper::mapToResponse);
   }
 
-  public Flux<SolarCityCreatedResponse> updateAll() {
+  public Flux<CreatedResponse> updateAll() {
     return administrateSolarCity.updateAll()
         .map(solarCityCreatedMapper::mapToResponse);
   }
