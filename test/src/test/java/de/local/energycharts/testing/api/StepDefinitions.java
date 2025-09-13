@@ -46,7 +46,7 @@ public class StepDefinitions {
         .withMunicipalityKey(municipalityKey);
   }
 
-  @When("all solar systems are downloaded from the Marktstammdatenregister")
+  @When("the solar city is created based on the Marktstammdatenregister")
   public void createSolarCity() {
     apiClient.createSolarCity(
         createSolarCityRequestBuilder
@@ -54,7 +54,7 @@ public class StepDefinitions {
     );
   }
 
-  @When("all solar systems in {string} are downloaded from the Marktstammdatenregister")
+  @When("the solar city, {string}, is created based on the Marktstammdatenregister")
   public void createSolarCity(String cityName) {
     apiClient.createSolarCity(
         createSolarCityRequestBuilder

@@ -1,10 +1,13 @@
 Feature: annual addition of solar installations (with highcharts)
 
   Scenario:
-  All solar systems installed in a city or region are registered in the Marktstammdatenregister.
-  The data is publicly available there and can be downloaded by post code to calculate
-  the annual addition of solar installations, which is then visualized with highcharts in the web browser.
-  The post codes assigned to a city are resolved via Opendatasoft.
+  All solar installations in a city are registered in the Marktstammdatenregister.
+  The data is publicly accessible there, allowing us
+  to create a solar city based on the Marktstammdatenregister for statistical calculations.
+  The annual additions are calculated and displayed via Highcharts in the web browser.
+
+  The solar installations are requested by post code in the Marktstammdatenregister.
+  The post codes assigned to a city are resolved via Opendatasoft, so that only the name of the city is required.
 
   Note:
   Solar installations that have now been permanently decommissioned (see id = 3)
@@ -30,7 +33,7 @@ Feature: annual addition of solar installations (with highcharts)
       | 4  | Frankfurt | 60528 | 10.0              | 2022-01-01     | In Betrieb            | 2022-01-01T00:00:00Z      |
       | 5  | Frankfurt | 60528 | 40.0              | 2022-01-01     | In Betrieb            | 2022-01-01T00:00:00Z      |
 
-    When all solar systems in 'Frankfurt' are downloaded from the Marktstammdatenregister
+    When the solar city, 'Frankfurt', is created based on the Marktstammdatenregister
 
     Then the calculated highchart has a total of 0.15 MWp and contains the following values
       | year | MWp  | number of solar systems |
@@ -75,7 +78,7 @@ Feature: annual addition of solar installations (with highcharts)
     And the target year is 2030
     And now frozen at '2022-01-01'
 
-    When all solar systems are downloaded from the Marktstammdatenregister
+    When the solar city is created based on the Marktstammdatenregister
 
     Then the calculated highchart has a total of 100.04 MWp and contains the following values
       | year | MWp   | number of solar systems |
@@ -112,7 +115,7 @@ Feature: annual addition of solar installations (with highcharts)
     And the target year is 2030
     And now frozen at '2024-12-14'
 
-    When all solar systems are downloaded from the Marktstammdatenregister
+    When the solar city is created based on the Marktstammdatenregister
 
     Then the calculated highchart has a total of 1.000 MWp and contains the following values
       | year | MWp   | number of solar systems |
@@ -144,7 +147,7 @@ Feature: annual addition of solar installations (with highcharts)
     And the target year is 2030
     And now frozen at '2022-01-01'
 
-    When all solar systems are downloaded from the Marktstammdatenregister
+    When the solar city is created based on the Marktstammdatenregister
 
     Then the calculated highchart has a total of 1000.60 MWp and contains the following values
       | year | MWp    | number of solar systems |
