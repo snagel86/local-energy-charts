@@ -224,7 +224,7 @@ a {
 
 .section.main.textshadow {
   color: #fff;
-  text-shadow: 0 1px 2px #333;
+  text-shadow: 1px 1px 2px #001c42;
   -webkit-text-fill-color: inherit;
   background-image: url('../images/blue-solar.jpg');
   background-position: 0 0;
@@ -527,7 +527,7 @@ a {
 }
 
 .mailing {
-  text-shadow: 0 1px 2px #333;
+  text-shadow: 1px 1px 2px #131109;
   background-image: url('../images/mailing-background.jpg');
   background-position: 0 0;
   background-size: cover;
