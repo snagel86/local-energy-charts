@@ -94,4 +94,8 @@ public class SolarCity {
   public boolean wasNotUpdatedWithin(long amount, ChronoUnit unit) {
     return !wasUpdatedWithin(amount, unit);
   }
+
+  public SolarCity hasBeenUpdatedNow() {
+    return setUpdated(now());
+  }
 }

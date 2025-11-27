@@ -18,7 +18,13 @@ public interface AdministrateSolarCity {
 
   Flux<SolarCity> getAll();
 
-  Flux<SolarCity> updateAll();
+  /**
+   * Updates all saved solar cities.
+   *
+   * @param full Full or partial changes since the last 3 days.
+   * @return All updated solar cities.
+   */
+  Flux<SolarCity> updateAll(boolean full);
 
   void delete(String id);
 }

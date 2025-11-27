@@ -33,14 +33,14 @@ public class MastrRestApiGateway implements MastrGateway {
     return getAllSolarSystems(mastrFilter);
   }
 
-  public Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey, LocalDate lastUpdate) {
+  public Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey, LocalDate since) {
     var mastrFilter = new StringBuilder();
 
     mastrFilter.append("Gemeindeschlüssel~eq~'").append(municipalityKey)
         .append("'~and~Energieträger~eq~'2495'");
-    if (lastUpdate != null) {
+    if (since != null) {
       mastrFilter.append("~and~Letzte Aktualisierung~gt~'")
-          .append(lastUpdate.format(ofPattern("dd.MM.yyyy"))).append("'");
+          .append(since.format(ofPattern("dd.MM.yyyy"))).append("'");
     }
     return getAllSolarSystems(mastrFilter.toString());
   }

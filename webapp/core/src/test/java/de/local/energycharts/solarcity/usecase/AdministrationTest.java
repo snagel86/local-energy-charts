@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -143,7 +142,7 @@ class AdministrationTest {
   void update_an_existing_solar_city_by_municipality_key() {
     when(mastrGateway.getSolarSystemsByMunicipalityKey(
         "06412000",
-        LocalDate.now().minusDays(3))
+        null)
     ).thenReturn(Flux.fromIterable(List.of(
         SolarSystem.builder().id("1").status(IN_OPERATION).build(),
         SolarSystem.builder().id("2").status(IN_OPERATION).build()
@@ -154,7 +153,8 @@ class AdministrationTest {
         .thenAnswer(invocation -> (Mono.just(((SolarCity) invocation.getArguments()[0]))));
 
     SolarCity solarCity = solarCityAdministration.updateSolarCity(
-        createNewSolarCity("Frankfurt", "06412000").setId("1")
+        createNewSolarCity("Frankfurt", "06412000").setId("1"),
+        true
     ).block();
 
     assertThat(solarCity.getName()).isEqualTo("Frankfurt");
@@ -217,21 +217,21 @@ class AdministrationTest {
     when(solarCityRepository.findAll())
         .thenReturn(Flux.just(koeln, frankfurt));
     doReturn(Mono.error(new IllegalStateException()))
-        .when(solarCityService).updateSolarCity(koeln);
+        .when(solarCityService).updateSolarCity(koeln, true);
     doReturn(Mono.just(frankfurt))
-        .when(solarCityService).updateSolarCity(frankfurt);
+        .when(solarCityService).updateSolarCity(frankfurt, true);
 
     assertThat(
-        solarCityService.updateAll()
+        solarCityService.updateAll(true)
             .map(SolarCity::getName)
             .collectList().block()
     ).containsExactly("Frankfurt");
 
-    when(solarCityService.updateSolarCity(koeln))
+    when(solarCityService.updateSolarCity(koeln, true))
         .thenReturn(Mono.just(koeln));
 
     assertThat(
-        solarCityService.updateAll()
+        solarCityService.updateAll(true)
             .map(SolarCity::getName)
             .collectList().block()
     ).containsExactlyInAnyOrder("Frankfurt", "Köln");

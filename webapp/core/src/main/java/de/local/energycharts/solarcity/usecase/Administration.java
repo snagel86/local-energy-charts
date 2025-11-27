@@ -48,7 +48,7 @@ public class Administration implements AdministrateSolarCity {
         .defaultIfEmpty(SolarCity.createNewSolarCity(name, municipalityKey))
         .flatMap(solarCity -> mastrGateway.getSolarSystemsByMunicipalityKey(
                     municipalityKey,
-                    createLastUpdate(solarCity)
+                    createSinceDate(solarCity)
                 ).collect(toSet())
                 .map(solarCity::addSolarSystems)
         )
@@ -62,7 +62,7 @@ public class Administration implements AdministrateSolarCity {
         .flatMap(solarCityCache::reset);
   }
 
-  private LocalDate createLastUpdate(SolarCity solarCity) {
+  private LocalDate createSinceDate(SolarCity solarCity) {
     return solarCity.getUpdated() != null ?
         LocalDate.now().minusDays(3)
         : null;
@@ -112,19 +112,19 @@ public class Administration implements AdministrateSolarCity {
     );
   }
 
-  public Mono<SolarCity> updateSolarCity(SolarCity solarCity) {
-    solarCity.setUpdated(now());
-
+  public Mono<SolarCity> updateSolarCity(SolarCity solarCity, boolean full) {
     if (solarCity.getMunicipalityKey() != null) {
-      return updateByMunicipalityKey(solarCity);
+      return updateByMunicipalityKey(solarCity, full)
+          .map(SolarCity::hasBeenUpdatedNow);
     }
-    return updateByPostcodes(solarCity);
+    return updateByPostcodes(solarCity)
+        .map(SolarCity::hasBeenUpdatedNow);
   }
 
-  private Mono<SolarCity> updateByMunicipalityKey(SolarCity solarCity) {
+  private Mono<SolarCity> updateByMunicipalityKey(SolarCity solarCity, boolean full) {
     return mastrGateway.getSolarSystemsByMunicipalityKey(
             solarCity.getMunicipalityKey(),
-            createLastUpdate(solarCity)
+            full ? null : createSinceDate(solarCity)
         ).collect(toSet())
         .map(solarCity::addSolarSystems)
         .flatMap(solarCityRepository::save)
@@ -146,9 +146,9 @@ public class Administration implements AdministrateSolarCity {
         .flatMapIterable(SolarCity::getAllPostcodes);
   }
 
-  public Flux<SolarCity> updateAll() {
+  public Flux<SolarCity> updateAll(boolean full) {
     return solarCityRepository.findAll()
-        .flatMap(this::updateSolarCity)
+        .flatMap(solarCity -> updateSolarCity(solarCity, full))
         .onErrorContinue((err, i) -> logger.error(err.getMessage()));
   }
 

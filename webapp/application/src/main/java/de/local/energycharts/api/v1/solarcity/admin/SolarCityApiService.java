@@ -29,7 +29,7 @@ public class SolarCityApiService {
   }
 
   public Flux<CreatedResponse> updateAll() {
-    return administrateSolarCity.updateAll()
+    return administrateSolarCity.updateAll(true)
         .map(solarCityCreatedMapper::mapToResponse);
   }
 

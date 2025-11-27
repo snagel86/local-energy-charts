@@ -20,7 +20,7 @@ public class SolarCityUpdateScheduler {
 
   @Scheduled(cron = "0 0 */4 * * *")
   public void updateAllSolarCities() {
-    administrateSolarCity.updateAll()
+    administrateSolarCity.updateAll(false)
         .onErrorContinue((err, i) -> logger.error(err.getMessage()))
         .elapsed()
         .subscribe(updatedSolarCityTuple -> logger.info(

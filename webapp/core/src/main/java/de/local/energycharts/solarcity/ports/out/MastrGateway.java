@@ -14,5 +14,5 @@ public interface MastrGateway {
 
     Flux<SolarSystem> getSolarSystemsByPostcode(Integer postcode);
 
-    Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey, LocalDate lastUpdate);
+    Flux<SolarSystem> getSolarSystemsByMunicipalityKey(String municipalityKey, LocalDate since);
 }
