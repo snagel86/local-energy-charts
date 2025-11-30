@@ -1,24 +1,22 @@
 package de.local.energycharts.api.v1;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.Customizer.withDefaults;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 public class WebSecurityConfig {
 
   @Value("${api.user}")
@@ -26,29 +24,35 @@ public class WebSecurityConfig {
   @Value("${api.password}")
   private String password;
 
-  @Autowired
-  public void configureAuth(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .withUser(user)
-        .password(new BCryptPasswordEncoder().encode(password))
-        .roles("ADMIN");
+  @Bean
+  public MapReactiveUserDetailsService userDetailsService() {
+    UserDetails admin = User
+        .withUsername(user)
+        .password(passwordEncoder().encode(password))
+        .roles("ADMIN")
+        .build();
+
+    return new MapReactiveUserDetailsService(admin);
   }
 
   @Bean
-  public BCryptPasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
   @Bean
-  public SecurityFilterChain configureSecurity(HttpSecurity httpSecurity) throws Exception {
-    return httpSecurity
-        .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-        .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests((requests) -> requests
-            .requestMatchers(antMatcher(PUT, "/v1/solar-city/create")).hasRole("ADMIN")
-            .requestMatchers(antMatcher(DELETE, "/v1/solar-cities/{id}")).hasRole("ADMIN")
-            .requestMatchers(antMatcher("/**")).permitAll()
-            .anyRequest().authenticated()
-        ).httpBasic(withDefaults()).build();
+  public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+
+    return http
+        .headers(headers -> headers.frameOptions(ServerHttpSecurity.HeaderSpec.FrameOptionsSpec::disable))
+        .csrf(ServerHttpSecurity.CsrfSpec::disable)
+        .authorizeExchange(exchanges -> exchanges
+            .pathMatchers(HttpMethod.PUT, "/v1/solar-city/create").hasRole("ADMIN")
+            .pathMatchers(HttpMethod.DELETE, "/v1/solar-cities/{id}").hasRole("ADMIN")
+            .pathMatchers("/**").permitAll()
+            .anyExchange().authenticated()
+        )
+        .httpBasic(withDefaults())
+        .build();
   }
 }

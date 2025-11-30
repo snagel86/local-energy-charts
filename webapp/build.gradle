@@ -4,8 +4,8 @@ plugins {
 }
 
 ext {
-    springBootVersion = '3.4.3'
-    openApiVersion = '2.0.4'
+    springBootVersion = '3.5.8'
+    openApiVersion = '2.8.14'
 }
 
 subprojects {
@@ -24,8 +24,8 @@ subprojects {
         implementation 'org.jmolecules:jmolecules-hexagonal-architecture:1.10.0'
         implementation 'org.springframework:spring-context'
         implementation 'io.projectreactor:reactor-core'
-        implementation 'com.google.guava:guava:33.2.1-jre'
-        implementation 'org.slf4j:slf4j-api:2.0.13'
+        implementation 'com.google.guava:guava:33.4.8-jre'
+        implementation 'org.slf4j:slf4j-api:2.0.17'
 
         testImplementation 'org.springframework.boot:spring-boot-test'
         testImplementation 'io.projectreactor:reactor-test'

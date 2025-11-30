@@ -1,4 +1,4 @@
-package de.local.energycharts.api.v1.time.model;
+package de.local.energycharts.api.v1.solarcity.time.model;
 
 import lombok.Data;
 

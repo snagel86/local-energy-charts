@@ -1,6 +1,6 @@
-package de.local.energycharts.api.v1.time;
+package de.local.energycharts.api.v1.solarcity.time;
 
-import de.local.energycharts.api.v1.time.model.FreezeNowRequest;
+import de.local.energycharts.api.v1.solarcity.time.model.FreezeNowRequest;
 import de.local.energycharts.solarcity.model.Time;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PutMapping;

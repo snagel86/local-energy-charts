@@ -4,7 +4,7 @@ plugins {
 
 subprojects {
     group = 'de.local.energy.charts'
-    version = '3.8.0'
+    version = '4.0.0'
 
     apply plugin: 'java'
 
@@ -13,17 +13,17 @@ subprojects {
     }
 
     dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.34'
-        annotationProcessor 'org.projectlombok:lombok:1.18.34'
-        implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-        annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+        compileOnly 'org.projectlombok:lombok:1.18.42'
+        annotationProcessor 'org.projectlombok:lombok:1.18.42'
+        implementation 'org.mapstruct:mapstruct:1.6.3'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
         testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
-        testImplementation 'org.projectlombok:lombok:1.18.34'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
-        testImplementation 'org.assertj:assertj-core:3.26.3'
-        testImplementation 'org.mockito:mockito-core:5.12.0'
-        testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
+        testImplementation 'org.projectlombok:lombok:1.18.42'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
+        testImplementation 'org.assertj:assertj-core:3.27.6'
+        testImplementation 'org.mockito:mockito-core:5.20.0'
+        testImplementation 'org.mockito:mockito-junit-jupiter:5.20.0'
     }
 
     jar {
