@@ -114,11 +114,9 @@ public class Administration implements AdministrateSolarCity {
 
   public Mono<SolarCity> updateSolarCity(SolarCity solarCity, boolean full) {
     if (solarCity.getMunicipalityKey() != null) {
-      return updateByMunicipalityKey(solarCity, full)
-          .map(SolarCity::hasBeenUpdatedNow);
+      return updateByMunicipalityKey(solarCity, full);
     }
-    return updateByPostcodes(solarCity)
-        .map(SolarCity::hasBeenUpdatedNow);
+    return updateByPostcodes(solarCity);
   }
 
   private Mono<SolarCity> updateByMunicipalityKey(SolarCity solarCity, boolean full) {
@@ -127,6 +125,7 @@ public class Administration implements AdministrateSolarCity {
             full ? null : createSinceDate(solarCity)
         ).collect(toSet())
         .map(solarCity::addSolarSystems)
+        .map(updatedSolarCity -> updatedSolarCity.setUpdated(now()))
         .flatMap(solarCityRepository::save)
         .flatMap(solarCityCache::reset);
   }
@@ -136,6 +135,7 @@ public class Administration implements AdministrateSolarCity {
         .flatMap(mastrGateway::getSolarSystemsByPostcode)
         .collect(toSet())
         .map(solarCity::addSolarSystems)
+        .map(updatedSolarCity -> updatedSolarCity.setUpdated(now()))
         .flatMap(solarCityRepository::save)
         .flatMap(solarCityCache::reset);
   }
