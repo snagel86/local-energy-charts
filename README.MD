@@ -49,9 +49,11 @@ and run the following commands.
     docker compose up -d
     ./gradlew bootRun
 
-Create a new solar city and try the api with [postman](webapp/LocalEnergyCharts.postman_collection.json).
+Create a new solar city and try the api with [postman](application/LocalEnergyCharts.postman_collection.json).
 
-Set 'solarCityId' in index.html and visit: http://localhost:8080.
+    Set 'solarCityId' in index.html
+
+and visit: http://localhost:8080.
 
 ## Testing ##
 ![test-infrastructure](doc/test-infrastructure.png)
@@ -59,10 +61,10 @@ Set 'solarCityId' in index.html and visit: http://localhost:8080.
 This application is developed behavior-driven with [Cucumber](https://cucumber.io/). Cucumber reads executable specifications and validates the running application. 
 All use cases are documented and simultaneously tested via the [RESTful API](https://pv-frankfurt.de/openapi.html).
 
-* [annual addition of solar installations](test/src/test/resources/cucumber/annual_addition_of_solar_installations.feature)
-* [solar overview](test/src/test/resources/cucumber/solar_systems_overview.feature)
-* [action: now we need roofs!](test/src/test/resources/cucumber/now_we_need_roofs.feature)
-* [solar building pie chart](test/src/test/resources/cucumber/solar_building_pie_chart.feature)
+* [annual addition of solar installations](application-test/src/test/resources/cucumber/annual_addition_of_solar_installations.feature)
+* [solar overview](application-test/src/test/resources/cucumber/solar_systems_overview.feature)
+* [action: now we need roofs!](application-test/src/test/resources/cucumber/now_we_need_roofs.feature)
+* [solar building pie chart](application-test/src/test/resources/cucumber/solar_building_pie_chart.feature)
 
 Please start the application in test mode as follows, and run the tests.
 
