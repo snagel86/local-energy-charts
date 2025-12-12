@@ -10,4 +10,5 @@ buildscript {
 include 'application:boot'
 include 'application:core'
 include 'application:infrastructure'
+include 'application:web'
 include 'application-test'

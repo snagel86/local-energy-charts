@@ -9,6 +9,7 @@ bootJar {
 dependencies {
     implementation project(':application:core')
     implementation project(':application:infrastructure')
+    implementation project(':application:web')
 
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:$openApiVersion"
