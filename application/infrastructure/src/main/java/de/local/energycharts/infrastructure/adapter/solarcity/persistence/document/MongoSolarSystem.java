@@ -1,4 +1,4 @@
-package de.local.energycharts.infrastructure.adapter.solarcity.document;
+package de.local.energycharts.infrastructure.adapter.solarcity.persistence.document;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

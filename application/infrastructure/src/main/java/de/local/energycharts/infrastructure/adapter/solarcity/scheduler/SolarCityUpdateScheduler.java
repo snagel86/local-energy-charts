@@ -1,4 +1,4 @@
-package de.local.energycharts.infrastructure.adapter.solarcity;
+package de.local.energycharts.infrastructure.adapter.solarcity.scheduler;
 
 import de.local.energycharts.core.solarcity.ports.in.AdministrateSolarCity;
 import lombok.RequiredArgsConstructor;

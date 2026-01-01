@@ -1,4 +1,4 @@
-package de.local.energycharts.infrastructure.adapter.solarcity.document;
+package de.local.energycharts.infrastructure.adapter.solarcity.persistence.document;
 
 import io.github.kaiso.relmongo.annotation.JoinProperty;
 import io.github.kaiso.relmongo.annotation.OneToMany;

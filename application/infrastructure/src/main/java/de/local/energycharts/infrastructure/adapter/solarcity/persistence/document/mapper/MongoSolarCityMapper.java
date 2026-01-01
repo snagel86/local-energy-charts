@@ -1,7 +1,7 @@
-package de.local.energycharts.infrastructure.adapter.solarcity.document.mapper;
+package de.local.energycharts.infrastructure.adapter.solarcity.persistence.document.mapper;
 
 import de.local.energycharts.core.solarcity.model.SolarCity;
-import de.local.energycharts.infrastructure.adapter.solarcity.document.MongoSolarCity;
+import de.local.energycharts.infrastructure.adapter.solarcity.persistence.document.MongoSolarCity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

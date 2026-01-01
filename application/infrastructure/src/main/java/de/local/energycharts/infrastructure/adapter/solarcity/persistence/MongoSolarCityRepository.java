@@ -1,9 +1,9 @@
-package de.local.energycharts.infrastructure.adapter.solarcity;
+package de.local.energycharts.infrastructure.adapter.solarcity.persistence;
 
 import de.local.energycharts.core.solarcity.model.SolarCity;
 import de.local.energycharts.core.solarcity.ports.out.SolarCityRepository;
-import de.local.energycharts.infrastructure.adapter.solarcity.document.MongoSolarCity;
-import de.local.energycharts.infrastructure.adapter.solarcity.document.mapper.MongoSolarCityMapper;
+import de.local.energycharts.infrastructure.adapter.solarcity.persistence.document.MongoSolarCity;
+import de.local.energycharts.infrastructure.adapter.solarcity.persistence.document.mapper.MongoSolarCityMapper;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.architecture.hexagonal.SecondaryAdapter;
 import org.slf4j.Logger;
